@@ -34,7 +34,7 @@ public class TraineeController {
     private static Logger logger = LoggerFactory.getLogger(TraineeController.class);
     
 
-    public static void traineeMenu() throws InputMismatchException, SQLException, HibernateException  {
+    public static void traineeMenu()  {
  
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
@@ -47,9 +47,7 @@ public class TraineeController {
 	                    "Enter 4 for Delete trainee details in database\n"+
                             "Enter 5 for Assign trainer for trainees\n"+
                             "Enter 6 for Read association between trainer to trainee\n"+
-                            "Enter 7 for Update and assign trainer for trainee\n"+
-                            "Enter 8 for Delete association between trainer to trainee\n"+ 
-                            "Enter 9 for Exit  \n\n\n"+"----------------------------------------------");
+                            "Enter 7 for Exit  \n\n\n"+"----------------------------------------------");
                 int userOption = scanner.nextInt();
                 switch (userOption) {
                     case 1:	   
@@ -69,22 +67,14 @@ public class TraineeController {
                         isContinue = true;
                         break;
                     case 5:
-                        assignTraineeForTrainers();
+                        //assignTraineeForTrainers();
                         isContinue = true;
                         break;
                     case 6:
-                        readTrainersOfGivenTrainee();
+                        //readTrainersOfGivenTrainee();
                         isContinue = true;
                         break;
                     case 7:
-                        changeAndAssignTraineeForTrainers();
-                        isContinue = true; 
-                        break;
-                    case 8:
-                        deleteAssociationTraineeToTrainer();
-                        isContinue = true;
-                        break;
-                    case 9:
                         isContinue = false;
                         break;
                     default:
@@ -97,6 +87,8 @@ public class TraineeController {
                 logger.error("\ninvalid data : " + e);
             } catch (HibernateException e) {
                 logger.error("\ninvalid data : " + e);
+            } catch (SQLException e) {
+                logger.error("",e);
             }
         }
     } 
@@ -121,14 +113,14 @@ public class TraineeController {
                 String uuid = arr[0]+arr[3];
        	    	logger.info("\nEnter Trainee Details :");
                 Trainee trainee = employeeInformation.getInformationFromTrainee(uuid);
-                employeeService.addTrainee(trainee);                     
-                logger.info("\nTrainee Data Added Successfully");
+                String message = employeeService.addTrainee(trainee);                     
+                logger.info("" + message);
                 logger.info("\n----------------------------------------------");
                 isContinue = false;
  
             } catch (InputMismatchException e) {
                 logger.error("\ninvalid data" + e);
-            } catch (HibernateEXception e) {
+            } catch (HibernateException e) {
                 logger.error("\nException occured" + e);
             } catch (SQLException e) {
                 logger.error("",e);
@@ -150,7 +142,7 @@ public class TraineeController {
         
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
-        String employeeId = "";
+        int employeeId;
         while (isContinue) { 
 
             try {     
@@ -162,7 +154,7 @@ public class TraineeController {
                     if (trainees == null) {
                         logger.info("\nNo data found");
                     } else {
-                        trainees.forEach(trainee -> logger.info("EmployeeId          : "+trainee.getEmployeeId()+"\n"+"EmployeeName        : "+trainee.getEmployeeName()+"\n"+
+                        trainees.forEach(trainee -> logger.info("EmployeeId          : "+trainee.getId()+"\n"+"EmployeeName        : "+trainee.getEmployeeName()+"\n"+
                                                  	         "EmployeeDesignation : "+trainee.getEmployeeDesignation()+"\n"+"EmployeeMail        : "+trainee.getEmployeeMail()+"\n"+
                                           	                 "EmployeeMobileNumber: "+trainee.getEmployeeMobileNumber()+"\n"+ "CurrentAddress      : "+trainee.getCurrentAddress()+"\n"+
                                                                  "----------------------------------------------"));
@@ -172,14 +164,14 @@ public class TraineeController {
                     logger.info("\nEnter EmployeeId :");
                     boolean isValidId = true;
                     while (isValidId) {
-                        employeeId = scanner.next();
+                        employeeId = scanner.nextInt();
                         Trainee trainee = employeeService.searchTraineeData(employeeId);
                         if (trainee == null) {
                             logger.info("\nNo data found\n" + "Enter valid Id");
                             isValidId = true; 
                         } else {
                             logger.info("Trainee Detail :"+"\n"+
-                                        "EmployeeId          : "+trainee.getEmployeeId()+"\n"+"EmployeeName        : "+trainee.getEmployeeName()+"\n"+
+                                        "EmployeeId          : "+trainee.getId()+"\n"+"EmployeeName        : "+trainee.getEmployeeName()+"\n"+
                                	        "EmployeeDesignation : "+trainee.getEmployeeDesignation()+"\n"+"EmployeeMail        : "+trainee.getEmployeeMail()+"\n"+
                                         "EmployeeMobileNumber: "+trainee.getEmployeeMobileNumber()+"\n"+ "CurrentAddress      : "+trainee.getCurrentAddress()+"\n"+
                                         "----------------------------------------------");
@@ -189,7 +181,7 @@ public class TraineeController {
                 } 
             } catch (InputMismatchException e) {
                 logger.error("\nException occured" + e);
-            } catch (HibernateEXception e) {
+            } catch (HibernateException e) {
                 logger.error("\nException occured" + e);
             } catch (SQLException e) {
                 logger.error("",e);
@@ -210,7 +202,7 @@ public class TraineeController {
 
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
-        String employeeId = "";
+        int employeeId;
         String updateForTraineeData = "";
         while (isContinue) {
            
@@ -218,20 +210,21 @@ public class TraineeController {
                 logger.info("\nEnter TraineeId :");
                 boolean isValidId = true;
                 while (isValidId) {
-                    employeeId = scanner.next();                
+                    employeeId = scanner.nextInt();                
                     Trainee trainee = employeeService.searchTraineeData(employeeId);
                     if (trainee == null) {                           
                         logger.info("\nno data found\n" + "Enter valid Id");
                         isValidId = true; 
                     } else {
                         employeeInformation.getInformationForUpdateTrainee(trainee);
-                        employeeService.updateTraineeData(employeeId, trainee);
+                        String message = employeeService.updateTraineeData(trainee);
+                        logger.info("" + message);
                         isValidId = false;
                     }
                 }
             } catch (InputMismatchException e) {
         	logger.error("\nException occured" + e);
-            } catch (HibernateEXception e) {
+            } catch (HibernateException e) {
                 logger.error("\nException occured" + e);
        	    } catch (SQLException e) {
                 logger.error("",e);
@@ -256,18 +249,19 @@ public class TraineeController {
         while (isContinue) {
 
             try {
-                String employeeId = ""; 
+                int employeeId; 
                 boolean isValidId = true;      
                 while (isValidId) {
            
                     logger.info("\nEnter EmployeeId :");
-                    employeeId = scanner.next();
-                    employeeService.deleteTraineeData(employeeId);
+                    employeeId = scanner.nextInt();
+                    String message = employeeService.deleteTraineeData(employeeId);
+                    logger.info("" + message);
                     isValidId = false;
                 }
             } catch (InputMismatchException e) {
                 logger.error("\nException occured" + e);
-            } catch (HibernateEXception e) {
+            } catch (HibernateException e) {
                 logger.error("\nException occured" + e);
             } catch (SQLException e) {
                 logger.error("",e);
@@ -276,176 +270,6 @@ public class TraineeController {
             String removeMoreDataTrainee = scanner.next();
             logger.info("\n----------------------------------------------");
             isContinue = !(removeMoreDataTrainee.equals("2")); 
-        }
-    }
-
-    /**
-     * method used to read employee profile  
-     * @param {@link Scanner} scanner
-     * @param {@link boolean} isContinue
-     * @return {@link void} returns nothing
-     */
-    public static void assignTraineeForTrainers() throws InputMismatchException, SQLException {
- 
-        Scanner scanner = new Scanner(System.in);
-        boolean isContinue = true;
-
-        while (isContinue) {
-
-            try {
-
-                List<String> trainerId = new ArrayList<String>();
-
-                logger.info("Enter traineeId :");
-                String traineeId = scanner.next();
-                logger.info("Enter no of trainers :");
-                int count = scanner.nextInt();
-                logger.info("Enter trainerId :");
-
-                for (int i = 0; i < count; i++) {
-                    String trId = scanner.next();
-                    trainerId.add(trId);
-                }
-                employeeService.assignTraineeForTrainers(traineeId, trainerId);
-
-            } catch (InputMismatchException e) {
-                logger.error("\nException occured" + e);
-            } catch (SQLException e) {
-                logger.error("",e);
-            }
-
-            logger.info("\nIf you want to continue : \n" + "1.yes\n" + "2.no" );
-            String assignNextAssociation = scanner.next();
-            logger.info("\n----------------------------------------------");
-            isContinue = !(assignNextAssociation.equals("2"));
-        }
-    }  
-
-    /**
-     * method used to read employee profile  
-     * @param {@link Scanner} scanner
-     * @param {@link boolean} isContinue
-     * @return {@link void} returns nothing
-     */
-    public static void readTrainersOfGivenTrainee() throws InputMismatchException, SQLException {
-        
-        Scanner scanner = new Scanner(System.in);
-        boolean isContinue = true; 
-        String employeeId = "";
-
-        while (isContinue) { 
-
-            try {     
-
-                logger.info("\nEnter TraineeId :");                            
-                boolean isValidId = true;
-                while (isValidId) {
-                    employeeId = scanner.next();
-
-                    Trainee trainee = employeeService.searchTraineeData(employeeId);
-                    List<Trainer> trainers = employeeService.readTrainersOfGivenTrainee(employeeId);
-                    if (trainee == null) {                           
-                        logger.info("\nNo data found\n" + "Enter valid Id");
-                        isValidId = true; 
-                    } else {
-                        logger.info("Trainer Detail :"+"\n"+
-                                    "EmployeeId          : "+trainee.getEmployeeId()+"\n"+"EmployeeName        : "+trainee.getEmployeeName()+"\n"+
-                                    "EmployeeDesignation : "+trainee.getEmployeeDesignation()+"\n"+"EmployeeMail        : "+trainee.getEmployeeMail()+"\n"+
-                                    "EmployeeMobileNumber: "+trainee.getEmployeeMobileNumber()+"\n"+ "CurrentAddress      : "+trainee.getCurrentAddress()+"\n"+
-                                    "----------------------------------------------");
-                        trainers.forEach(trainer -> logger.info("Associated trainers :"+"\n"+
-                                                                "EmployeeId          : "+trainer.getEmployeeId()+"\n"+"EmployeeName        : "+trainer.getEmployeeName()));
-                        isValidId = false;
-                    }
-                }
-
-            } catch (InputMismatchException e) {
-                logger.error("\nException occured" + e);
-            } catch (SQLException e) {
-                logger.error("",e);
-            }
-
-            logger.info("\nif you want read another association\n" + "1.yes\n" + "2.no"); 
-            String choiceForReadAnotherInformation = scanner.next();          
-            isContinue = !(choiceForReadAnotherInformation.equals("2")); 
-        }
-    }
-
-    /**
-     * method used to read employee profile  
-     * @param {@link Scanner} scanner
-     * @param {@link boolean} isContinue
-     * @return {@link void} returns nothing
-     */
-    public static void changeAndAssignTraineeForTrainers() throws InputMismatchException, SQLException {
- 
-        Scanner scanner = new Scanner(System.in);
-        boolean isContinue = true;
-
-        while (isContinue) {
-
-            try {
-
-                List<String> trainerId = new ArrayList<String>();
-
-                logger.info("Enter traineeId :");
-                String traineeId = scanner.next();
-                logger.info("Enter no of trainers :");
-                int count = scanner.nextInt();
-                logger.info("Enter trainerId :");
-
-                for (int i = 0; i < count; i++) {
-                    String trId = scanner.next();
-                    trainerId.add(trId);
-                }
-                employeeService.changeAndAssignTraineeForTrainers(traineeId, trainerId);
-
-            } catch (InputMismatchException e) {
-                logger.error("\nException occured" + e);
-            } catch (SQLException e) {
-                logger.error("",e);
-            }
-
-            logger.info("\nIf you want to continue : \n" + "1.yes\n" + "2.no" );
-            String assignNextAssociation = scanner.next();
-            logger.info("\n----------------------------------------------");
-            isContinue = !(assignNextAssociation.equals("2"));
-        }
-    }
-
-    /**
-     * method used to read employee profile  
-     * @param {@link Scanner} scanner
-     * @param {@link boolean} isContinue
-     * @return {@link void} returns nothing
-     */
-    public static void deleteAssociationTraineeToTrainer() throws InputMismatchException, SQLException {
- 
-        Scanner scanner = new Scanner(System.in);
-        boolean isContinue = true;
-
-        while (isContinue) {
-
-            try {
-
-                logger.info("Enter traineeId :");
-                String traineeId = scanner.next();
-
-                logger.info("Enter trainerId :");
-                String trainerId = scanner.next();
-
-                employeeService.deleteAssociationTraineeToTrainer(traineeId, trainerId);
-
-            } catch (InputMismatchException e) {
-                logger.error("\nException occured" + e);
-            } catch (SQLException e) {
-                logger.error("",e);
-            }
-
-            logger.info("\nIf you want to continue : \n" + "1.yes\n" + "2.no" );
-            String assignNextAssociation = scanner.next();
-            logger.info("\n----------------------------------------------");
-            isContinue = !(assignNextAssociation.equals("2"));
         }
     }
 }

@@ -20,17 +20,10 @@ import javax.persistence.*;
 public class Employee {
 
     @Column(name = "uuid")
-    private String uuid; 
-
-    @Id
-    @Column(name = "id")
-    private int id;  
+    private String uuid;   
 
     @Column(name = "companyName")
     public static String companyName = "ideas2IT";
-
-    @Column(name = "employeeId")
-    private String employeeId;
 
     @Column(name = "name")
     private String employeeName;
@@ -69,16 +62,6 @@ public class Employee {
 	return uuid;
     }
 
-    public void setId(int id) {
-
-	this.id = id;
-    }
-
-    public int getId() {
-
-	return id;
-    }
-
     public void setCompanyName(String companyName) {
 
 	this.companyName = companyName;
@@ -87,16 +70,6 @@ public class Employee {
     public String getCompanyName() {
 
 	return companyName;
-    }
-
-    public void setEmployeeId(String employeeId) {
-
-	this.employeeId = employeeId;
-    }
-
-    public String getEmployeeId() {
-
-	return employeeId;
     }
 
     public void setEmployeeName(String employeeName) {

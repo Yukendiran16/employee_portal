@@ -20,11 +20,30 @@ import javax.persistence.*;
 @Table(name = "trainee_details")
 public class Trainee extends Employee {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "trainee_id")
+    private int id;
+
     @Column(name = "currentTask")
     private String currentTask;
 
     @Column(name = "currentTechknowledge")
-    private String currentTechknowledge;	
+    private String currentTechknowledge;
+
+    @ManyToOne
+    @JoinColumn(name = "trainer_id")
+    private Trainer trainer;
+
+    public void setId(int id) {
+
+	this.id = id;
+    }
+
+    public int getId() {
+
+	return id;
+    }	
 
     public void setCurrentTask(String currentTask) {
 
@@ -44,6 +63,16 @@ public class Trainee extends Employee {
     public String getCurrentTechknowledge() {
 
 	return currentTechknowledge;
+    }
+
+    public void setTrainer(Trainer trainer) {
+  
+        this.trainer = trainer;
+    }
+
+    public Trainer getTrainer() {
+
+        return trainer;
     }
 }
      

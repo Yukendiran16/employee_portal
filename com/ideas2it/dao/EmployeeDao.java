@@ -19,6 +19,7 @@ import com.ideas2it.model.Employee;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.config.DataBaseConnection;
+import com.ideas2it.hibernateUtil.GenerateFactory;
 
 /**
 *
@@ -60,7 +61,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link List<Trainer>} returns trainers Data
      */ 
-    List<Trainer> retrieveTrainers() throws HibernateException;
+    List<Trainer> retrieveTrainers() throws SQLException, HibernateException;
 
     /**
      * method used to get trainer details by using employeeId
@@ -68,14 +69,14 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link Trainer} returns trainer Data
      */ 
-    Trainer retrieveTrainer(String employeeId) throws SQLException, HibernateException;
+    Trainer retrieveTrainer(int id) throws SQLException, HibernateException;
 
     /**
      * method used to retrieve trainee details by using employeeId
      * @param {@link String} employeeId
      * @return {@link List<Trainee>} returns trainees Data
      */
-    List<Trainee> retrieveTrainees() throws HibernateException;
+    List<Trainee> retrieveTrainees() throws SQLException, HibernateException;
 
     /**
      * method used to retrieve trainee details by using employeeId
@@ -83,7 +84,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link Trainee} returns trainee Data
      */
-    Trainee retrieveTrainee(String employeeId) throws SQLException, HibernateException;
+    Trainee retrieveTrainee(int id) throws SQLException, HibernateException;
 
     /**
      * method used to update trainer details by using employeeId
@@ -92,7 +93,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */ 
-    String updateTrainer(String employeeId, Trainer trainer) throws SQLException, HibernateException;
+    String updateTrainer(Trainer trainer) throws SQLException, HibernateException;
 
     /**
      * method used to update trainee details by using emplpoyeeId
@@ -101,7 +102,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */ 
-    String updateTrainee(String employeeId, Trainee trainee) throws SQLException, HibernateException;
+    String updateTrainee(Trainee trainee) throws SQLException, HibernateException;
 
     /**
      * method used to remove trainer details by using employeeId
@@ -109,7 +110,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */
-    String removeTrainer(String employeeId) throws SQLException, HibernateException;
+    String removeTrainer(int id) throws SQLException, HibernateException;
 
     /**
      * method used to remove trainee details by using employeeId
@@ -117,25 +118,5 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */
-    String removeTrainee(String employeeId) throws SQLException, HibernateException;
-
-    void assignTrainerForTrainees(String trainerId, List<String> traineeId) throws SQLException;
-
-    void assignTraineeForTrainers(String traineeId, List<String> trainerId) throws SQLException;
-
-    List<Trainee> retrieveAssociatedTrainees(String employeeId) throws SQLException;
-
-    List<Trainer> retrieveAssociatedTrainers(String employeeId) throws SQLException;
-
-    void updateAndAssignTraineeForTrainers(String trainerId, List<String> traineeId) throws SQLException;
-
-    void updateAndAssignTrainerForTrainees(String traineeId, List<String> trainerId) throws SQLException;
-
-    void deleteAssociationTrainerToTrainee( String traineeId, String trainerId) throws SQLException;
-
-    void deleteAssociationTraineeToTrainer( String trainerId, String traineeId) throws SQLException;
-
-    int getLastTrainerId() throws SQLException, HibernateException;
-
-    int getLastTraineeId() throws SQLException, HibernateException;
+    String removeTrainee(int id) throws SQLException, HibernateException;
 }

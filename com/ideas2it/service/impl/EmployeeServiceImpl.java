@@ -49,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */           
     @Override
     public String addTrainer(Trainer trainer) throws SQLException, HibernateException {        
-         employeeDao.insertTrainer(trainer);
+         return employeeDao.insertTrainer(trainer);
     }
 
     /**
@@ -61,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */           
     @Override        
     public String addTrainee(Trainee trainee) throws SQLException, HibernateException {
-        employeeDao.insertTrainee(trainee);
+        return employeeDao.insertTrainee(trainee);
     }
  
     /**
@@ -82,8 +82,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link Trainer} returns trainer Data
      */           
     @Override
-    public Trainer searchTrainerData(String employeeId) throws SQLException, HibernateException {
-        Trainer trainer = employeeDao.retrieveTrainer(employeeId);
+    public Trainer searchTrainerData(int id) throws SQLException, HibernateException {
+        Trainer trainer = employeeDao.retrieveTrainer(id);
         return trainer;
     }
 
@@ -105,8 +105,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link Trainee} returns trainee Data
      */           
     @Override   
-    public Trainee searchTraineeData(String employeeId) throws SQLException, HibernateException {
-        Trainee trainee = employeeDao.retrieveTrainee(employeeId);
+    public Trainee searchTraineeData(int id) throws SQLException, HibernateException {
+        Trainee trainee = employeeDao.retrieveTrainee(id);
         return trainee;
     }
 
@@ -118,8 +118,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link String} returns nothing
      */           
     @Override 
-    public String updateTrainerData(String employeeId, Trainer trainer) throws SQLException, HibernateException {
-        employeeDao.updateTrainer(employeeId,trainer);
+    public String updateTrainerData(Trainer trainer) throws SQLException, HibernateException {
+        return employeeDao.updateTrainer(trainer);
     }
 
     /**
@@ -130,8 +130,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link String} returns nothing
      */           
     @Override
-    public String updateTraineeData(String employeeId, Trainee trainee) throws SQLException, HibernateException {
-        employeeDao.updateTrainee(employeeId,trainee);
+    public String updateTraineeData(Trainee trainee) throws SQLException, HibernateException {
+        return employeeDao.updateTrainee(trainee);
     }                         
 
     /**
@@ -141,8 +141,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link String} returns nothing
      */           
     @Override
-    public String deleteTrainerData(String employeeId) throws SQLException, HibernateException {
-        employeeDao.removeTrainer(employeeId);
+    public String deleteTrainerData(int id) throws SQLException, HibernateException {
+        return employeeDao.removeTrainer(id);
     }     
 
     /**
@@ -152,61 +152,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link String} returns nothing
      */           
     @Override
-    public String deleteTraineeData(String employeeId) throws SQLException, HibernateException {
-        employeeDao.removeTrainee(employeeId);
-    }
-
-    @Override
-    public void assignTrainerForTrainees( String trainerId, List<String> traineeId) throws SQLException {
-        employeeDao.assignTrainerForTrainees(trainerId, traineeId);
-    }
-
-    @Override
-    public void assignTraineeForTrainers( String traineeId, List<String> trainerId) throws SQLException {
-        employeeDao.assignTrainerForTrainees(traineeId, trainerId);
-    }
-
-    @Override
-    public List<Trainer> readTrainersOfGivenTrainee(String employeeId) throws SQLException {
-        List<Trainer> trainers = employeeDao.retrieveAssociatedTrainers(employeeId);   
-        return trainers; 
-    } 
-
-    @Override
-    public List<Trainee> readTraineesOfGivenTrainer(String employeeId) throws SQLException {
-        List<Trainee> trainees = employeeDao.retrieveAssociatedTrainees(employeeId);
-        return trainees;
-    } 
-
-    @Override
-    public void changeAndAssignTraineeForTrainers( String trainerId, List<String> traineeId) throws SQLException {
-        employeeDao.updateAndAssignTraineeForTrainers(trainerId, traineeId);
-    }
-
-    @Override
-    public void changeAndAssignTrainerForTrainees( String traineeId, List<String> trainerId) throws SQLException {
-        employeeDao.updateAndAssignTrainerForTrainees(traineeId, trainerId);
-    }
-
-    @Override
-    public void deleteAssociationTraineeToTrainer( String trainerId, String traineeId ) throws SQLException {
-        employeeDao.deleteAssociationTraineeToTrainer(trainerId, traineeId);
-    }
-
-    @Override
-    public void deleteAssociationTrainerToTrainee( String traineeId, String trainerId) throws SQLException {
-        employeeDao.deleteAssociationTrainerToTrainee(traineeId, trainerId);
-    }
-
-    @Override 
-    public int getLastTrainerId() throws SQLException, HibernateException {
-         return employeeDao.getLastTrainerId();
-    } 
-
-    @Override 
-    public int getLastTraineeId() throws SQLException, HibernateException {
-         return employeeDao.getLastTraineeId();
-    }                          
+    public String deleteTraineeData(int id) throws SQLException, HibernateException {
+        return employeeDao.removeTrainee(id);
+    }                    
 }  
 
 

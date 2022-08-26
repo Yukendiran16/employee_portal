@@ -29,7 +29,7 @@ import com.ideas2it.controller.TraineeController;
 
 public class Application {
     
-    public static void main(String[] args) throws InputMismatchException, SQLException, HibernateException {
+    public static void main(String[] args)  {
 
     
     Logger logger = LoggerFactory.getLogger(Application.class);
@@ -38,29 +38,30 @@ public class Application {
                     "\n*************WELCOME TO IDEAS2IT**************"+
                     "\n----------------------------------------------\n\n");
         Scanner scanner = new Scanner(System.in);
-        boolean isContinue = true;
-        boolean isValid = true;  
+        boolean isContinue = true; 
         
         while (isContinue) {
+
+            logger.info("\nEnter 1 for Trainer realted operation\n"+ 
+		        "Enter 2 for Trainee related operation\n" +
+                        "Enter 3 for Exit");
             try {
-                logger.info("\nEnter 1 for Trainer realted operation\n"+ 
-			    "Enter 2 for Trainee related operation\n" +
-                            " Enter 3 for Exit");
-                int option = scanner.nextInt();
-                
-                if (option == 1) {
+                String option = scanner.next();
+
+                switch (option){
+                case "1":
                     TrainerController.trainerMenu();
-                    isContinue = true;
-                } else if (option == 2) {
-                    TraineeController.traineeMenu();    
-                    isContinue = true;
-                } else if (option == 3){
-                    isContinue = false; 
-                    throw new InputMismatchException(" enter valid data");
+                    break;
+                case "2":
+                    TraineeController.traineeMenu();
+                    break;   
+                case "3":
+                    isContinue = false;
+                    break; 
+                default :
+                    break;
                 }
             } catch (InputMismatchException e) {
-                logger.error("\ninvalid data : " + e);
-            } catch (HibernateException e) {
                 logger.error("\ninvalid data : " + e);
             }
         }

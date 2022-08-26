@@ -51,7 +51,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */  
-    String addTrainee(Trainee trainee) throws SQLException, HibernateException;s
+    String addTrainee(Trainee trainee) throws SQLException, HibernateException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
@@ -66,7 +66,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link Trainer} returns trainer Data
      */
-    Trainer searchTrainerData(String employeeId) throws SQLException, HibernateException;
+    Trainer searchTrainerData(int id) throws SQLException, HibernateException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
@@ -81,7 +81,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link Trainee} returns trainee Data
      */
-    Trainee searchTraineeData(String employeeId) throws SQLException, HibernateException;
+    Trainee searchTraineeData(int id) throws SQLException, HibernateException;
 
     /**
      * method used to get updated trainer details from controller to pass the details to dao
@@ -90,7 +90,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */ 
-    String updateTrainerData(String employeeId, Trainer trainer) throws SQLException, HibernateException;
+    String updateTrainerData(Trainer trainer) throws SQLException, HibernateException;
 
     /**
      * method used to get updated trainee details from controller to pass the details to dao
@@ -99,7 +99,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */
-    String updateTraineeData(String employeeId, Trainee trainee) throws SQLException, HibernateException;
+    String updateTraineeData(Trainee trainee) throws SQLException, HibernateException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
@@ -107,7 +107,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */
-    String deleteTrainerData(String employeeId) throws SQLException, HibernateException;
+    String deleteTrainerData(int id) throws SQLException, HibernateException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao for deleting trainer details
@@ -115,26 +115,6 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */ 
-    String deleteTraineeData(String employeeId) throws SQLException, HibernateException;
-
-    void assignTrainerForTrainees(String trainerId, List<String> traineeId) throws SQLException;
-
-    void assignTraineeForTrainers(String traineeId, List<String> trainerId) throws SQLException;
-
-    List<Trainer> readTrainersOfGivenTrainee(String employeeId) throws SQLException;
-
-    List<Trainee> readTraineesOfGivenTrainer(String employeeId) throws SQLException;
-
-    void changeAndAssignTrainerForTrainees( String trainerId, List<String> traineeId) throws SQLException;
- 
-    void changeAndAssignTraineeForTrainers( String traineeId, List<String> trainerId) throws SQLException;
-
-    void deleteAssociationTrainerToTrainee( String trainerId, String traineeId) throws SQLException;
-
-    void deleteAssociationTraineeToTrainer( String traineeId, String trainerId) throws SQLException;
-    
-    int getLastTrainerId() throws SQLException, HibernateException;
-
-    int getLastTraineeId() throws SQLException, HibernateException;
+    String deleteTraineeData(int id) throws SQLException, HibernateException;
 
 }

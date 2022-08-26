@@ -52,10 +52,6 @@ class EmployeeInformation {
        
         trainer.setUuid(uuid);
 
-        int trId = employeeService.getLastTrainerId();
-     	String employeeId = util.createAndGetTrainerId(trId);
-        trainer.setEmployeeId(employeeId); 
-
 	logger.info("Enter Employee Name : ");
         String name = scanner.nextLine();
         if (!name.isEmpty() && !name.equals("exitprogram")) {
@@ -232,11 +228,6 @@ class EmployeeInformation {
         boolean isValid = true;
 
         trainee.setUuid(uuid);
-
-        int teId = employeeService.getLastTraineeId();
-     	String employeeId = util.createAndGetTraineeId(teId);
-        trainee.setEmployeeId(employeeId);  
-
      
 	logger.info("Enter Employee Name : ");
         String name = scanner.nextLine();

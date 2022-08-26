@@ -1,4 +1,4 @@
-package com.ideas2it;
+package com.ideas2it.hibernateUtil;
 
 import java.util.List; 
 import java.util.Date;
@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class ManageTrainer {
+public class GenerateFactory {
 
     private static SessionFactory factory;
 
