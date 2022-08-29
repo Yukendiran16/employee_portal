@@ -66,7 +66,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link Trainer} returns trainer Data
      */
-    Trainer searchTrainerData(int id) throws SQLException, HibernateException;
+    Trainer searchTrainerData(int trainerId) throws SQLException, HibernateException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
@@ -81,7 +81,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link Trainee} returns trainee Data
      */
-    Trainee searchTraineeData(int id) throws SQLException, HibernateException;
+    Trainee searchTraineeData(int traineeId) throws SQLException, HibernateException;
 
     /**
      * method used to get updated trainer details from controller to pass the details to dao
@@ -90,7 +90,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */ 
-    String updateTrainerData(Trainer trainer) throws SQLException, HibernateException;
+    String updateTrainerData(int trainerId, Trainer trainer) throws SQLException, HibernateException;
 
     /**
      * method used to get updated trainee details from controller to pass the details to dao
@@ -99,7 +99,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */
-    String updateTraineeData(Trainee trainee) throws SQLException, HibernateException;
+    String updateTraineeData(int traineeId, Trainee trainee) throws SQLException, HibernateException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
@@ -107,7 +107,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */
-    String deleteTrainerData(int id) throws SQLException, HibernateException;
+    String deleteTrainerData(int trainerId) throws SQLException, HibernateException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao for deleting trainer details
@@ -115,6 +115,6 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */ 
-    String deleteTraineeData(int id) throws SQLException, HibernateException;
+    String deleteTraineeData(int traineeId) throws SQLException, HibernateException;
 
 }

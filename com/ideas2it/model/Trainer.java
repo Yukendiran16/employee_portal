@@ -24,7 +24,7 @@ public class Trainer extends Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trainer_id")
-    private int id;
+    private int trainerId;
 
     @Column(name = "currentProject")
     private String currentProject;
@@ -32,18 +32,18 @@ public class Trainer extends Employee {
     @Column(name = "achievement")
     private String achievement;
 
-    @OneToMany(mappedBy = "trainer")
-    @JoinColumn(name = "trainer_id")
+    @OneToMany(targetEntity = Trainee.class, cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER) 
+    @JoinColumn(name = "trainer_id")   
     private List<Trainee> trainees;
 
-    public void setId(int id) {
+    public void setTrainerId(int trainerid) {
 
-	this.id = id;
+	this.trainerId = trainerId;
     }
 
-    public int getId() {
+    public int getTrainerId() {
 
-	return id;
+	return trainerId;
     }	
 
     public void setCurrentProject(String currentProject) {

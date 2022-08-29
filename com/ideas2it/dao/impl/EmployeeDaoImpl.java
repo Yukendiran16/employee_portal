@@ -1,10 +1,5 @@
 package com.ideas2it.dao.impl;
 
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.List;
@@ -110,7 +105,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
       try (Session session = GenerateFactory.getFactory().openSession();) {
           tx = session.beginTransaction();
           Criteria criteria = session.createCriteria(Trainer.class);
-          criteria.add(Restrictions.eq("isDeleted", false));
+          criteria.add(Restrictions.eq("is_Active", false));
           trainers  = criteria.list();
           tx.commit();
       } catch (Exception e) {
@@ -127,14 +122,14 @@ public class EmployeeDaoImpl implements EmployeeDao{
      * @return {@link Trainer} returns trainer Data
      */           
     @Override
-    public Trainer retrieveTrainer(int id) throws HibernateException, SQLException {
+    public Trainer retrieveTrainer(int trainerId) throws HibernateException, SQLException {
     
         Transaction tx = null;
         Trainer trainer = null;
         try(Session session = GenerateFactory.getFactory().openSession();) {
 
             tx = session.beginTransaction();
-            trainer = (Trainer) session.get(Trainer.class, id);
+            trainer = (Trainer) session.get(Trainer.class, trainerId);
             tx.commit();
             return (trainer.getIs_Active() == false) ? trainer : null;
         } catch(Exception e) {
@@ -175,14 +170,14 @@ public class EmployeeDaoImpl implements EmployeeDao{
      * @return {@link Trainee} returns trainee Data
      */           
     @Override
-    public Trainee retrieveTrainee(int id) throws HibernateException, SQLException {
+    public Trainee retrieveTrainee(int traineeId) throws HibernateException, SQLException {
 
         Transaction tx = null;
         Trainee trainee = null;
         try(Session session = GenerateFactory.getFactory().openSession();) {
 
             tx = session.beginTransaction();
-            trainee = (Trainee) session.get(Trainee.class, id);
+            trainee = (Trainee) session.get(Trainee.class, traineeId);
             tx.commit();
             return (trainee.getIs_Active() == false) ? trainee : null;
         } catch(Exception e) {
@@ -199,7 +194,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
      * @return {@link String} returns nothing
      */           
     @Override
-    public String updateTrainer(Trainer trainer) throws HibernateException, SQLException {
+    public String updateTrainer(int trainerId, Trainer trainer) throws HibernateException, SQLException {
 
         Transaction tx = null;
         String message = "";
@@ -207,17 +202,18 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
             tx = session.beginTransaction();
             if (trainer.getIs_Active() == false) {
-
-            trainer.setEmployeeName(trainer.getEmployeeName());
-            trainer.setEmployeeDateOfBirth(trainer.getEmployeeDateOfBirth());
-            trainer.setEmployeeDesignation(trainer.getEmployeeDesignation());
-            trainer.setEmployeeMail(trainer.getEmployeeMail());
-            trainer.setEmployeeMobileNumber(trainer.getEmployeeMobileNumber());
-            trainer.setCurrentAddress(trainer.getCurrentAddress());
-            trainer.setAadharCardNumber(trainer.getAadharCardNumber());
-            trainer.setPanCardNumber(trainer.getPanCardNumber());
-            trainer.setCurrentProject(trainer.getCurrentProject());
-            trainer.setAchievement(trainer.getAchievement());
+            Trainer updateTrainer = (Trainer) session.get(Trainer.class, trainerId);
+            updateTrainer.setEmployeeName(trainer.getEmployeeName());
+            updateTrainer.setEmployeeDateOfBirth(trainer.getEmployeeDateOfBirth());
+            updateTrainer.setEmployeeDesignation(trainer.getEmployeeDesignation());
+            updateTrainer.setEmployeeMail(trainer.getEmployeeMail());
+            updateTrainer.setEmployeeMobileNumber(trainer.getEmployeeMobileNumber());
+            updateTrainer.setCurrentAddress(trainer.getCurrentAddress());
+            updateTrainer.setAadharCardNumber(trainer.getAadharCardNumber());
+            updateTrainer.setPanCardNumber(trainer.getPanCardNumber());
+            updateTrainer.setCurrentProject(trainer.getCurrentProject());
+            updateTrainer.setAchievement(trainer.getAchievement());
+            updateTrainer.setTrainees(trainer.getTrainees());
 
             tx.commit();
             message = "updated successfully";
@@ -239,7 +235,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
      * @return {@link String} returns nothing
      */           
     @Override
-    public String updateTrainee(Trainee trainee) throws HibernateException, SQLException {
+    public String updateTrainee(int traineeId, Trainee trainee) throws HibernateException, SQLException {
  
         Transaction tx = null;
         String message = "";
@@ -258,6 +254,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
             trainee.setPanCardNumber(trainee.getPanCardNumber());
             trainee.setCurrentTask(trainee.getCurrentTask());
             trainee.setCurrentTechknowledge(trainee.getCurrentTechknowledge());
+            //trainee.setTrainer(trainee.getTrainer());
 
             tx.commit();
             message = "updated successfully";
@@ -280,7 +277,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
      * @return {@link String} returns nothing
      */           
     @Override
-    public String removeTrainer(int id) throws HibernateException, SQLException {
+    public String removeTrainer(int trainerId) throws HibernateException, SQLException {
 
         Transaction tx = null;
         String message = "no operation ahead";
@@ -288,7 +285,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
         try (Session session = GenerateFactory.getFactory().openSession();) {
 
             tx = session.beginTransaction();
-            Trainer trainer = (Trainer) session.get(Trainer.class, id);
+            Trainer trainer = (Trainer) session.get(Trainer.class, trainerId);
             trainer.setIs_Active(true);
             session.update(trainer);
             System.out.println("update");
@@ -308,7 +305,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
      * @return {@link String} returns nothing
      */           
     @Override
-    public String removeTrainee(int id) throws HibernateException, SQLException {
+    public String removeTrainee(int traineeId) throws HibernateException, SQLException {
 
         Transaction tx = null;
         String message = "no operation ahead";
@@ -316,7 +313,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
         try (Session session = GenerateFactory.getFactory().openSession();) {
 
             tx = session.beginTransaction();
-            Trainee trainee = (Trainee) session.get(Trainee.class, id);
+            Trainee trainee = (Trainee) session.get(Trainee.class, traineeId);
             trainee.setIs_Active(true);
             session.update(trainee);
             tx.commit();

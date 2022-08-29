@@ -1,9 +1,9 @@
+import java.util.Scanner;
 import java.util.InputMismatchException;
 
-import org.hibernate.HibernateException; 
-
 import java.sql.SQLException;
-import java.util.Scanner;
+
+import org.hibernate.HibernateException; 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
@@ -31,8 +31,7 @@ public class Application {
     
     public static void main(String[] args)  {
 
-    
-    Logger logger = LoggerFactory.getLogger(Application.class);
+        Logger logger = LoggerFactory.getLogger(Application.class);
        
         logger.info("\n----------------------------------------------"+
                     "\n*************WELCOME TO IDEAS2IT**************"+
@@ -46,22 +45,25 @@ public class Application {
 		        "Enter 2 for Trainee related operation\n" +
                         "Enter 3 for Exit");
             try {
-                String option = scanner.next();
 
+                String option = scanner.next();
                 switch (option){
-                case "1":
-                    TrainerController.trainerMenu();
-                    break;
-                case "2":
-                    TraineeController.traineeMenu();
-                    break;   
-                case "3":
-                    isContinue = false;
-                    break; 
-                default :
-                    break;
+
+                    case "1":
+                        TrainerController.trainerMenu();
+                        break;
+                    case "2":    
+                        TraineeController.traineeMenu();
+                        break;   
+                    case "3":
+                        isContinue = false;
+                        break; 
+                    default :
+                        break;
                 }
+
             } catch (InputMismatchException e) {
+
                 logger.error("\ninvalid data : " + e);
             }
         }

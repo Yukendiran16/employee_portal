@@ -23,7 +23,7 @@ public class Trainee extends Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trainee_id")
-    private int id;
+    private int traineeId;
 
     @Column(name = "currentTask")
     private String currentTask;
@@ -31,18 +31,14 @@ public class Trainee extends Employee {
     @Column(name = "currentTechknowledge")
     private String currentTechknowledge;
 
-    @ManyToOne
-    @JoinColumn(name = "trainer_id")
-    private Trainer trainer;
+    public void setTraineeId(int traineeId) {
 
-    public void setId(int id) {
-
-	this.id = id;
+	this.traineeId = traineeId;
     }
 
-    public int getId() {
+    public int getTraineeId() {
 
-	return id;
+	return traineeId;
     }	
 
     public void setCurrentTask(String currentTask) {
@@ -65,15 +61,6 @@ public class Trainee extends Employee {
 	return currentTechknowledge;
     }
 
-    public void setTrainer(Trainer trainer) {
-  
-        this.trainer = trainer;
-    }
-
-    public Trainer getTrainer() {
-
-        return trainer;
-    }
 }
      
 

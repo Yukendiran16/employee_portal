@@ -69,7 +69,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link Trainer} returns trainer Data
      */ 
-    Trainer retrieveTrainer(int id) throws SQLException, HibernateException;
+    Trainer retrieveTrainer(int trainerId) throws SQLException, HibernateException;
 
     /**
      * method used to retrieve trainee details by using employeeId
@@ -84,7 +84,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link Trainee} returns trainee Data
      */
-    Trainee retrieveTrainee(int id) throws SQLException, HibernateException;
+    Trainee retrieveTrainee(int traineeId) throws SQLException, HibernateException;
 
     /**
      * method used to update trainer details by using employeeId
@@ -93,7 +93,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */ 
-    String updateTrainer(Trainer trainer) throws SQLException, HibernateException;
+    String updateTrainer(int trainerId, Trainer trainer) throws SQLException, HibernateException;
 
     /**
      * method used to update trainee details by using emplpoyeeId
@@ -102,7 +102,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */ 
-    String updateTrainee(Trainee trainee) throws SQLException, HibernateException;
+    String updateTrainee(int traineeId, Trainee trainee) throws SQLException, HibernateException;
 
     /**
      * method used to remove trainer details by using employeeId
@@ -110,7 +110,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */
-    String removeTrainer(int id) throws SQLException, HibernateException;
+    String removeTrainer(int trainerId) throws SQLException, HibernateException;
 
     /**
      * method used to remove trainee details by using employeeId
@@ -118,5 +118,5 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */
-    String removeTrainee(int id) throws SQLException, HibernateException;
+    String removeTrainee(int traineeId) throws SQLException, HibernateException;
 }

@@ -82,8 +82,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link Trainer} returns trainer Data
      */           
     @Override
-    public Trainer searchTrainerData(int id) throws SQLException, HibernateException {
-        Trainer trainer = employeeDao.retrieveTrainer(id);
+    public Trainer searchTrainerData(int trainerId) throws SQLException, HibernateException {
+        Trainer trainer = employeeDao.retrieveTrainer(trainerId);
         return trainer;
     }
 
@@ -105,8 +105,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link Trainee} returns trainee Data
      */           
     @Override   
-    public Trainee searchTraineeData(int id) throws SQLException, HibernateException {
-        Trainee trainee = employeeDao.retrieveTrainee(id);
+    public Trainee searchTraineeData(int traineeId) throws SQLException, HibernateException {
+        Trainee trainee = employeeDao.retrieveTrainee(traineeId);
         return trainee;
     }
 
@@ -118,8 +118,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link String} returns nothing
      */           
     @Override 
-    public String updateTrainerData(Trainer trainer) throws SQLException, HibernateException {
-        return employeeDao.updateTrainer(trainer);
+    public String updateTrainerData(int trainerId, Trainer trainer) throws SQLException, HibernateException {
+        return employeeDao.updateTrainer(trainerId, trainer);
     }
 
     /**
@@ -130,8 +130,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link String} returns nothing
      */           
     @Override
-    public String updateTraineeData(Trainee trainee) throws SQLException, HibernateException {
-        return employeeDao.updateTrainee(trainee);
+    public String updateTraineeData(int traineeId, Trainee trainee) throws SQLException, HibernateException {
+        return employeeDao.updateTrainee(traineeId, trainee);
     }                         
 
     /**
@@ -141,8 +141,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link String} returns nothing
      */           
     @Override
-    public String deleteTrainerData(int id) throws SQLException, HibernateException {
-        return employeeDao.removeTrainer(id);
+    public String deleteTrainerData(int trainerId) throws SQLException, HibernateException {
+        return employeeDao.removeTrainer(trainerId);
     }     
 
     /**
@@ -152,8 +152,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link String} returns nothing
      */           
     @Override
-    public String deleteTraineeData(int id) throws SQLException, HibernateException {
-        return employeeDao.removeTrainee(id);
+    public String deleteTraineeData(int traineeId) throws SQLException, HibernateException {
+        return employeeDao.removeTrainee(traineeId);
     }                    
 }  
 
