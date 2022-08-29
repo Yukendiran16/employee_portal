@@ -14,7 +14,9 @@
 
 package com.ideas2it.model;
 
-import javax.persistence.*;
+import javax.persistence.MappedSuperclass
+import javax.persistence.Column;
+
 
 @MappedSuperclass
 public class Employee {

@@ -12,6 +12,8 @@ import org.hibernate.HibernateException;
 import java.util.List;
 import java.util.ArrayList;
 
+import java.lang.NullPointerException;
+
 import com.ideas2it.model.Employee;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
@@ -42,7 +44,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link void} returns nothing
      */ 
-    String addTrainer(Trainer trainer) throws SQLException, HibernateException;
+    String addTrainer(Trainer trainer) throws SQLException, HibernateException, NullPointerException;;
 
     /**
      * method used to get trainee details from controller to pass the details to dao
@@ -51,14 +53,14 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */  
-    String addTrainee(Trainee trainee) throws SQLException, HibernateException;
+    String addTrainee(Trainee trainee) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
      * @param {@link }  
      * @return {@link List<Trainee>} returns trainees Data
      */              
-    List<Trainer> getTrainersData() throws SQLException, HibernateException;
+    List<Trainer> getTrainersData() throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
@@ -66,14 +68,14 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link Trainer} returns trainer Data
      */
-    Trainer searchTrainerData(int id) throws SQLException, HibernateException;
+    Trainer searchTrainerData(int trainerId) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
      * @param {@link }  
      * @return {@link List<Trainee>} returns trainees Data
      */             
-    List<Trainee> getTraineesData() throws SQLException, HibernateException;
+    List<Trainee> getTraineesData() throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
@@ -81,7 +83,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link Trainee} returns trainee Data
      */
-    Trainee searchTraineeData(int id) throws SQLException, HibernateException;
+    Trainee searchTraineeData(int traineeId) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get updated trainer details from controller to pass the details to dao
@@ -90,7 +92,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */ 
-    String updateTrainerData(Trainer trainer) throws SQLException, HibernateException;
+    String updateTrainerData(int trainerId, Trainer trainer) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get updated trainee details from controller to pass the details to dao
@@ -99,7 +101,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */
-    String updateTraineeData(Trainee trainee) throws SQLException, HibernateException;
+    String updateTraineeData(int traineeId, Trainee trainee) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao
@@ -107,7 +109,7 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */
-    String deleteTrainerData(int id) throws SQLException, HibernateException;
+    String deleteTrainerData(int trainerId) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get employeeId from controller to pass the employeeId to dao for deleting trainer details
@@ -115,6 +117,6 @@ public interface EmployeeService {
      * @param {@link }  
      * @return {@link String} returns nothing
      */ 
-    String deleteTraineeData(int id) throws SQLException, HibernateException;
+    String deleteTraineeData(int traineeId) throws SQLException, HibernateException, NullPointerException;
 
 }

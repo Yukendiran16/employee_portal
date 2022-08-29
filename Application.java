@@ -49,17 +49,18 @@ public class Application {
                 String option = scanner.next();
 
                 switch (option){
-                case "1":
-                    TrainerController.trainerMenu();
-                    break;
-                case "2":
-                    TraineeController.traineeMenu();
-                    break;   
-                case "3":
-                    isContinue = false;
-                    break; 
-                default :
-                    break;
+
+                    case "1":
+                        TrainerController.trainerMenu();
+                        break;
+                    case "2":    
+                        TraineeController.traineeMenu();
+                        break;   
+                    case "3":
+                        isContinue = false;
+                        break; 
+                    default :
+                        break;
                 }
             } catch (InputMismatchException e) {
                 logger.error("\ninvalid data : " + e);

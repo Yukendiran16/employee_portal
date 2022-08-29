@@ -14,7 +14,17 @@
 
 package com.ideas2it.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
+
+
 
 @Entity
 @Table(name = "trainee_details")
@@ -23,7 +33,7 @@ public class Trainee extends Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trainee_id")
-    private int id;
+    private int traineeId;
 
     @Column(name = "currentTask")
     private String currentTask;
@@ -31,18 +41,17 @@ public class Trainee extends Employee {
     @Column(name = "currentTechknowledge")
     private String currentTechknowledge;
 
-    @ManyToOne
-    @JoinColumn(name = "trainer_id")
+    @ManyToOne(targetEntity=Trainer.class, fetch = FetchType.LAZY)
     private Trainer trainer;
 
-    public void setId(int id) {
+    public void setTraineeId(int traineeId) {
 
-	this.id = id;
+	this.traineeId = traineeId;
     }
 
-    public int getId() {
+    public int getTraineeId() {
 
-	return id;
+	return traineeId;
     }	
 
     public void setCurrentTask(String currentTask) {
@@ -66,14 +75,15 @@ public class Trainee extends Employee {
     }
 
     public void setTrainer(Trainer trainer) {
-  
-        this.trainer = trainer;
+
+	this.trainer = trainer;
     }
 
     public Trainer getTrainer() {
 
-        return trainer;
-    }
+	return trainer;
+    }	
+
 }
      
 

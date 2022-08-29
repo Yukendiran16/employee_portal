@@ -12,6 +12,8 @@ import org.hibernate.HibernateException;
 import java.util.List;
 import java.util.ArrayList;
 
+import java.lang.NullPointerException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
 
@@ -45,7 +47,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link void} returns nothing
      */ 
-    String insertTrainer(Trainer trainer) throws SQLException, HibernateException;
+    String insertTrainer(Trainer trainer) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get trainee details from EmployeeService and insert details to trainee table
@@ -54,14 +56,14 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */ 
-    String insertTrainee(Trainee trainee) throws SQLException, HibernateException;
+    String insertTrainee(Trainee trainee) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get all trainer details in trainer table
      * @param {@link Logger} logger 
      * @return {@link List<Trainer>} returns trainers Data
      */ 
-    List<Trainer> retrieveTrainers() throws SQLException, HibernateException;
+    List<Trainer> retrieveTrainers() throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to get trainer details by using employeeId
@@ -69,14 +71,14 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link Trainer} returns trainer Data
      */ 
-    Trainer retrieveTrainer(int id) throws SQLException, HibernateException;
+    Trainer retrieveTrainer(int trainerId) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to retrieve trainee details by using employeeId
      * @param {@link String} employeeId
      * @return {@link List<Trainee>} returns trainees Data
      */
-    List<Trainee> retrieveTrainees() throws SQLException, HibernateException;
+    List<Trainee> retrieveTrainees() throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to retrieve trainee details by using employeeId
@@ -84,7 +86,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link Trainee} returns trainee Data
      */
-    Trainee retrieveTrainee(int id) throws SQLException, HibernateException;
+    Trainee retrieveTrainee(int traineeId) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to update trainer details by using employeeId
@@ -93,7 +95,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */ 
-    String updateTrainer(Trainer trainer) throws SQLException, HibernateException;
+    String updateTrainer(int trainerId, Trainer trainer) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to update trainee details by using emplpoyeeId
@@ -102,7 +104,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */ 
-    String updateTrainee(Trainee trainee) throws SQLException, HibernateException;
+    String updateTrainee(int traineeId, Trainee trainee) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to remove trainer details by using employeeId
@@ -110,7 +112,7 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */
-    String removeTrainer(int id) throws SQLException, HibernateException;
+    String removeTrainer(int trainerId) throws SQLException, HibernateException, NullPointerException;
 
     /**
      * method used to remove trainee details by using employeeId
@@ -118,5 +120,5 @@ public interface EmployeeDao {
      * @param {@link Logger} logger 
      * @return {@link String} returns nothing
      */
-    String removeTrainee(int id) throws SQLException, HibernateException;
+    String removeTrainee(int traineeId) throws SQLException, HibernateException, NullPointerException;
 }
