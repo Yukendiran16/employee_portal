@@ -1,121 +1,150 @@
 package com.ideas2it.service;
 
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.lang.NullPointerException;
+import java.util.List;
+import java.util.ArrayList;
 import java.sql.SQLException;
 
 import org.hibernate.HibernateException; 
 
-import java.util.List;
-import java.util.ArrayList;
-
-import java.lang.NullPointerException;
-
-import com.ideas2it.model.Employee;
-import com.ideas2it.model.Trainee;
-import com.ideas2it.model.Trainer;
 import com.ideas2it.dao.EmployeeDao;
 import com.ideas2it.dao.impl.EmployeeDaoImpl;
+import com.ideas2it.model.Trainee;
+import com.ideas2it.model.Trainer;
 
 /**
-*
-*<h2>EmployeeService</h2>
-*
-* The EmployeeService class is an Interface and 
-* The class implements an application that
-* defines signature of all methods used in EmployeeServiceImpl class
-* EmployeeServiceImpl is an implementation of this Interface
-*
-* @author  Yukendiran K
-* @version 1.0
-* @since   2022-08-04
-* 
-*/
+ *
+ *<h2>EmployeeService</h2>
+ *
+ * The EmployeeService class is an Interface and 
+ * The class implements an application that
+ * defines signature of all methods used in EmployeeServiceImpl class
+ * EmployeeServiceImpl is an implementation of this Interface
+ *
+ * @author  Yukendiran K
+ * @version 1.0
+ * @since   2022-08-04
+ * 
+ */
 
 public interface EmployeeService {
 
     /**
+     *
+     * <h1> addTrainer </h1>
+     *
      * method used to get trainer details from controller to pass the details to dao
-     * @param {@link String} employeeId
+     *
      * @param {@link Trainer} trainer object
-     * @param {@link }  
-     * @return {@link void} returns nothing
+     * @return {@link String} returns status of operation
+     *
      */ 
     String addTrainer(Trainer trainer) throws SQLException, HibernateException, NullPointerException;;
 
     /**
+     *
+     * <h1> addTrainee </h1>
+     *
      * method used to get trainee details from controller to pass the details to dao
-     * @param {@link String} employeeId
+     *
      * @param {@link Trainee} trainee object
-     * @param {@link }  
-     * @return {@link String} returns nothing
-     */  
+     * @return {@link String} returns status of operation
+     *
+     */
     String addTrainee(Trainee trainee) throws SQLException, HibernateException, NullPointerException;
 
     /**
-     * method used to get employeeId from controller to pass the employeeId to dao
-     * @param {@link }  
-     * @return {@link List<Trainee>} returns trainees Data
-     */              
+     *
+     * <h1> getTrainersData </h1>
+     *
+     * method used to call the dao for get all trainer details 
+     *  
+     * @return {@link List<Trainer>} returns trainers Data
+     *
+     */                
     List<Trainer> getTrainersData() throws SQLException, HibernateException, NullPointerException;
 
     /**
+     *
+     * <h1> searchTrainerData </h1>
+     *
      * method used to get employeeId from controller to pass the employeeId to dao
-     * @param {@link String} employeeId
-     * @param {@link }  
+     *
+     * @param {@link int} trainer Id
      * @return {@link Trainer} returns trainer Data
+     *
      */
     Trainer searchTrainerData(int trainerId) throws SQLException, HibernateException, NullPointerException;
 
     /**
-     * method used to get employeeId from controller to pass the employeeId to dao
-     * @param {@link }  
+     *
+     * <h1> getTraineesData </h1>
+     *
+     * method used to call the dao for get all trainee details    
+     * 
      * @return {@link List<Trainee>} returns trainees Data
-     */             
+     *
+     */           
     List<Trainee> getTraineesData() throws SQLException, HibernateException, NullPointerException;
 
     /**
-     * method used to get employeeId from controller to pass the employeeId to dao
-     * @param {@link String} employeeId
-     * @param {@link }  
-     * @return {@link Trainee} returns trainee Data
-     */
+     *
+     * <h1> getTraineesData </h1>
+     *
+     * method used to call the dao for get all trainee details    
+     * 
+     * @return {@link List<Trainee>} returns trainees Data
+     *
+     */    
     Trainee searchTraineeData(int traineeId) throws SQLException, HibernateException, NullPointerException;
 
     /**
+     *
+     * <h1> updateTrainerData </h1>
+     *
      * method used to get updated trainer details from controller to pass the details to dao
-     * @param {@link String} employeeId
+     * 
+     * @param {@link int} trainer Id
      * @param {@link Trainer} trainer object
-     * @param {@link }  
-     * @return {@link String} returns nothing
+     * @return {@link String} returns status of operation
+     *
      */ 
     String updateTrainerData(int trainerId, Trainer trainer) throws SQLException, HibernateException, NullPointerException;
 
     /**
+     *
+     * <h1> updateTraineeData </h1>
+     *
      * method used to get updated trainee details from controller to pass the details to dao
-     * @param {@link String} employeeId
+     *
+     * @param {@link int} trainee Id
      * @param {@link Trainee} trainee object
-     * @param {@link }  
-     * @return {@link String} returns nothing
+     * @return {@link String} returns status of operation
+     *
      */
     String updateTraineeData(int traineeId, Trainee trainee) throws SQLException, HibernateException, NullPointerException;
 
     /**
+     *
+     * <h1> deleteTrainerData </h1>
+     *
      * method used to get employeeId from controller to pass the employeeId to dao
+     *
      * @param {@link String} employeeId
-     * @param {@link }  
-     * @return {@link String} returns nothing
-     */
+     * @return {@link String} returns status of operation
+     *
+     */   
     String deleteTrainerData(int trainerId) throws SQLException, HibernateException, NullPointerException;
 
     /**
+     *
+     * <h1> deleteTraineeData </h1>
+     *
      * method used to get employeeId from controller to pass the employeeId to dao for deleting trainer details
-     * @param {@link String} employeeId
-     * @param {@link }  
-     * @return {@link String} returns nothing
+     *
+     * @param {@link int} trainee Id 
+     * @return {@link String} returns status of operation
+     *
      */ 
     String deleteTraineeData(int traineeId) throws SQLException, HibernateException, NullPointerException;
 

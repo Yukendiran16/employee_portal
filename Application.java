@@ -31,8 +31,9 @@ public class Application {
     
     public static void main(String[] args)  {
 
-    
-    Logger logger = LoggerFactory.getLogger(Application.class);
+        Logger logger = LoggerFactory.getLogger(Application.class);
+        TrainerController trainerController = new TrainerController();
+        TraineeController traineeController = new TraineeController();
        
         logger.info("\n----------------------------------------------"+
                     "\n*************WELCOME TO IDEAS2IT**************"+
@@ -41,27 +42,27 @@ public class Application {
         boolean isContinue = true; 
         
         while (isContinue) {
-
-            logger.info("\nEnter 1 for Trainer realted operation\n"+ 
-		        "Enter 2 for Trainee related operation\n" +
+            logger.info("\nEnter 1 for Trainer realted operation\n" +
+                        "Enter 2 for Trainee related operation\n" + 
                         "Enter 3 for Exit");
+           
             try {
                 String option = scanner.next();
 
-                switch (option){
-
-                    case "1":
-                        TrainerController.trainerMenu();
-                        break;
-                    case "2":    
-                        TraineeController.traineeMenu();
-                        break;   
-                    case "3":
-                        isContinue = false;
-                        break; 
-                    default :
-                        break;
+                switch (option) {
+                case "1":
+                    trainerController.viewTrainerMenu();
+                    break;
+                case "2":    
+                    traineeController.viewTraineeMenu();
+                    break;   
+                case "3":
+                    isContinue = false;
+                    break; 
+                default :
+                    break;
                 }
+
             } catch (InputMismatchException e) {
                 logger.error("\ninvalid data : " + e);
             }
