@@ -14,19 +14,18 @@ import com.ideas2it.model.Trainer;
 
 /**
  *
- *<h2>EmployeeService</h2>
- *
+ * <h2>EmployeeService</h2>
+ * <p>
  * The EmployeeService class is an Interface and 
  * The class implements an application that
  * defines signature of all methods used in EmployeeServiceImpl class
  * EmployeeServiceImpl is an implementation of this Interface
- *
+ * </p>
  * @author  Yukendiran K
  * @version 1.0
  * @since   2022-08-04
  * 
  */
-
 public interface EmployeeService {
 
     /**

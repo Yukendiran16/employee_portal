@@ -17,12 +17,12 @@ import com.ideas2it.hibernateUtil.HibernateFactory;
 /**
  *
  * <h2>EmployeDao</h2>
- *
+ * <p>
  * The EmployeeDao class is an Interface and 
  * The class implements an application that
  * defines signature of all methods used in EmployeeDaoImpl class
  * EmployeeDaoImpl is an implementation of this Interface
- *
+ * </p>
  * @author  Yukendiran K
  * @version 1.0
  * @since   2022-08-04 

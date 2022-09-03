@@ -12,12 +12,12 @@ import com.ideas2it.exception.EmailMismatchException;
 /**
  *
  * <h2>EmployeeUtil</h2>
- * 
+ * <p>
  * The class implements an application that
  * defines create trainer id, trainee id and 
  * all user input validations will be performed
  * and return validated input's to controller. 
- *
+ * </p>
  * @author  Yukendiran K
  * @version 1.0
  * @since   2022-08-04 
@@ -103,13 +103,12 @@ public class EmployeeUtil {
      * @return {@link boolean} returns boolean
      *
      */
-    public static boolean validationOfMail(String identifier) throws EmailMismatchException {
+    public static void validationOfMail(String identifier) throws EmailMismatchException {
         boolean mail = EmailValidator.getInstance().isValid(identifier);
 
         if (mail == false) {
             throw new EmailMismatchException("invalid email");
         } 
-        return mail;
     }
 }
 

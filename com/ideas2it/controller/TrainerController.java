@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.*;
 import java.util.UUID;
 
 import org.hibernate.HibernateException;
@@ -20,6 +21,20 @@ import com.ideas2it.service.EmployeeService;
 import com.ideas2it.service.impl.EmployeeServiceImpl;
 import com.ideas2it.util.EmployeeUtil;
 
+/**
+ *
+ * <h2> TrainerController </h2>
+ * <p>
+ * The TrainerController class is an application that
+ * do the main operation create, read, update, delete 
+ * if one will be choosen the respect operation performs 
+ * until user exit the operation is same for all operation 
+ * </p>
+ * @author  Yukendiran K
+ * @version 1.0
+ * @since   2022-08-04 
+ *
+ */
 public class TrainerController {
 
     private EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
@@ -30,7 +45,7 @@ public class TrainerController {
      *
      * <h1> Trainer Menu </h1>
      *
-     * method used to presents the main menu for trainer related operation
+     * Method used to presents the main menu for trainer related operation
      * 
      * operations are......
      * ----> create user profile and store in database
@@ -51,16 +66,16 @@ public class TrainerController {
 
             try {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("\nEnter 1 for Create trainee details in database\n");
-	        stringBuilder.append("Enter 2 for Read   trainee details in database\n"); 
-		stringBuilder.append("Enter 3 for Update trainee details in database\n"); 
-	        stringBuilder.append("Enter 4 for Delete trainee details in database\n");
-                stringBuilder.append("Enter 5 for assign trainer for trainees\n");
-                stringBuilder.append("Enter 6 for Exit  \n\n\n");
-                stringBuilder.append("----------------------------------------------");
-                stringBuilder.append("\n----------------------------------------------");
-                stringBuilder.append("\n***************** THANK YOU ******************");
-                stringBuilder.append("\n----------------------------------------------");
+                stringBuilder.append("\nEnter 1 for Create trainee details in database\n")
+	                     .append("Enter 2 for display   trainee details in database\n")
+		             .append("Enter 3 for Update trainee details in database\n") 
+	                     .append("Enter 4 for Delete trainee details in database\n")
+                             .append("Enter 5 for assign trainer for trainees\n")
+                             .append("Enter 6 for Exit  \n\n\n")
+                             .append("----------------------------------------------")
+                             .append("\n----------------------------------------------")
+                             .append("\n***************** THANK YOU ******************")
+                             .append("\n----------------------------------------------");
                 logger.info("" + stringBuilder.substring(1,249));    
                 String userOption = scanner.next();
                 isContinue = Perform(userOption, isContinue);
@@ -85,7 +100,7 @@ public class TrainerController {
      *
      * <h1> PerformUserOperation </h1>
      *
-     * method used to select the which operation will be happens 
+     * Method used to select the which operation will be happens 
      * 
      * operations are......
      * ----> create user profile and store in database
@@ -102,27 +117,26 @@ public class TrainerController {
     public boolean Perform(String userOption, boolean isContinue) throws InputMismatchException, SQLException, HibernateException, NullPointerException {
  
         switch (userOption) {
-
-            case "1":	   
-     	        createTrainerData();                
-                break;
-            case "2":
-                readTrainerData();                
-                break;
-            case "3":
-                updateTrainerData();
-                break; 
-            case "4":
-                removeTrainerData();                
-                break;
-            case "5":
-                assignTrainerForTrainees();
-                break;
-            case "6":
-                isContinue = false;
-                break;
-            default:
-                break;
+        case "1":	   
+            createTrainerData();                
+            break;
+        case "2":
+            displayTrainerData();                
+            break;
+        case "3":
+            updateTrainerData();
+            break; 
+        case "4":
+            removeTrainerData();                
+            break;
+        case "5":
+            assignTrainerForTrainees();
+            break;
+        case "6":
+            isContinue = false;
+            break;
+        default:
+            break;
         }
         return isContinue;
     }
@@ -131,7 +145,7 @@ public class TrainerController {
      *
      * <h1> createTrainerProfile </h1>
      *
-     * method used to create Trainer profile  
+     * Method used to create Trainer profile  
      *
      * @return {@link void} returns nothing
      */
@@ -146,7 +160,7 @@ public class TrainerController {
             logger.info(" \nIf you want to continue\n" + "1.yes\n" + "2.no");
             String userOption = scanner.next();
             logger.info("----------------------------------------------");
-            isContinue = !(userOption.equals("2"));                   
+            isContinue = (userOption.equals("1"));                   
         }
     }
 
@@ -154,7 +168,7 @@ public class TrainerController {
      *
      * <h1> getAndSetData </h1>
      *
-     * method used to get and set details and store in database
+     * Method used to get and set details and store in database
      *
      * @return {@link void} returns nothing
      *
@@ -176,12 +190,12 @@ public class TrainerController {
      *
      * <h1> displayTrainerData </h1>
      *
-     * method used to select display choise of trainer details 
+     * Method used to select display choise of trainer details 
      *
      * @return {@link void} returns nothing
      *
      */
-    public void readTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
+    public void displayTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
         
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
@@ -192,13 +206,13 @@ public class TrainerController {
             logger.info("\n----------------------------------------------"); 
 
             if (userOption.equals("1")) {
-                readWholeTrainerData();
+                displayWholeTrainerData();
             } else {
-                readParticularTrainerData();
+                displayParticularTrainerData();
             }        
             logger.info("\nif you want to continue\n" + "1.yes\n" + "2.no"); 
             userOption = scanner.next();          
-            isContinue = !(userOption.equals("2")); 
+            isContinue = (userOption.equals("1")); 
         }
     }
 
@@ -206,27 +220,28 @@ public class TrainerController {
      *
      * <h1> displayWholeTrainerData </h1>
      *
-     * method used to display all trainer details 
+     * Method used to display all trainer details 
      *
      * @return {@link void} returns nothing
      *
      */
-    public void readWholeTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
+    public void displayWholeTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
 
         List<Trainer> trainers = employeeService.getTrainersData();
 
         if (trainers == null) {
             logger.info("\nNo data found");
         } else {
-            trainers.forEach(trainer -> { StringBuilder stringBuilder = new StringBuilder();
-                                        stringBuilder.append("Trainer Detail : "); 
-                                        stringBuilder.append("Employee Id         : "+trainer.getTrainerId());
-                                        stringBuilder.append("Trainer Name        : "+trainer.getEmployeeName());
-                                        stringBuilder.append("Trainer Designation : "+trainer.getEmployeeDesignation());
-                                        stringBuilder.append("Trainer Mail        : "+trainer.getEmployeeMail());
-                                       	stringBuilder.append("Trainer MobileNumber: "+trainer.getEmployeeMobileNumber());
-                                        stringBuilder.append("Current Address     : "+trainer.getCurrentAddress());
-                                        logger.info("----------------------------------------------" + stringBuilder);});                             
+            trainers.forEach(trainer -> { 
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append("\nTrainer Detail : ")
+                                 .append("\nEmployee Id         : ").append(trainer.getTrainerId())
+                                 .append("\nTrainer Name        : ").append(trainer.getEmployeeName())
+                                 .append("\nTrainer Designation : ").append(trainer.getEmployeeDesignation())
+                                 .append("\nTrainer Mail        : ").append(trainer.getEmployeeMail())
+                                 .append("\nTrainer MobileNumber: ").append(trainer.getEmployeeMobileNumber())
+                                 .append("\nCurrent Address     : ").append(trainer.getCurrentAddress());
+            logger.info("----------------------------------------------" + stringBuilder);});                             
         }
     } 
 
@@ -234,41 +249,37 @@ public class TrainerController {
      *
      * <h1> displayParticularTrainerData </h1>
      *
-     * method used to particular trainer details 
+     * Method used to particular trainer details 
      *
      * @return {@link void} returns nothing
      *
      */ 
-    public void readParticularTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
+    public void displayParticularTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("\nEnter TrainerId :");
-        boolean isValidId = true;
+        int trainerId = scanner.nextInt();
+        Trainer trainer = employeeService.searchTrainerData(trainerId);
 
-        while (isValidId) {
-            int trainerId = scanner.nextInt();
-            Trainer trainer = employeeService.searchTrainerData(trainerId);
-
-            if (trainer == null) {
-                logger.info("\nNo data found\n" + "Enter valid Id");
-                isValidId = true; 
-            } else {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("Trainer Detail : ");
-                stringBuilder.append("Trainer Id          : " + trainer.getTrainerId());
-                stringBuilder.append("Trainer Name        : " + trainer.getEmployeeName());
-                stringBuilder.append("Trainer Designation : " + trainer.getEmployeeDesignation());
-                stringBuilder.append("Trainer Mail        : " + trainer.getEmployeeMail());
-                stringBuilder.append("Trainer MobileNumber: " + trainer.getEmployeeMobileNumber());
-                stringBuilder.append("Current Address     : " + trainer.getCurrentAddress());
-                logger.info("" + stringBuilder);
-                trainer.getTrainees().forEach(trainee -> { StringBuilder stringBuilder1 = new StringBuilder();
-                                                           stringBuilder1.append("Assigned Trainees :");
-                                                           stringBuilder1.append("Trainee Id          : " + trainee.getTraineeId());
-                                                           stringBuilder1.append("Trainee Name        : " + trainee.getEmployeeName());
-                                                           logger.info("-----------------------------------------------" + stringBuilder1);});
-                isValidId = false;
-            }
+        if (trainer != null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("\nTrainer Detail : ")
+                         .append("\nTrainer Id          : ").append(trainer.getTrainerId())
+                         .append("\nTrainer Name        : ").append(trainer.getEmployeeName())
+                         .append("\nTrainer Designation : ").append(trainer.getEmployeeDesignation())
+                         .append("\nTrainer Mail        : ").append(trainer.getEmployeeMail())
+                         .append("\nTrainer MobileNumber: ").append(trainer.getEmployeeMobileNumber())
+                         .append("\nCurrent Address     : ").append(trainer.getCurrentAddress())
+                         .append("\n\nAssigned Trainees........ :");
+            logger.info("" + stringBuilder);
+            trainer.getTrainees().forEach(trainee -> { 
+                    StringBuilder stringBuilder1 = new StringBuilder();
+                    stringBuilder1.append("\nTrainee Id          : ").append(trainee.getTraineeId())
+                                  .append("\tTrainee Name        : ").append(trainee.getEmployeeName());
+                    logger.info("" + stringBuilder1);  });
+            
+        } else {
+            logger.info("no data found");
         }
     }
 
@@ -276,7 +287,7 @@ public class TrainerController {
      *
      * <h1> updateTrainerData </h1>
      *
-     * method used to update the changes for trainer details 
+     * Method used to update the changes for trainer details 
      *
      * @return {@link void} returns nothing
      *
@@ -287,26 +298,20 @@ public class TrainerController {
         boolean isContinue = true;
 
         while (isContinue) {
-           boolean isValidId = true;
-
-           while (isValidId) {
-                logger.info("\nEnter EmployeeId :");                
-                int trainerId = scanner.nextInt();                                 
-                Trainer trainer = employeeService.searchTrainerData(trainerId);
-
-                if (trainer == null) {               
-                    logger.info("\nno data found\n" + "Enter valid Id");
-                    isValidId = true; 
-                } else {
-                    Trainer updateTrainer = getInformationForUpdateTrainer(trainer);
-                    String message = employeeService.updateTrainerData(trainerId, updateTrainer);
-                    logger.info("" + message);
-                    isValidId = false;
-                }
+            logger.info("\nEnter EmployeeId :");                
+            int trainerId = scanner.nextInt();                                 
+            Trainer trainer = employeeService.searchTrainerData(trainerId);
+ 
+            if (trainer != null) {
+                Trainer updateTrainer = getInformationForUpdateTrainer(trainer);
+                String message = employeeService.updateTrainerData(trainerId, updateTrainer);
+                logger.info("" + message);
+            } else {               
+                logger.info("\nno data found\n");
             }
             logger.info("\nif you want to continue\n" + "1.yes\n" + "2.no"); 
             String userOption = scanner.next();
-            isContinue = !(userOption.equals("2"));
+            isContinue = (userOption.equals("1"));
         }
     }
 
@@ -314,7 +319,7 @@ public class TrainerController {
      *
      * <h1> removeTrainerData </h1>
      *
-     * method used to remove trainer details  
+     * Method used to remove trainer details  
      *
      * @return {@link void} returns nothing
      *
@@ -325,19 +330,19 @@ public class TrainerController {
         boolean isContinue = true;
 
         while (isContinue) {
-            boolean isValidId = true;      
-
-            while (isValidId) {
-                logger.info("\nEnter EmployeeId :");
-                int trainerId = scanner.nextInt();
+            logger.info("\nEnter EmployeeId :");                
+            int trainerId = scanner.nextInt();                                 
+            Trainer trainer = employeeService.searchTrainerData(trainerId);
+ 
+            if (trainer != null) {
                 String message = employeeService.deleteTrainerData(trainerId);
                 logger.info("" + message);
-                isValidId = false;
+            } else {               
+                logger.info("\nno data found\n");
             }
-            logger.info("\nIf you want to continue : \n" + "1.yes\n" + "2.no" );
+            logger.info("\nif you want to continue\n" + "1.yes\n" + "2.no"); 
             String userOption = scanner.next();
-            logger.info("\n----------------------------------------------");
-            isContinue = !(userOption.equals("2")); 
+            isContinue = (userOption.equals("1"));
         }
     }
 
@@ -345,7 +350,7 @@ public class TrainerController {
      *
      * <h1> assignTrainerForTrainees </h1>
      *
-     * method used to assign trainer for multiple trainees 
+     * Method used to assign trainer for multiple trainees 
      *
      * @return {@link void} returns nothing
      *
@@ -365,15 +370,15 @@ public class TrainerController {
             logger.info("\nIf you want to continue : \n" + "1.yes\n" + "2.no" );
             String userOption = scanner.next();
             logger.info("\n----------------------------------------------");
-            isContinue = !(userOption.equals("2"));
+            isContinue = (userOption.equals("1"));
         }
-    }
+    } 
 
     /**
      *
      * <h1> getTraineesForAssignTrainer </h1>
      *
-     * method used to get trainees for assign trainer 
+     * Method used to get trainees for assign trainer 
      *
      * @param {@link Trainer} trainer
      * @return {@link List<Trainees>} returns list of trainees 
@@ -383,7 +388,12 @@ public class TrainerController {
 
         Scanner scanner = new Scanner(System.in);
         List<Trainee> trainees = employeeService.getTraineesData();
-
+        trainees.forEach(trainee -> { 
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append("\nTrainee Id          : ").append(trainee.getTraineeId())
+                                 .append("\tTrainee Name        : ").append(trainee.getEmployeeName());
+                    logger.info("" + stringBuilder);  });
+            
         if (trainees == null) {
             logger.info("\nNo data found");
         } else {
@@ -391,16 +401,15 @@ public class TrainerController {
             int traineeId;
 
             do {  
-                traineeId = scanner.nextInt();               
-
+                traineeId = scanner.nextInt();
+                int temp =  traineeId;               
                 if (traineeId != 0) {
-
-                    for (Trainee traineeById : trainees) {
-
-                        if (traineeId == traineeById.getTraineeId()) {
-                            trainer.getTrainees().add(traineeById);
-                        }
-                    }
+                    List<Trainee> trainee = trainees.stream().
+                            filter(filteredTrainee -> filteredTrainee.getTraineeId() == temp).
+                            collect(Collectors.toList());
+                    trainer.getTrainees().add(trainee.get(0));
+                } else {
+                    logger.info("couldn't found entered trainee");
                 }
             } while (traineeId != 0); 
         }  
@@ -411,7 +420,7 @@ public class TrainerController {
      *
      * <h1> getInformationFromTrainer </h1>
      *
-     * method used to get trainer details from user for create profile
+     * Method used to get trainer details from user for create profile
      *
      * @param {@link String} uuid
      * @return {@link Trainer} returns trainer
@@ -420,19 +429,17 @@ public class TrainerController {
     public Trainer getInformationFromTrainer(String uuid) throws SQLException {
 
         Trainer trainer = new Trainer();
-        boolean isValid = true;
-
         trainer.setUuid(uuid); 
-        getTrainerName(trainer, isValid);
-        getTrainerDateofBirth(trainer, isValid);
-        getTrainerDesignation(trainer, isValid);
-        getTrainerMailId(trainer, isValid);
-        getTrainerMobileNumber(trainer, isValid);
-        getTrainerAddress(trainer, isValid);
-        getTrainerAadharNumber(trainer, isValid);
-        getTrainerPanNumber(trainer, isValid);
-        getTrainerCurrentProject(trainer, isValid);
-        getTrainerAchievement(trainer, isValid);
+        getTrainerName(trainer);
+        getTrainerDateofBirth(trainer);
+        getTrainerDesignation(trainer);
+        getTrainerMailId(trainer);
+        getTrainerMobileNumber(trainer);
+        getTrainerAddress(trainer);
+        getTrainerAadharNumber(trainer);
+        getTrainerPanNumber(trainer);
+        getTrainerCurrentProject(trainer);
+        getTrainerAchievement(trainer);
         return trainer;
     }
 
@@ -440,7 +447,7 @@ public class TrainerController {
      *
      * <h1> getInformationFofUpdateTrainer </h1>
      *
-     * method used to get trainer details from user for update profile
+     * Method used to get trainer details from user for update profile
      *
      * @param {@link Trainer} trainer
      * @return {@link Trainer} returns trainer
@@ -448,17 +455,16 @@ public class TrainerController {
      */ 
     public Trainer getInformationForUpdateTrainer(Trainer trainer) throws SQLException {
  
-        boolean isValid = true;
-        getName(trainer, isValid);
-        getDateofBirth(trainer, isValid);
-        getDesignation(trainer, isValid);
-        getMailId(trainer, isValid);
-        getMobileNumber(trainer, isValid);
-        getAddress(trainer, isValid);
-        getAadharNumber(trainer, isValid);
-        getPanNumber(trainer, isValid);
-        getCurrentProject(trainer, isValid);
-        getAchievement(trainer, isValid);
+        getName(trainer);
+        getDateofBirth(trainer);
+        getDesignation(trainer);
+        getMailId(trainer);
+        getMobileNumber(trainer);
+        getAddress(trainer);
+        getAadharNumber(trainer);
+        getPanNumber(trainer);
+        getCurrentProject(trainer);
+        getAchievement(trainer);
         return trainer;
     }
 
@@ -466,33 +472,27 @@ public class TrainerController {
      *
      * <h1> getTrainerName </h1>
      *
-     * method used to get trainer name from user
+     * Method used to get trainer name from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerName(Trainer trainer,boolean  isValid) {
+    public void getTrainerName(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in); 
 	logger.info("Enter Trainer Name : ");
         String name = scanner.nextLine();
 
         if (!name.isEmpty()) {
-            boolean isValidName = true;
+            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
 
-            while (isValidName) {
-                isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
-
-                if (isValid) {
-                    trainer.setEmployeeName(name);
-                    isValidName = false;
-                } else {
-                   logger.info("not valid");
-                   name = scanner.nextLine();
-                }
-            }            	    
+            if (isValid) {
+                trainer.setEmployeeName(name);
+            } else {
+                logger.info("not valid");
+                getTrainerName(trainer);
+            }       	    
         }
     }
 
@@ -500,34 +500,29 @@ public class TrainerController {
      *
      * <h1> getTrainerDateofBirth </h1>
      *
-     * method used to get trainer date of birth from user
+     * Method used to get trainer date of birth from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
+
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerDateofBirth(Trainer trainer,boolean  isValid) {
+    public void getTrainerDateofBirth(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer DateOfBirth MM/DD/YYYY:");
         String employeeDateOfBirth = scanner.nextLine();
 
         if (!employeeDateOfBirth.isEmpty()) {
-            boolean isValidDOB = true;
+            boolean isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
 
-            while (isValidDOB) {
-                isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
-
-                if (isValid) {
-                    String[] date = employeeDateOfBirth.split("/");
-                    employeeDateOfBirth = date[2]+"-"+date[0]+"-"+date[1];
-                    trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
-                    isValidDOB = false;
-                } else {
-                   logger.info("not valid");
-                   employeeDateOfBirth = scanner.nextLine();
-                }
+            if (isValid) {
+                String[] date = employeeDateOfBirth.split("/");
+                employeeDateOfBirth = date[2]+"-"+date[0]+"-"+date[1];
+                trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
+            } else {
+                logger.info("not valid");
+                getTrainerDateofBirth(trainer);
             }
         }
     }
@@ -536,32 +531,26 @@ public class TrainerController {
      *
      * <h1> getTrainerDesignation </h1>
      *
-     * method used to get trainer designation from user
+     * Method used to get trainer designation from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerDesignation(Trainer trainer,boolean  isValid) {
+    public void getTrainerDesignation(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer Designation : ");
         String designation = scanner.nextLine();
 
         if (!designation.isEmpty()) {
-            boolean isValidDesignation = true;
+            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
 
-            while (isValidDesignation) {
-                isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
-
-                if (isValid) {
-                    trainer.setEmployeeDesignation(designation);
-                    isValidDesignation = false;
-                } else {
-                   logger.info("not valid");
-                   designation = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setEmployeeDesignation(designation);
+            } else {
+                logger.info("not valid");
+                getTrainerDesignation(trainer);
             }	    
         }  
     }
@@ -570,32 +559,27 @@ public class TrainerController {
      *
      * <h1> getTrainerMailId </h1>
      *
-     * method used to get trainer mail Id from user
+     * Method used to get trainer mail Id from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerMailId(Trainer trainer,boolean  isValid) {
+    public void getTrainerMailId(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainer Mail : ");
-        boolean isValidMail = true;
+        String mail = scanner.nextLine();
 
-        while (isValidMail) {
-            String mail = scanner.nextLine();
-
-            if (!mail.isEmpty()) {
-                try {
-                    isValid = util.validationOfMail(mail);
-                    trainer.setEmployeeMail(mail);
-                    isValidMail = false;                 
-
-                } catch (EmailMismatchException e) {
-                    logger.error("Exception occured :" + e);
-                }
-            }	             
+        if (!mail.isEmpty()) {
+                
+            try {
+                util.validationOfMail(mail);
+                trainer.setEmployeeMail(mail);            
+            } catch (EmailMismatchException e) {
+                logger.error("Exception occured :" + e);
+                getTrainerMailId(trainer);
+            }             
         }
     }
 
@@ -603,32 +587,26 @@ public class TrainerController {
      *
      * <h1> getTrainerMobileNumber </h1>
      *
-     * method used to get trainer mobile number from user
+     * Method used to get trainer mobile number from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */  
-    public void getTrainerMobileNumber(Trainer trainer,boolean  isValid) {
+    public void getTrainerMobileNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);     
 	logger.info("Enter Trainer MobileNumber : ");
         String mobileNumber = scanner.nextLine();
 
         if (!mobileNumber.isEmpty()) {
-            boolean isValidMobileNumber = true;
+            boolean isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
 
-            while (isValidMobileNumber) {
-                isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
-
-                if (isValid) {
-                    trainer.setEmployeeMobileNumber(mobileNumber);
-                    isValidMobileNumber = false;
-                } else {
-                   logger.info("not valid");
-                   mobileNumber = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setEmployeeMobileNumber(mobileNumber);
+            } else {
+                logger.info("not valid");
+                getTrainerMobileNumber(trainer);
             }	    
         }
     }
@@ -637,32 +615,26 @@ public class TrainerController {
      *
      * <h1> getTrainerAddress </h1>
      *
-     * method used to get trainer address from user
+     * Method used to get trainer address from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */         
-    public void getTrainerAddress(Trainer trainer,boolean  isValid) {
+    public void getTrainerAddress(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainer CurrentAddress : ");
         String currentAddress = scanner.nextLine();
 
         if (!currentAddress.isEmpty()) {
-            boolean isValidAddress = true;
+            boolean isValid = util.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
 
-            while (isValidAddress) {
-                isValid = util.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
-
-                if (isValid) {
-                    trainer.setCurrentAddress(currentAddress);
-                    isValidAddress = false;
-                } else {
-                   logger.info("not valid");
-                   currentAddress = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setCurrentAddress(currentAddress);
+            } else {
+                logger.info("not valid");
+                getTrainerAddress(trainer);
             }	    
         }
     }
@@ -671,32 +643,26 @@ public class TrainerController {
      *
      * <h1> getTrainerAadharNumber </h1>
      *
-     * method used to get trainer aadhar number from user
+     * Method used to get trainer aadhar number from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerAadharNumber(Trainer trainer,boolean  isValid) {
+    public void getTrainerAadharNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
 
         if (!aadharNumber.isEmpty()) {
-            boolean isValidAadharCardNumber = true;
+            boolean isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
 
-            while (isValidAadharCardNumber) {
-                isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
-
-                if (isValid) {
-                    trainer.setAadharCardNumber(aadharNumber);
-                    isValidAadharCardNumber = false;
-                } else {
-                   logger.info("not valid");
-                   aadharNumber = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setAadharCardNumber(aadharNumber);
+            } else {
+                logger.info("not valid");
+                getTrainerAadharNumber(trainer);
             }	    
         }
     }
@@ -705,32 +671,26 @@ public class TrainerController {
      *
      * <h1> getTrainerPanNumber </h1>
      *
-     * method used to get trainer pan number from user
+     * Method used to get trainer pan number from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerPanNumber(Trainer trainer,boolean  isValid) {
+    public void getTrainerPanNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer PanCardNumber : ");            
         String panNumber = scanner.nextLine();
 
         if (!panNumber.isEmpty()) {
-            boolean isValidPanCardNumber = true;
+            boolean isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
 
-            while (isValidPanCardNumber) {
-                isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
-
-                if (isValid) {
-                    trainer.setPanCardNumber(panNumber);
-                    isValidPanCardNumber = false;
-                } else {
-                   logger.info("not valid");
-                   panNumber = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setPanCardNumber(panNumber);
+            } else {
+                logger.info("not valid");
+                getTrainerPanNumber(trainer);
             }	    
         }
     }
@@ -739,33 +699,28 @@ public class TrainerController {
      *
      * <h1> getTrainerCurrentProject </h1>
      *
-     * method used to get trainer current project from user
+     * Method used to get trainer current project from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
+
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerCurrentProject(Trainer trainer,boolean  isValid) {
+    public void getTrainerCurrentProject(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter your currentProject : ");            
         String currentProject = scanner.nextLine();
 
         if (!currentProject.isEmpty()) {
-            boolean isValidCurrentProject = true;
+            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
 
-            while (isValidCurrentProject) {
-                isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
-
-                if (isValid) {
-                    trainer.setCurrentProject(currentProject);
-                    isValidCurrentProject = false;
-                } else {
-                   logger.info("not valid");
-                   currentProject = scanner.nextLine();
-                }
-            }	    
+            if (isValid) {
+                trainer.setCurrentProject(currentProject);
+            } else {
+                logger.info("not valid");
+                getTrainerCurrentProject(trainer);
+            }
         }
     }
 
@@ -773,33 +728,27 @@ public class TrainerController {
      *
      * <h1> getTrainerAchievement </h1>
      *
-     * method used to get trainer achievement from user
+     * Method used to get trainer achievement from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerAchievement(Trainer trainer,boolean  isValid) {
+    public void getTrainerAchievement(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);	
 	logger.info("Enter your achievements : ");            
         String achievement = scanner.nextLine();
 
         if (!achievement.isEmpty()) {
-            boolean isValidAchievement = true;
+            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
 
-            while (isValidAchievement) {
-                isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
-
-                if (isValid) {
-                    trainer.setAchievement(achievement);
-                    isValidAchievement = false;
-                } else {
-                   logger.info("not valid");
-                   achievement = scanner.nextLine();
-                }
-            }	    
+            if (isValid) {
+                trainer.setAchievement(achievement);
+            } else {
+                logger.info("not valid");
+                getTrainerAchievement(trainer);
+            }
         }
     }
 
@@ -807,33 +756,27 @@ public class TrainerController {
      *
      * <h1> getName </h1>
      *
-     * method used to get trainer name from user
+     * Method used to get trainer name from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getName(Trainer trainer,boolean  isValid) {
+    public void getName(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in); 
 	logger.info("Enter Trainer Name : ");
         String name = scanner.nextLine();
 
         if (!name.isEmpty()) {
-            boolean isValidName = true;
+            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
 
-            while (isValidName) {
-                isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
-
-                if (isValid) {
-                    trainer.setEmployeeName(name);
-                    isValidName = false;
-                } else {
-                   logger.info("not valid");
-                   name = scanner.nextLine();
-                }
-            }            	    
+            if (isValid) {
+                trainer.setEmployeeName(name);
+            } else {
+                logger.info("not valid");
+                getName(trainer);
+            }           	    
         }
     }
 
@@ -841,35 +784,28 @@ public class TrainerController {
      *
      * <h1> getDateofBirth </h1>
      *
-     * method used to get trainer date of birth from user
+     * Method used to get trainer date of birth from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getDateofBirth(Trainer trainer,boolean  isValid) {
-
+    public void getDateofBirth(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);	
         logger.info("Enter Trainer DateOfBirth MM/DD/YYYY:");
         String employeeDateOfBirth = scanner.nextLine();
 
         if (!employeeDateOfBirth.isEmpty()) {
-            boolean isValidDOB = true;
+            boolean isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
 
-            while (isValidDOB) {
-                isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
-
-                if (isValid) {
-                    String[] date = employeeDateOfBirth.split("/");
-                    employeeDateOfBirth = date[2]+"-"+date[0]+"-"+date[1];
-                    trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
-                    isValidDOB = false;
-                } else {
-                   logger.info("not valid");
-                   employeeDateOfBirth = scanner.nextLine();
-                }
+            if (isValid) {
+                String[] date = employeeDateOfBirth.split("/");
+                employeeDateOfBirth = date[2]+"-"+date[0]+"-"+date[1];
+                trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
+            } else {
+                logger.info("not valid");
+                getDateofBirth(trainer);
             }
         }
     }
@@ -878,33 +814,27 @@ public class TrainerController {
      *
      * <h1> getDesignation </h1>
      *
-     * method used to get trainer designation from user
+     * Method used to get trainer designation from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getDesignation(Trainer trainer,boolean  isValid) {
+    public void getDesignation(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer Designation : ");
         String designation = scanner.nextLine();
 
         if (!designation.isEmpty()) {
-            boolean isValidDesignation = true;
+            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
 
-            while (isValidDesignation) {
-                isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
-
-                if (isValid) {
-                    trainer.setEmployeeDesignation(designation);
-                    isValidDesignation = false;
-                } else {
-                   logger.info("not valid");
-                   designation = scanner.nextLine();
-                }
-            }	    
+            if (isValid) {
+                trainer.setEmployeeDesignation(designation);
+            } else {
+                logger.info("not valid");
+                getDesignation(trainer);
+            }  
         }  
     }
 
@@ -912,32 +842,27 @@ public class TrainerController {
      *
      * <h1> getMailId </h1>
      *
-     * method used to get trainer mail Id  from user
+     * Method used to get trainer mail Id  from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getMailId(Trainer trainer,boolean  isValid) {
+    public void getMailId(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainer Mail : ");
-        boolean isValidMail = true;
+        String mail = scanner.nextLine();
 
-        while (isValidMail) {
-            String mail = scanner.nextLine();
-
-            if (!mail.isEmpty()) {
-                try {
-                    isValid = util.validationOfMail(mail);
-                    trainer.setEmployeeMail(mail);
-                    isValidMail = false;                 
-
-                } catch (EmailMismatchException e) {
-                    logger.error("Exception occured :" + e);
-                }
-            }	             
+        if (!mail.isEmpty()) {
+           
+            try {
+                util.validationOfMail(mail);
+                trainer.setEmployeeMail(mail);                 
+            } catch (EmailMismatchException e) {
+                logger.error("Exception occured :" + e);
+                getMailId(trainer);
+            }             
         }
     }
 
@@ -945,32 +870,26 @@ public class TrainerController {
      *
      * <h1> getMobileNumber </h1>
      *
-     * method used to get trainer mobile number from user
+     * Method used to get trainer mobile number from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */  
-    public void getMobileNumber(Trainer trainer,boolean  isValid) {
+    public void getMobileNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);     
 	logger.info("Enter Trainer MobileNumber : ");
         String mobileNumber = scanner.nextLine();
 
         if (!mobileNumber.isEmpty()) {
-            boolean isValidMobileNumber = true;
+            boolean isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
 
-            while (isValidMobileNumber) {
-                isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
-
-                if (isValid) {
-                    trainer.setEmployeeMobileNumber(mobileNumber);
-                    isValidMobileNumber = false;
-                } else {
-                   logger.info("not valid");
-                   mobileNumber = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setEmployeeMobileNumber(mobileNumber);
+            } else {
+                logger.info("not valid");
+                getMobileNumber(trainer);
             }	    
         }
     }
@@ -979,32 +898,26 @@ public class TrainerController {
      *
      * <h1> getAddress </h1>
      *
-     * method used to get trainer address from user
+     * Method used to get trainer address from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */         
-    public void getAddress(Trainer trainer,boolean  isValid) {
+    public void getAddress(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainer CurrentAddress : ");
         String currentAddress = scanner.nextLine();
 
         if (!currentAddress.isEmpty()) {
-            boolean isValidAddress = true;
+            boolean isValid = util.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
 
-            while (isValidAddress) {
-                isValid = util.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
-
-                if (isValid) {
-                    trainer.setCurrentAddress(currentAddress);
-                    isValidAddress = false;
-                } else {
-                   logger.info("not valid");
-                   currentAddress = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setCurrentAddress(currentAddress);
+            } else {
+                logger.info("not valid");
+                getAddress(trainer);
             }	    
         }
     }
@@ -1013,32 +926,26 @@ public class TrainerController {
      *
      * <h1> getAadharNumber </h1>
      *
-     * method used to get trainer aadhar number from user
+     * Method used to get trainer aadhar number from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getAadharNumber(Trainer trainer,boolean  isValid) {
+    public void getAadharNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
 
         if (!aadharNumber.isEmpty()) {
-            boolean isValidAadharCardNumber = true;
+            boolean isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
 
-            while (isValidAadharCardNumber) {
-                isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
-
-                if (isValid) {
-                    trainer.setAadharCardNumber(aadharNumber);
-                    isValidAadharCardNumber = false;
-                } else {
-                   logger.info("not valid");
-                   aadharNumber = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setAadharCardNumber(aadharNumber);
+            } else {
+                logger.info("not valid");
+                getAadharNumber(trainer);
             }	    
         }
     }
@@ -1047,32 +954,26 @@ public class TrainerController {
      *
      * <h1> getPanNumber </h1>
      *
-     * method used to get trainer pan number from user
+     * Method used to get trainer pan number from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getPanNumber(Trainer trainer,boolean  isValid) {
+    public void getPanNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer PanCardNumber : ");            
         String panNumber = scanner.nextLine();
 
         if (!panNumber.isEmpty()) {
-            boolean isValidPanCardNumber = true;
+            boolean isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
 
-            while (isValidPanCardNumber) {
-                isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
-
-                if (isValid) {
-                    trainer.setPanCardNumber(panNumber);
-                    isValidPanCardNumber = false;
-                } else {
-                   logger.info("not valid");
-                   panNumber = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setPanCardNumber(panNumber);
+            } else {
+                logger.info("not valid");
+                getPanNumber(trainer);
             }	    
         }
     }
@@ -1081,32 +982,26 @@ public class TrainerController {
      *
      * <h1> getCurrentProject </h1>
      *
-     * method used to get trainer current project name from user
+     * Method used to get trainer current project name from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getCurrentProject(Trainer trainer,boolean  isValid) {
+    public void getCurrentProject(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter your currentProject : ");            
         String currentProject = scanner.nextLine();
 
         if (!currentProject.isEmpty()) {
-            boolean isValidCurrentProject = true;
+            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
 
-            while (isValidCurrentProject) {
-                isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
-
-                if (isValid) {
-                    trainer.setCurrentProject(currentProject);
-                    isValidCurrentProject = false;
-                } else {
-                   logger.info("not valid");
-                   currentProject = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setCurrentProject(currentProject);
+            } else {
+                logger.info("not valid");
+                getCurrentProject(trainer);
             }	    
         }
     }
@@ -1115,32 +1010,26 @@ public class TrainerController {
      *
      * <h1> getAchievement </h1>
      *
-     * method used to get trainer achievement from user
+     * Method used to get trainer achievement from user
      *
      * @param {@link Trainer} trainer
-     * @param {@link boolean} isValid
      * @return {@link void} returns nothing
      *
      */ 
-    public void getAchievement(Trainer trainer,boolean  isValid) {
+    public void getAchievement(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);	
-	logger.info("Enter your achievements : ");            
+	logger.info("Enter your achievement : ");            
         String achievement = scanner.nextLine();
 
         if (!achievement.isEmpty()) {
-            boolean isValidAchievement = true;
+            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
 
-            while (isValidAchievement) {
-                isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
-
-                if (isValid) {
-                    trainer.setAchievement(achievement);
-                    isValidAchievement = false;
-                } else {
-                   logger.info("not valid");
-                   achievement = scanner.nextLine();
-                }
+            if (isValid) {
+                trainer.setAchievement(achievement);
+            } else {
+                logger.info("not valid");
+                getAchievement(trainer);
             }	    
         }
     }

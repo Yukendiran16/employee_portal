@@ -21,14 +21,14 @@ import com.ideas2it.model.Trainer;
 /**
  *
  * <h2>EmployeDaoImpl</h2>
- *
+ * <p>
  * The EmployeeDaoImpl class is implements Employeedao and 
  * The class implements an application that
  * defines all methods used in EmployeeController class
  * the medhods perform insert, retrieve, update, and remove object in mysql database
  * it uses hibernate configuration file and perform operations
  * and return data's to EmployeeService 
- *
+ * </p>
  * @author  Yukendiran K
  * @version 1.0
  * @since   2022-08-04 
@@ -109,8 +109,9 @@ public class EmployeeDaoImpl implements EmployeeDao{
         
         try (Session session = HibernateFactory.getFactory().openSession();) {  
             transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Trainer.class);
-            criteria.add(Restrictions.eq("isActive", false));
+            Criteria criteria = session.createCriteria(Trainer.class)
+                    .add(Restrictions.eq("isActive", false))
+                    .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             trainers  = criteria.list();
         } catch (Exception e) {
             throw e; 
@@ -164,8 +165,9 @@ public class EmployeeDaoImpl implements EmployeeDao{
       
         try (Session session = HibernateFactory.getFactory().openSession();) {
             transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Trainee.class);
-            criteria.add(Restrictions.eq("isActive", false));
+            Criteria criteria = session.createCriteria(Trainee.class)
+                    .add(Restrictions.eq("isActive", false))
+                    .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             trainees = criteria.list();
         } catch (Exception e) {
             throw e; 

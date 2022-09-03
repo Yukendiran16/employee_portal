@@ -15,20 +15,19 @@ import com.ideas2it.service.EmployeeService;
 
 /**
  *
- *<h2>EmployeeServiceImpl</h2>
- *
+ * <h2>EmployeeServiceImpl</h2>
+ * <p>
  * The EmployeeServiceImpl class is implements EmployeeService and 
  * The class implements an application that
  * defines all methods used in EmployeeController class
  * the medhods perform pass the parameters to DAO class 
  * and return data's to controller from Dao
- *
+ * </p>
  * @author  Yukendiran K
  * @version 1.0
  * @since   2022-08-04 
  *
  */
-
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeDao employeeDao = new EmployeeDaoImpl();

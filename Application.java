@@ -1,32 +1,28 @@
-import java.util.InputMismatchException;
-
-import org.hibernate.HibernateException; 
-
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import org.hibernate.HibernateException; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
 
-import com.ideas2it.controller.TrainerController;
 import com.ideas2it.controller.TraineeController;
-
+import com.ideas2it.controller.TrainerController;
 
 /**
-*
-* <h2>EmployeController</h2>
-*
-* The EmployeeController class is an application that
-* do the main operation create, read, update, delete 
-* if one will be choosen the respect operation performs 
-* until user exit the operation is same for all operation 
-* 
-* @author  Yukendiran K
-* @version 1.0
-* @since   2022-08-04 
-*
-*/
-
+ *
+ * <h2>Application</h2>
+ * <p>
+ * The Application class is an application that
+ * main page for do whose operation perform now 
+ * if one will be choosen the respect operation performs 
+ * until user exit the operation is same for all operation 
+ * </p>
+ * @author  Yukendiran K
+ * @version 1.0
+ * @since   2022-08-04 
+ *
+ */
 public class Application {
     
     public static void main(String[] args)  {

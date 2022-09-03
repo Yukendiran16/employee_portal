@@ -1,19 +1,24 @@
 package com.ideas2it.hibernateUtil;
 
-import java.util.Date;
-import java.util.Iterator; 
-import java.util.List; 
-
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
  
-
 import org.hibernate.cfg.Configuration;
 import org.hibernate.HibernateException; 
-import org.hibernate.Session; 
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
+/*
+ *
+ * <h1> HibernateFactory </h1>
+ * <p>
+ * The class HibernateFactory is used to generate factory object
+ * for create sessions for connect hibernate sql database.
+ * </p>
+ * @author   Yukendiran K
+ * @version  1.0
+ * @since    24.8.2022
+ *
+ */
 public class HibernateFactory {
 
     private static SessionFactory factory;
