@@ -38,7 +38,7 @@ import com.ideas2it.util.EmployeeUtil;
 public class TrainerController {
 
     private EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
-    private EmployeeUtil util = new EmployeeUtil();
+    private EmployeeUtil employeeUtil = new EmployeeUtil();
     private Logger logger = LoggerFactory.getLogger(TrainerController.class);
 
     /**
@@ -402,14 +402,16 @@ public class TrainerController {
 
             do {  
                 traineeId = scanner.nextInt();
-                int temp =  traineeId;               
+                int temp =  traineeId;                
                 if (traineeId != 0) {
                     List<Trainee> trainee = trainees.stream().
                             filter(filteredTrainee -> filteredTrainee.getTraineeId() == temp).
                             collect(Collectors.toList());
-                    trainer.getTrainees().add(trainee.get(0));
-                } else {
-                    logger.info("couldn't found entered trainee");
+                    if (trainee.size() == 0) {
+                        logger.info("couldn't found entered trainee");
+                    } else {
+                        trainer.getTrainees().add(trainee.get(0));                        
+                    }
                 }
             } while (traineeId != 0); 
         }  
@@ -485,7 +487,7 @@ public class TrainerController {
         String name = scanner.nextLine();
 
         if (!name.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
+            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
 
             if (isValid) {
                 trainer.setEmployeeName(name);
@@ -514,7 +516,7 @@ public class TrainerController {
         String employeeDateOfBirth = scanner.nextLine();
 
         if (!employeeDateOfBirth.isEmpty()) {
-            boolean isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
+            boolean isValid = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
 
             if (isValid) {
                 String[] date = employeeDateOfBirth.split("/");
@@ -544,7 +546,7 @@ public class TrainerController {
         String designation = scanner.nextLine();
 
         if (!designation.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
+            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
 
             if (isValid) {
                 trainer.setEmployeeDesignation(designation);
@@ -574,7 +576,7 @@ public class TrainerController {
         if (!mail.isEmpty()) {
                 
             try {
-                util.validationOfMail(mail);
+                employeeUtil.validationOfMail(mail);
                 trainer.setEmployeeMail(mail);            
             } catch (EmailMismatchException e) {
                 logger.error("Exception occured :" + e);
@@ -600,7 +602,7 @@ public class TrainerController {
         String mobileNumber = scanner.nextLine();
 
         if (!mobileNumber.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
+            boolean isValid = employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
 
             if (isValid) {
                 trainer.setEmployeeMobileNumber(mobileNumber);
@@ -628,7 +630,7 @@ public class TrainerController {
         String currentAddress = scanner.nextLine();
 
         if (!currentAddress.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
+            boolean isValid = employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
 
             if (isValid) {
                 trainer.setCurrentAddress(currentAddress);
@@ -656,7 +658,7 @@ public class TrainerController {
         String aadharNumber = scanner.nextLine();
 
         if (!aadharNumber.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
+            boolean isValid = employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
 
             if (isValid) {
                 trainer.setAadharCardNumber(aadharNumber);
@@ -684,7 +686,7 @@ public class TrainerController {
         String panNumber = scanner.nextLine();
 
         if (!panNumber.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
+            boolean isValid = employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
 
             if (isValid) {
                 trainer.setPanCardNumber(panNumber);
@@ -713,7 +715,7 @@ public class TrainerController {
         String currentProject = scanner.nextLine();
 
         if (!currentProject.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
+            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
 
             if (isValid) {
                 trainer.setCurrentProject(currentProject);
@@ -741,7 +743,7 @@ public class TrainerController {
         String achievement = scanner.nextLine();
 
         if (!achievement.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
+            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
 
             if (isValid) {
                 trainer.setAchievement(achievement);
@@ -769,7 +771,7 @@ public class TrainerController {
         String name = scanner.nextLine();
 
         if (!name.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
+            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
 
             if (isValid) {
                 trainer.setEmployeeName(name);
@@ -797,7 +799,7 @@ public class TrainerController {
         String employeeDateOfBirth = scanner.nextLine();
 
         if (!employeeDateOfBirth.isEmpty()) {
-            boolean isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
+            boolean isValid = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
 
             if (isValid) {
                 String[] date = employeeDateOfBirth.split("/");
@@ -827,7 +829,7 @@ public class TrainerController {
         String designation = scanner.nextLine();
 
         if (!designation.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
+            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
 
             if (isValid) {
                 trainer.setEmployeeDesignation(designation);
@@ -857,7 +859,7 @@ public class TrainerController {
         if (!mail.isEmpty()) {
            
             try {
-                util.validationOfMail(mail);
+                employeeUtil.validationOfMail(mail);
                 trainer.setEmployeeMail(mail);                 
             } catch (EmailMismatchException e) {
                 logger.error("Exception occured :" + e);
@@ -883,7 +885,7 @@ public class TrainerController {
         String mobileNumber = scanner.nextLine();
 
         if (!mobileNumber.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
+            boolean isValid = employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
 
             if (isValid) {
                 trainer.setEmployeeMobileNumber(mobileNumber);
@@ -911,7 +913,7 @@ public class TrainerController {
         String currentAddress = scanner.nextLine();
 
         if (!currentAddress.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
+            boolean isValid = employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
 
             if (isValid) {
                 trainer.setCurrentAddress(currentAddress);
@@ -939,7 +941,7 @@ public class TrainerController {
         String aadharNumber = scanner.nextLine();
 
         if (!aadharNumber.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
+            boolean isValid = employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
 
             if (isValid) {
                 trainer.setAadharCardNumber(aadharNumber);
@@ -967,7 +969,7 @@ public class TrainerController {
         String panNumber = scanner.nextLine();
 
         if (!panNumber.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
+            boolean isValid = employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
 
             if (isValid) {
                 trainer.setPanCardNumber(panNumber);
@@ -995,7 +997,7 @@ public class TrainerController {
         String currentProject = scanner.nextLine();
 
         if (!currentProject.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
+            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
 
             if (isValid) {
                 trainer.setCurrentProject(currentProject);
@@ -1023,7 +1025,7 @@ public class TrainerController {
         String achievement = scanner.nextLine();
 
         if (!achievement.isEmpty()) {
-            boolean isValid = util.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
+            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
 
             if (isValid) {
                 trainer.setAchievement(achievement);

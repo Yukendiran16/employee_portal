@@ -17,13 +17,13 @@ import javax.persistence.Table;
 /**
  *
  * <h1> Trainer </h1>
- * <p>
+ *
  * The Trainer class is an POJO class and 
  * it extends Employee class
  * The class implements an application that
  * creates an properties of trainer and then
  * using getter and setters for getting and setting properties
- * </p>
+ * 
  * @author  Yukendiran K
  * @version 1.0
  * @since   2022-08-04 
@@ -36,7 +36,7 @@ public class Trainer extends Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "trainer_id")
+    @Column(name = "id")
     private int trainerId;
 
     @Column(name = "current_project")
@@ -45,10 +45,9 @@ public class Trainer extends Employee {
     @Column(name = "achievement")
     private String achievement;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(name = "trainer_id_trainee_id", 
-                       joinColumns = @JoinColumn(name = "trainer_id"), 
-	       	       inverseJoinColumns = @JoinColumn(name = "trainee_id"))
+    @ManyToMany(targetEntity = Trainee.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "trainer_id_trainee_id", joinColumns = @JoinColumn(name = "trainee_id"))
+	       	       inverseJoinColumns = @JoinColumn(name = "trainer_id"))
     private List<Trainee> trainees;
 
     public void setTrainerId(int trainerId) {

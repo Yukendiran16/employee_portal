@@ -6,12 +6,12 @@ import javax.persistence.MappedSuperclass;
 /**
  *
  * <h1> Employee </h1>
- * <p>
+ *
  * The Employee class is an POJO class
  * The class implements an application that
  * creates an properties of employee and then
  * using getter and setters for getting and setting properties
- * </p>
+ *
  * @author  Yukendiran K
  * @version 1.0
  * @since   2022-08-04 
@@ -60,7 +60,7 @@ public class Employee {
     public String getUuid() {
 	return uuid;
     }
-    
+
     public String getCompanyName() {
 	return companyName;
     }
