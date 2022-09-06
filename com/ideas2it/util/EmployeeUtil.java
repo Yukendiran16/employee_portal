@@ -1,5 +1,7 @@
 package com.ideas2it.util;
 
+import java.lang.ArrayIndexOutOfBoundsException;
+import java.lang.NumberFormatException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -89,8 +91,23 @@ public class EmployeeUtil {
      * @return {@link boolean} returns boolean
      *
      */
-    public static boolean validationOfDateOfBirth(String employeeDateOfBirth) {
-            return DateValidator.getInstance().isValid(employeeDateOfBirth);
+    public static boolean validationOfDateOfBirth(String employeeDateOfBirth) throws NumberFormatException, ArrayIndexOutOfBoundsException {
+        boolean bool = false;
+
+        try {
+            LocalDate currentDate = LocalDate.now();
+            int currentYear = currentDate.getYear();
+            String[] date = employeeDateOfBirth.split("-");
+            int year = Integer.valueOf(date[0]);
+            if ((currentYear-60) <= year && year <= (currentYear-18)) {
+                bool = DateValidator.getInstance().isValid(employeeDateOfBirth,"yyyy-MM-dd");
+            }
+        } catch (NumberFormatException e) {
+            throw e;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw e;
+        }
+        return bool;
     }
 
     /**
@@ -103,9 +120,8 @@ public class EmployeeUtil {
      * @return {@link boolean} returns boolean
      *
      */
-    public static void validationOfMail(String identifier) throws EmailMismatchException {
+    public static void validationOfMail(String identifier) throws EmailMismatchException {        
         boolean mail = EmailValidator.getInstance().isValid(identifier);
-
         if (mail == false) {
             throw new EmailMismatchException("invalid email");
         } 

@@ -1,6 +1,8 @@
 package com.ideas2it.controller;
 
+import java.lang.ArrayIndexOutOfBoundsException;
 import java.lang.NullPointerException; 
+import java.lang.NumberFormatException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -36,7 +38,6 @@ import com.ideas2it.util.EmployeeUtil;
  *
  */
 public class TrainerController {
-
     private EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
     private EmployeeUtil employeeUtil = new EmployeeUtil();
     private Logger logger = LoggerFactory.getLogger(TrainerController.class);
@@ -58,7 +59,6 @@ public class TrainerController {
      *
      */  
     public void viewTrainerMenu()  {
-       
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
 
@@ -115,7 +115,6 @@ public class TrainerController {
      *
      */  
     public boolean Perform(String userOption, boolean isContinue) throws InputMismatchException, SQLException, HibernateException, NullPointerException {
- 
         switch (userOption) {
         case "1":	   
             createTrainerData();                
@@ -512,18 +511,24 @@ public class TrainerController {
     public void getTrainerDateofBirth(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
-	logger.info("Enter Trainer DateOfBirth MM/DD/YYYY:");
+	logger.info("Enter Trainer DateOfBirth YYYY-MM-DD:");
         String employeeDateOfBirth = scanner.nextLine();
 
         if (!employeeDateOfBirth.isEmpty()) {
-            boolean isValid = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
-
-            if (isValid) {
-                String[] date = employeeDateOfBirth.split("/");
-                employeeDateOfBirth = date[2]+"-"+date[0]+"-"+date[1];
-                trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
-            } else {
-                logger.info("not valid");
+            
+            try {
+                boolean bool = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
+                if (bool == true) {
+                    trainer.setEmployeeDateOfBirth(employeeDateOfBirth);   
+                } else {
+                    logger.error("invalid date format");
+                    getTrainerDateofBirth(trainer);
+                }      
+            } catch (NumberFormatException e) {
+                logger.error("invalid date format");
+                getTrainerDateofBirth(trainer);
+            } catch ( ArrayIndexOutOfBoundsException e) {
+                logger.error("invalid date format");
                 getTrainerDateofBirth(trainer);
             }
         }
@@ -795,19 +800,25 @@ public class TrainerController {
     public void getDateofBirth(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);	
-        logger.info("Enter Trainer DateOfBirth MM/DD/YYYY:");
+        logger.info("Enter Trainer DateOfBirth YYYY-MM-DD:");
         String employeeDateOfBirth = scanner.nextLine();
 
         if (!employeeDateOfBirth.isEmpty()) {
-            boolean isValid = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
 
-            if (isValid) {
-                String[] date = employeeDateOfBirth.split("/");
-                employeeDateOfBirth = date[2]+"-"+date[0]+"-"+date[1];
-                trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
-            } else {
-                logger.info("not valid");
-                getDateofBirth(trainer);
+            try {
+                boolean bool = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
+                if (bool = true) {
+                    trainer.setEmployeeDateOfBirth(employeeDateOfBirth);   
+                } else {
+                    logger.error("invalid date format");
+                    getTrainerDateofBirth(trainer);
+                }   
+            } catch (NumberFormatException e) {
+                logger.error("invalid date format");
+                getTrainerDateofBirth(trainer);
+            } catch ( ArrayIndexOutOfBoundsException e) {
+                logger.error("invalid date format");
+                getTrainerDateofBirth(trainer);
             }
         }
     }

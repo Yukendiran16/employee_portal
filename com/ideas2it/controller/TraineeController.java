@@ -511,18 +511,24 @@ public class TraineeController {
     public void getTraineeDateofBirth(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
-	logger.info("Enter Trainee DateOfBirth MM/DD/YYYY:");
+	logger.info("Enter Trainee DateOfBirth YYYY-MM-DD:");
         String employeeDateOfBirth = scanner.nextLine();
 
         if (!employeeDateOfBirth.isEmpty()) {
-            boolean isValid = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
 
-            if (isValid) {
-                String[] date = employeeDateOfBirth.split("/");
-                employeeDateOfBirth = date[2]+"-"+date[0]+"-"+date[1];
-                trainee.setEmployeeDateOfBirth(employeeDateOfBirth);
-            } else {
-                logger.info("not valid");
+            try {
+                boolean bool = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
+                if (bool = true) {
+                    trainee.setEmployeeDateOfBirth(employeeDateOfBirth);   
+                } else {
+                    logger.error("invalid date format");
+                    getTraineeDateofBirth(trainee);
+                }
+            } catch (NumberFormatException e) {
+                logger.error("invalid date format");
+                getTraineeDateofBirth(trainee);
+            } catch ( ArrayIndexOutOfBoundsException e) {
+                logger.error("invalid date format");
                 getTraineeDateofBirth(trainee);
             }
         }
@@ -794,19 +800,25 @@ public class TraineeController {
     public void getDateofBirth(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);	
-        logger.info("Enter Trainee DateOfBirth MM/DD/YYYY:");
+        logger.info("Enter Trainee DateOfBirth YYYY-MM-DD:");
         String employeeDateOfBirth = scanner.nextLine();
 
         if (!employeeDateOfBirth.isEmpty()) {
-            boolean isValid = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
 
-            if (isValid) {
-                String[] date = employeeDateOfBirth.split("/");
-                employeeDateOfBirth = date[2]+"-"+date[0]+"-"+date[1];
-                trainee.setEmployeeDateOfBirth(employeeDateOfBirth);
-            } else {
-                logger.info("not valid");
-                getDateofBirth(trainee);
+            try {
+                boolean bool = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
+                if (bool = true) {
+                    trainee.setEmployeeDateOfBirth(employeeDateOfBirth);   
+                } else {
+                    logger.error("invalid date format");
+                    getTraineeDateofBirth(trainee);
+                }                    
+            } catch (NumberFormatException e) {
+                logger.error("invalid date format");
+                getTraineeDateofBirth(trainee);
+            } catch ( ArrayIndexOutOfBoundsException e) {
+                logger.error("invalid date format");
+                getTraineeDateofBirth(trainee);
             }
         }
     }
