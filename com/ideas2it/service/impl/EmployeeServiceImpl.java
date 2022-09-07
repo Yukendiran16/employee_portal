@@ -184,7 +184,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public String deleteTraineeData(int traineeId) throws SQLException, HibernateException, NullPointerException {
         return employeeDao.removeTrainee(traineeId);
-    }                    
+    }
+                  
 }  
 
 

@@ -228,7 +228,7 @@ public class TraineeController {
 
         List<Trainee> trainees = employeeService.getTraineesData();
 
-        if (trainees == null) {
+        if (null == trainees) {
             logger.info("\nNo data found");
         } else {
             trainees.forEach(trainee -> { 
@@ -260,7 +260,7 @@ public class TraineeController {
         int traineeId = scanner.nextInt();
         Trainee trainee = employeeService.searchTraineeData(traineeId);
 
-        if (trainee != null) {
+        if (null != trainee) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("\nTrainee Detail : ")
                          .append("\nTrainee Id          : ").append(trainee.getTraineeId())
@@ -301,7 +301,7 @@ public class TraineeController {
             int traineeId = scanner.nextInt();                                 
             Trainee trainee = employeeService.searchTraineeData(traineeId);
  
-            if (trainee != null) {
+            if (null != trainee) {
                 Trainee updateTrainee = getInformationForUpdateTrainee(trainee);
                 String message = employeeService.updateTraineeData(traineeId, updateTrainee);
                 logger.info("" + message);
@@ -333,7 +333,7 @@ public class TraineeController {
             int traineeId = scanner.nextInt();                                 
             Trainee trainee = employeeService.searchTraineeData(traineeId);
  
-            if (trainee != null) {
+            if (null != trainee) {
                 String message = employeeService.deleteTraineeData(traineeId);
                 logger.info("" + message);
             } else {               
@@ -393,7 +393,7 @@ public class TraineeController {
                                  .append("\tTrainer Name        : ").append(trainer.getEmployeeName());
                     logger.info("" + stringBuilder);  });
             
-        if (trainers == null) {
+        if (null == trainers) {
             logger.info("\nNo data found");
         } else {
             logger.info("Enter 0 for stop assigning.....\nEnter trainer Id :");
@@ -402,11 +402,11 @@ public class TraineeController {
             do {  
                 trainerId = scanner.nextInt();
                 int temp = trainerId;               
-                if (trainerId != 0) {
+                if (0 != trainerId) {
                     List<Trainer> trainer = trainers.stream().
                             filter(filteredTrainer -> filteredTrainer.getTrainerId() == temp).
                             collect(Collectors.toList());
-                    if (trainer.size() != 0) {
+                    if (0 != trainer.size()) {
                         trainee.getTrainers().add(trainer.get(0));
                     } else {
                         logger.info("couldn't found entered trainer");

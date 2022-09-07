@@ -1,6 +1,6 @@
 package com.ideas2it.model;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,9 +47,9 @@ public class Trainer extends Employee {
 
     @ManyToMany(targetEntity = Trainee.class, fetch = FetchType.EAGER,
                 cascade = {CascadeType.MERGE,CascadeType.PERSIST})
-    @JoinTable(name = "trainer_id_trainee_id", joinColumns = @JoinColumn(name = "trainer_id"))
-//	       inverseJoinColumns = @JoinColumn(name = "trainee_id"))
-    private Set<Trainee> trainees;
+    @JoinTable(name = "trainer_id_trainee_id", joinColumns = @JoinColumn(name = "trainer_id"),
+	       inverseJoinColumns = @JoinColumn(name = "trainee_id"))
+    private List<Trainee> trainees;
 
     public void setTrainerId(int trainerId) {
 	this.trainerId = trainerId;
@@ -75,11 +75,11 @@ public class Trainer extends Employee {
 	return achievement;
     }
 
-    public void setTrainees(Set<Trainee> trainees) {
+    public void setTrainees(List<Trainee> trainees) {
         this.trainees = trainees; 
     }
   
-    public Set<Trainee> getTrainees() {
+    public List<Trainee> getTrainees() {
         return trainees;
     }
 }

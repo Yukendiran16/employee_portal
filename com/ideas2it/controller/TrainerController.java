@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.*;
 import java.util.UUID;
 
@@ -71,15 +72,16 @@ public class TrainerController {
 		             .append("Enter 3 for Update trainee details in database\n") 
 	                     .append("Enter 4 for Delete trainee details in database\n")
                              .append("Enter 5 for assign trainer for trainees\n")
-                             .append("Enter 6 for Exit  \n\n\n")
+                             .append("Enter 6 for unassign association\n")
+                             .append("Enter 7 for Exit  \n\n\n")
                              .append("----------------------------------------------")
                              .append("\n----------------------------------------------")
                              .append("\n***************** THANK YOU ******************")
                              .append("\n----------------------------------------------");
-                logger.info("" + stringBuilder.substring(1,249));    
+                logger.info("" + stringBuilder.substring(1,281));    
                 String userOption = scanner.next();
                 isContinue = Perform(userOption, isContinue);
-                logger.info("" + stringBuilder.substring(250));
+                logger.info("" + stringBuilder.substring(282));
 
             } catch (InputMismatchException e) {
                 logger.error("\ninvalid data : " + e);
@@ -132,6 +134,9 @@ public class TrainerController {
             assignTrainerForTrainees();
             break;
         case "6":
+            unAssignAssociation();
+            break;
+        case "7":
             isContinue = false;
             break;
         default:
@@ -149,7 +154,6 @@ public class TrainerController {
      * @return {@link void} returns nothing
      */
     public void createTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
-        
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
         String position = "";
@@ -173,7 +177,6 @@ public class TrainerController {
      *
      */
     public void getAndSetData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
-
          UUID uuId = UUID.randomUUID();
          String temp = uuId.toString();
          String[] arr = temp.split("-");
@@ -195,7 +198,6 @@ public class TrainerController {
      *
      */
     public void displayTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
-        
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
 
@@ -225,10 +227,9 @@ public class TrainerController {
      *
      */
     public void displayWholeTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
-
         List<Trainer> trainers = employeeService.getTrainersData();
 
-        if (trainers == null) {
+        if (null == trainers) {
             logger.info("\nNo data found");
         } else {
             trainers.forEach(trainer -> { 
@@ -254,13 +255,12 @@ public class TrainerController {
      *
      */ 
     public void displayParticularTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
-
         Scanner scanner = new Scanner(System.in);
         logger.info("\nEnter TrainerId :");
         int trainerId = scanner.nextInt();
         Trainer trainer = employeeService.searchTrainerData(trainerId);
 
-        if (trainer != null) {
+        if (null != trainer) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("\nTrainer Detail : ")
                          .append("\nTrainer Id          : ").append(trainer.getTrainerId())
@@ -292,7 +292,6 @@ public class TrainerController {
      *
      */
     public void updateTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
-
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
 
@@ -301,7 +300,7 @@ public class TrainerController {
             int trainerId = scanner.nextInt();                                 
             Trainer trainer = employeeService.searchTrainerData(trainerId);
  
-            if (trainer != null) {
+            if (null != trainer) {
                 Trainer updateTrainer = getInformationForUpdateTrainer(trainer);
                 String message = employeeService.updateTrainerData(trainerId, updateTrainer);
                 logger.info("" + message);
@@ -324,7 +323,6 @@ public class TrainerController {
      *
      */
     public void removeTrainerData() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
-        
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
 
@@ -333,7 +331,7 @@ public class TrainerController {
             int trainerId = scanner.nextInt();                                 
             Trainer trainer = employeeService.searchTrainerData(trainerId);
  
-            if (trainer != null) {
+            if (null != trainer) {
                 String message = employeeService.deleteTrainerData(trainerId);
                 logger.info("" + message);
             } else {               
@@ -355,7 +353,6 @@ public class TrainerController {
      *
      */
     public void assignTrainerForTrainees() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
-
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;  
 
@@ -363,7 +360,13 @@ public class TrainerController {
             logger.info("\nEnter Trainer Id :");
             int trainerId = scanner.nextInt();         
             Trainer trainer = employeeService.searchTrainerData(trainerId);
-            trainer = getTraineesForAssignTrainer(trainer);
+            List<Trainee> trainees = employeeService.getTraineesData();
+            trainees.forEach(trainee -> { 
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append("\nTrainee Id          : ").append(trainee.getTraineeId())
+                                 .append("\tTrainee Name        : ").append(trainee.getEmployeeName());
+                    logger.info("" + stringBuilder);  });
+            trainer = getTraineesForAssignTrainer(trainer, trainees);
             String message = employeeService.updateTrainerData(trainerId, trainer);
             logger.info("{}" + message);
             logger.info("\nIf you want to continue : \n" + "1.yes\n" + "2.no" );
@@ -383,39 +386,67 @@ public class TrainerController {
      * @return {@link List<Trainees>} returns list of trainees 
      *
      */
-    public Trainer getTraineesForAssignTrainer(Trainer trainer) throws InputMismatchException, SQLException, HibernateException, NullPointerException {
-
+    public Trainer getTraineesForAssignTrainer(Trainer trainer, List<Trainee> trainees) throws InputMismatchException, SQLException, HibernateException, NullPointerException {
         Scanner scanner = new Scanner(System.in);
-        List<Trainee> trainees = employeeService.getTraineesData();
-        trainees.forEach(trainee -> { 
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("\nTrainee Id          : ").append(trainee.getTraineeId())
-                                 .append("\tTrainee Name        : ").append(trainee.getEmployeeName());
-                    logger.info("" + stringBuilder);  });
-            
-        if (trainees == null) {
+        if (null == trainees) {
             logger.info("\nNo data found");
         } else {
             logger.info("Enter 0 for stop assigning.....\nEnter trainee Id :");
             int traineeId;
 
-            do {  
-                traineeId = scanner.nextInt();
-                int temp =  traineeId;                
-                if (traineeId != 0) {
-                    List<Trainee> trainee = trainees.stream().
-                            filter(filteredTrainee -> filteredTrainee.getTraineeId() == temp).
-                            collect(Collectors.toList());
-                    if (trainee.size() == 0) {
-                        logger.info("couldn't found entered trainee");
-                    } else {
-                        trainer.getTrainees().add(trainee.get(0));                        
-                    }
+            do { 
+
+                try { 
+                    traineeId = scanner.nextInt();
+                    int temp =  traineeId; 
+               
+                    if (0 != traineeId) {
+                        List<Trainee> trainee = trainees.stream().
+                                filter(filteredTrainee -> filteredTrainee.getTraineeId() == temp).
+                                collect(Collectors.toList());
+                        if (0 != trainee.size()) {
+                            trainer.getTrainees().add(trainee.get(0));
+                        } else {
+                            logger.info("couldn't found entered trainee"); 
+                        }                    
+                    }  
+                } catch(InputMismatchException e) {
+                    throw e;
                 }
             } while (traineeId != 0); 
         }  
         return trainer;
     }
+
+    public void unAssignAssociation() throws InputMismatchException, SQLException, HibernateException, NullPointerException {
+        Scanner scanner = new Scanner(System.in);
+        logger.info("Enter 0 for stop unassign \nEnter trainer id :");
+        int trainerId = scanner.nextInt();
+        logger.info("Enter 0 for stop unassign \nEnter trainee id :");
+        int traineeId = scanner.nextInt();  
+        Trainer trainer = employeeService.searchTrainerData(trainerId);
+
+        if (0 != trainerId || 0 != traineeId) {
+
+            if (null != trainer) {      
+                List<Trainee> trainees = trainer.getTrainees();
+  
+                for (int i = 0; i < trainees.size(); i++) {
+
+                    if (trainer.getTrainees().get(i).getTraineeId() == traineeId) {
+                        trainees.remove(i);
+                        String message = employeeService.updateTrainerData(trainerId, trainer);
+                        logger.info("{}" + message);
+                    } 
+                } 
+                unAssignAssociation();           
+            } else {
+                logger.info("couldn't found entered trainer or trainee");
+                unAssignAssociation();  
+            }
+        }
+    }
+   
 
     /**
      *
