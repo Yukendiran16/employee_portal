@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Set;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.UUID;
 
 import org.hibernate.HibernateException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory; 
+import org.apache.log4j.Logger;
 
 import com.ideas2it.exception.EmailMismatchException;
 import com.ideas2it.model.Trainee;
@@ -40,7 +42,8 @@ public class TrainerController {
 
     private EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
     private EmployeeUtil employeeUtil = new EmployeeUtil();
-    private Logger logger = LoggerFactory.getLogger(TrainerController.class);
+    //private Logger logger = LoggerFactory.getLogger(TrainerController.class);
+    Logger logger = Logger.getLogger(TrainerController.class);
 
     /**
      *
@@ -161,7 +164,7 @@ public class TrainerController {
 
         while (isContinue) {
             getAndSetData();
-            logger.info(" \nIf you want to continue\n" + "1.yes\n" + "2.no");
+            logger.info(" \nIf you want to continue\n1.yes\n2.no");
             String userOption = scanner.next();
             logger.info("----------------------------------------------");
             isContinue = (userOption.equals("1"));                   
@@ -205,7 +208,7 @@ public class TrainerController {
         boolean isContinue = true;
 
         while (isContinue) { 
-	    logger.info("\n1.whole data\n" + "2.particular data");
+	    logger.info("\n1.whole data\n2.particular data");
             String userOption = scanner.next();
             logger.info("\n----------------------------------------------"); 
 
@@ -214,7 +217,7 @@ public class TrainerController {
             } else {
                 displayParticularTrainerData();
             }        
-            logger.info("\nif you want to continue\n" + "1.yes\n" + "2.no"); 
+            logger.info("\nif you want to continue\n1.yes\n2.no"); 
             userOption = scanner.next();          
             isContinue = (userOption.equals("1")); 
         }
@@ -273,14 +276,14 @@ public class TrainerController {
                          .append("\nTrainer Designation : ").append(trainer.getEmployeeDesignation())
                          .append("\nTrainer Mail        : ").append(trainer.getEmployeeMail())
                          .append("\nTrainer MobileNumber: ").append(trainer.getEmployeeMobileNumber())
-                         .append("\nCurrent Address     : ").append(trainer.getCurrentAddress())
-                         .append("\n\nAssigned Trainees........ :");
+                         .append("\nCurrent Address     : ").append(trainer.getCurrentAddress());
             logger.info("" + stringBuilder);
+            StringBuilder stringBuilder1 = new StringBuilder();
+            stringBuilder1.append("\n\nAssigned Trainees........ :");
             trainer.getTrainees().forEach(trainee -> { 
-                    StringBuilder stringBuilder1 = new StringBuilder();
                     stringBuilder1.append("\nTrainee Id          : ").append(trainee.getTraineeId())
-                                  .append("\tTrainee Name        : ").append(trainee.getEmployeeName());
-                    logger.info("" + stringBuilder1);  });
+                                  .append("\tTrainee Name        : ").append(trainee.getEmployeeName());});
+            logger.info("" + stringBuilder1);  
             
         } else {
             logger.info("no data found");
@@ -313,7 +316,7 @@ public class TrainerController {
             } else {               
                 logger.info("\nno data found\n");
             }
-            logger.info("\nif you want to continue\n" + "1.yes\n" + "2.no"); 
+            logger.info("\nif you want to continue\n1.yes\n2.no"); 
             String userOption = scanner.next();
             isContinue = (userOption.equals("1"));
         }
@@ -344,7 +347,7 @@ public class TrainerController {
             } else {               
                 logger.info("\nno data found\n");
             }
-            logger.info("\nif you want to continue\n" + "1.yes\n" + "2.no"); 
+            logger.info("\nif you want to continue\n1.yes\n2.no"); 
             String userOption = scanner.next();
             isContinue = (userOption.equals("1"));
         }
@@ -371,7 +374,7 @@ public class TrainerController {
             trainer = getTraineesForAssignTrainer(trainer);
             String message = employeeService.updateTrainerData(trainerId, trainer);
             logger.info("{}" + message);
-            logger.info("\nIf you want to continue : \n" + "1.yes\n" + "2.no" );
+            logger.info("\nIf you want to continue : \n1.yes\n2.no" );
             String userOption = scanner.next();
             logger.info("\n----------------------------------------------");
             isContinue = (userOption.equals("1"));
@@ -407,14 +410,17 @@ public class TrainerController {
             do {  
                 traineeId = scanner.nextInt();
                 int temp =  traineeId;                
+
                 if (traineeId != 0) {
-                    List<Trainee> trainee = trainees.stream().
+                    Set<Trainee> trainee = trainees.stream().
                             filter(filteredTrainee -> filteredTrainee.getTraineeId() == temp).
-                            collect(Collectors.toList());
+                            collect(Collectors.toSet());
+                    List<Trainee> traineeList = new ArrayList<>(trainee);
+
                     if (trainee.size() == 0) {
                         logger.info("couldn't found entered trainee");
                     } else {
-                        trainer.getTrainees().add(trainee.get(0));                        
+                        trainer.getTrainees().add(traineeList.get(0));                        
                     }
                 }
             } while (traineeId != 0); 
@@ -442,12 +448,13 @@ public class TrainerController {
         if (0 != trainerId || 0 != traineeId) {
 
             if (null != trainer) {      
-                List<Trainee> trainees = trainer.getTrainees();
+                Set<Trainee> trainees = trainer.getTrainees();
+                List<Trainee> trainee = new ArrayList<>(trainees);
   
                 for (int i = 0; i < trainees.size(); i++) {
 
-                    if (trainer.getTrainees().get(i).getTraineeId() == traineeId) {
-                        trainees.remove(i);
+                    if (trainee.get(i).getTraineeId() == traineeId) {
+                        trainee.remove(i);
                         String message = employeeService.updateTrainerData(trainerId, trainer);
                         logger.info("{}" + message);
                     } 
@@ -474,24 +481,24 @@ public class TrainerController {
 
         Trainer trainer = new Trainer();
         trainer.setUuid(uuid); 
-        getTrainerName(trainer);
-        getTrainerDateofBirth(trainer);
-        getTrainerDesignation(trainer);
-        getTrainerMailId(trainer);
-        getTrainerMobileNumber(trainer);
-        getTrainerAddress(trainer);
-        getTrainerAadharNumber(trainer);
-        getTrainerPanNumber(trainer);
-        getTrainerCurrentProject(trainer);
-        getTrainerAchievement(trainer);
+        validateTrainerName(trainer);
+        validateTrainerDateofBirth(trainer);
+        validateTrainerDesignation(trainer);
+        validateTrainerMailId(trainer);
+        validateTrainerMobileNumber(trainer);
+        validateTrainerAddress(trainer);
+        validateTrainerAadharNumber(trainer);
+        validateTrainerPanNumber(trainer);
+        validateTrainerCurrentProject(trainer);
+        validateTrainerAchievement(trainer);
         return trainer;
     }
 
     /**
      *
-     * <h1> getInformationFofUpdateTrainer </h1>
+     * <h1> validateInformationFofUpdateTrainer </h1>
      *
-     * Method used to get trainer details from user for update profile
+     * Method used to validate trainer details from user for update profile
      *
      * @param {@link Trainer} trainer
      * @return {@link Trainer} returns trainer
@@ -499,59 +506,57 @@ public class TrainerController {
      */ 
     public Trainer getInformationForUpdateTrainer(Trainer trainer) throws SQLException {
  
-        getName(trainer);
-        getDateofBirth(trainer);
-        getDesignation(trainer);
-        getMailId(trainer);
-        getMobileNumber(trainer);
-        getAddress(trainer);
-        getAadharNumber(trainer);
-        getPanNumber(trainer);
-        getCurrentProject(trainer);
-        getAchievement(trainer);
+        validateName(trainer);
+        validateDateofBirth(trainer);
+        validateDesignation(trainer);
+        validateMailId(trainer);
+        validateMobileNumber(trainer);
+        validateAddress(trainer);
+        validateAadharNumber(trainer);
+        validatePanNumber(trainer);
+        validateCurrentProject(trainer);
+        validateAchievement(trainer);
         return trainer;
     }
 
     /**
      *
-     * <h1> getTrainerName </h1>
+     * <h1> validateTrainerName </h1>
      *
-     * Method used to get trainer name from user
+     * Method used to validate trainer name from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerName(Trainer trainer) {
+    public void validateTrainerName(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in); 
 	logger.info("Enter Trainer Name : ");
         String name = scanner.nextLine();
 
         if (!name.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name)) {
                 trainer.setEmployeeName(name);
             } else {
                 logger.info("not valid");
-                getTrainerName(trainer);
+                validateTrainerName(trainer);
             }       	    
         }
     }
 
     /**
      *
-     * <h1> getTrainerDateofBirth </h1>
+     * <h1> validateTrainerDateofBirth </h1>
      *
-     * Method used to get trainer date of birth from user
+     * Method used to validate trainer date of birth from user
      *
      * @param {@link Trainer} trainer
-
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerDateofBirth(Trainer trainer) {
+    public void validateTrainerDateofBirth(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer DateOfBirth YYYY-MM-DD:");
@@ -560,62 +565,61 @@ public class TrainerController {
         if (!employeeDateOfBirth.isEmpty()) {
             
             try {
-                boolean bool = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
-                if (bool == true) {
+                
+                if (employeeUtil.validationOfDateOfBirth(employeeDateOfBirth)) {
                     trainer.setEmployeeDateOfBirth(employeeDateOfBirth);   
                 } else {
                     logger.error("invalid date format");
-                    getTrainerDateofBirth(trainer);
+                    validateTrainerDateofBirth(trainer);
                 }      
             } catch (NumberFormatException e) {
                 logger.error("invalid date format");
-                getTrainerDateofBirth(trainer);
+                validateTrainerDateofBirth(trainer);
             } catch ( ArrayIndexOutOfBoundsException e) {
                 logger.error("invalid date format");
-                getTrainerDateofBirth(trainer);
+                validateTrainerDateofBirth(trainer);
             }
         }
     }
 
     /**
      *
-     * <h1> getTrainerDesignation </h1>
+     * <h1> validateTrainerDesignation </h1>
      *
-     * Method used to get trainer designation from user
+     * Method used to validate trainer designation from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerDesignation(Trainer trainer) {
+    public void validateTrainerDesignation(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer Designation : ");
         String designation = scanner.nextLine();
 
         if (!designation.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation)) {
                 trainer.setEmployeeDesignation(designation);
             } else {
                 logger.info("not valid");
-                getTrainerDesignation(trainer);
+                validateTrainerDesignation(trainer);
             }	    
         }  
     }
 
     /**
      *
-     * <h1> getTrainerMailId </h1>
+     * <h1> validateTrainerMailId </h1>
      *
-     * Method used to get trainer mail Id from user
+     * Method used to validate trainer mail Id from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerMailId(Trainer trainer) {
+    public void validateTrainerMailId(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainer Mail : ");
@@ -628,219 +632,212 @@ public class TrainerController {
                 trainer.setEmployeeMail(mail);            
             } catch (EmailMismatchException e) {
                 logger.error("Exception occured :" + e);
-                getTrainerMailId(trainer);
+                validateTrainerMailId(trainer);
             }             
         }
     }
 
     /**
      *
-     * <h1> getTrainerMobileNumber </h1>
+     * <h1> validateTrainerMobileNumber </h1>
      *
-     * Method used to get trainer mobile number from user
+     * Method used to validate trainer mobile number from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */  
-    public void getTrainerMobileNumber(Trainer trainer) {
+    public void validateTrainerMobileNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);     
 	logger.info("Enter Trainer MobileNumber : ");
         String mobileNumber = scanner.nextLine();
 
         if (!mobileNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber)) {
                 trainer.setEmployeeMobileNumber(mobileNumber);
             } else {
                 logger.info("not valid");
-                getTrainerMobileNumber(trainer);
+                validateTrainerMobileNumber(trainer);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getTrainerAddress </h1>
+     * <h1> validateTrainerAddress </h1>
      *
-     * Method used to get trainer address from user
+     * Method used to validate trainer address from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */         
-    public void getTrainerAddress(Trainer trainer) {
+    public void validateTrainerAddress(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainer CurrentAddress : ");
         String currentAddress = scanner.nextLine();
 
         if (!currentAddress.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress)) {
                 trainer.setCurrentAddress(currentAddress);
             } else {
                 logger.info("not valid");
-                getTrainerAddress(trainer);
+                validateTrainerAddress(trainer);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getTrainerAadharNumber </h1>
+     * <h1> validateTrainerAadharNumber </h1>
      *
-     * Method used to get trainer aadhar number from user
+     * Method used to validate trainer aadhar number from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerAadharNumber(Trainer trainer) {
+    public void validateTrainerAadharNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
 
         if (!aadharNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber)) {
                 trainer.setAadharCardNumber(aadharNumber);
             } else {
                 logger.info("not valid");
-                getTrainerAadharNumber(trainer);
+                validateTrainerAadharNumber(trainer);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getTrainerPanNumber </h1>
+     * <h1> validateTrainerPanNumber </h1>
      *
-     * Method used to get trainer pan number from user
+     * Method used to validate trainer pan number from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerPanNumber(Trainer trainer) {
+    public void validateTrainerPanNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer PanCardNumber : ");            
         String panNumber = scanner.nextLine();
 
         if (!panNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber)) {
                 trainer.setPanCardNumber(panNumber);
             } else {
                 logger.info("not valid");
-                getTrainerPanNumber(trainer);
+                validateTrainerPanNumber(trainer);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getTrainerCurrentProject </h1>
+     * <h1> validateTrainerCurrentProject </h1>
      *
-     * Method used to get trainer current project from user
+     * Method used to validate trainer current project from user
      *
      * @param {@link Trainer} trainer
 
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerCurrentProject(Trainer trainer) {
+    public void validateTrainerCurrentProject(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter your currentProject : ");            
         String currentProject = scanner.nextLine();
 
         if (!currentProject.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject)) {
                 trainer.setCurrentProject(currentProject);
             } else {
                 logger.info("not valid");
-                getTrainerCurrentProject(trainer);
+                validateTrainerCurrentProject(trainer);
             }
         }
     }
 
     /**
      *
-     * <h1> getTrainerAchievement </h1>
+     * <h1> validateTrainerAchievement </h1>
      *
-     * Method used to get trainer achievement from user
+     * Method used to validate trainer achievement from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTrainerAchievement(Trainer trainer) {
+    public void validateTrainerAchievement(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);	
 	logger.info("Enter your achievements : ");            
         String achievement = scanner.nextLine();
 
         if (!achievement.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement)) {
                 trainer.setAchievement(achievement);
             } else {
                 logger.info("not valid");
-                getTrainerAchievement(trainer);
+                validateTrainerAchievement(trainer);
             }
         }
     }
 
     /**
      *
-     * <h1> getName </h1>
+     * <h1> validateName </h1>
      *
-     * Method used to get trainer name from user
+     * Method used to validate trainer name from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getName(Trainer trainer) {
+    public void validateName(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in); 
 	logger.info("Enter Trainer Name : ");
         String name = scanner.nextLine();
 
         if (!name.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name)) {
                 trainer.setEmployeeName(name);
             } else {
                 logger.info("not valid");
-                getName(trainer);
+                validateName(trainer);
             }           	    
         }
     }
 
     /**
      *
-     * <h1> getDateofBirth </h1>
+     * <h1> validateDateofBirth </h1>
      *
-     * Method used to get trainer date of birth from user
+     * Method used to validate trainer date of birth from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getDateofBirth(Trainer trainer) {
+    public void validateDateofBirth(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);	
         logger.info("Enter Trainer DateOfBirth YYYY-MM-DD:");
@@ -849,62 +846,61 @@ public class TrainerController {
         if (!employeeDateOfBirth.isEmpty()) {
 
             try {
-                boolean bool = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
-                if (bool = true) {
+
+                if (employeeUtil.validationOfDateOfBirth(employeeDateOfBirth)) {
                     trainer.setEmployeeDateOfBirth(employeeDateOfBirth);   
                 } else {
                     logger.error("invalid date format");
-                    getTrainerDateofBirth(trainer);
+                    validateTrainerDateofBirth(trainer);
                 }   
             } catch (NumberFormatException e) {
                 logger.error("invalid date format");
-                getTrainerDateofBirth(trainer);
+                validateTrainerDateofBirth(trainer);
             } catch ( ArrayIndexOutOfBoundsException e) {
                 logger.error("invalid date format");
-                getTrainerDateofBirth(trainer);
+                validateTrainerDateofBirth(trainer);
             }
         }
     }
 
     /**
      *
-     * <h1> getDesignation </h1>
+     * <h1> validateDesignation </h1>
      *
-     * Method used to get trainer designation from user
+     * Method used to validate trainer designation from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getDesignation(Trainer trainer) {
+    public void validateDesignation(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer Designation : ");
         String designation = scanner.nextLine();
 
         if (!designation.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation)) {
                 trainer.setEmployeeDesignation(designation);
             } else {
                 logger.info("not valid");
-                getDesignation(trainer);
+                validateDesignation(trainer);
             }  
         }  
     }
 
     /**
      *
-     * <h1> getMailId </h1>
+     * <h1> validateMailId </h1>
      *
-     * Method used to get trainer mail Id  from user
+     * Method used to validate trainer mail Id  from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getMailId(Trainer trainer) {
+    public void validateMailId(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainer Mail : ");
@@ -917,175 +913,169 @@ public class TrainerController {
                 trainer.setEmployeeMail(mail);                 
             } catch (EmailMismatchException e) {
                 logger.error("Exception occured :" + e);
-                getMailId(trainer);
+                validateMailId(trainer);
             }             
         }
     }
 
     /**
      *
-     * <h1> getMobileNumber </h1>
+     * <h1> validateMobileNumber </h1>
      *
-     * Method used to get trainer mobile number from user
+     * Method used to validate trainer mobile number from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */  
-    public void getMobileNumber(Trainer trainer) {
+    public void validateMobileNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);     
 	logger.info("Enter Trainer MobileNumber : ");
         String mobileNumber = scanner.nextLine();
 
         if (!mobileNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber)) {
                 trainer.setEmployeeMobileNumber(mobileNumber);
             } else {
                 logger.info("not valid");
-                getMobileNumber(trainer);
+                validateMobileNumber(trainer);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getAddress </h1>
+     * <h1> validateAddress </h1>
      *
-     * Method used to get trainer address from user
+     * Method used to validate trainer address from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */         
-    public void getAddress(Trainer trainer) {
+    public void validateAddress(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainer CurrentAddress : ");
         String currentAddress = scanner.nextLine();
 
         if (!currentAddress.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress)) {
                 trainer.setCurrentAddress(currentAddress);
             } else {
                 logger.info("not valid");
-                getAddress(trainer);
+                validateAddress(trainer);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getAadharNumber </h1>
+     * <h1> validateAadharNumber </h1>
      *
-     * Method used to get trainer aadhar number from user
+     * Method used to validate trainer aadhar number from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getAadharNumber(Trainer trainer) {
+    public void validateAadharNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
 
         if (!aadharNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber)) {
                 trainer.setAadharCardNumber(aadharNumber);
             } else {
                 logger.info("not valid");
-                getAadharNumber(trainer);
+                validateAadharNumber(trainer);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getPanNumber </h1>
+     * <h1> validatePanNumber </h1>
      *
-     * Method used to get trainer pan number from user
+     * Method used to validate trainer pan number from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getPanNumber(Trainer trainer) {
+    public void validatePanNumber(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainer PanCardNumber : ");            
         String panNumber = scanner.nextLine();
 
         if (!panNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber)) {
                 trainer.setPanCardNumber(panNumber);
             } else {
                 logger.info("not valid");
-                getPanNumber(trainer);
+                validatePanNumber(trainer);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getCurrentProject </h1>
+     * <h1> validateCurrentProject </h1>
      *
-     * Method used to get trainer current project name from user
+     * Method used to validate trainer current project name from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getCurrentProject(Trainer trainer) {
+    public void validateCurrentProject(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter your currentProject : ");            
         String currentProject = scanner.nextLine();
 
         if (!currentProject.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentProject)) {
                 trainer.setCurrentProject(currentProject);
             } else {
                 logger.info("not valid");
-                getCurrentProject(trainer);
+                validateCurrentProject(trainer);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getAchievement </h1>
+     * <h1> validateAchievement </h1>
      *
-     * Method used to get trainer achievement from user
+     * Method used to validate trainer achievement from user
      *
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      *
      */ 
-    public void getAchievement(Trainer trainer) {
+    public void validateAchievement(Trainer trainer) {
 
         Scanner scanner = new Scanner(System.in);	
 	logger.info("Enter your achievement : ");            
         String achievement = scanner.nextLine();
 
         if (!achievement.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",achievement)) {
                 trainer.setAchievement(achievement);
             } else {
                 logger.info("not valid");
-                getAchievement(trainer);
+                validateAchievement(trainer);
             }	    
         }
     }

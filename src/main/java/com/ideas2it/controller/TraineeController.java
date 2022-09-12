@@ -1,17 +1,19 @@
 package com.ideas2it.controller;
 
-import java.lang.NullPointerException; 
+import java.lang.NullPointerException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Set;
 import java.util.Scanner;
 import java.util.stream.*;
 import java.util.UUID;
 
 import org.hibernate.HibernateException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory; 
+import org.apache.log4j.Logger;
 
 import com.ideas2it.exception.EmailMismatchException;
 import com.ideas2it.model.Trainee;
@@ -38,7 +40,8 @@ public class TraineeController {
 
     private EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
     private EmployeeUtil employeeUtil = new EmployeeUtil();
-    private Logger logger = LoggerFactory.getLogger(TraineeController.class);
+    //private Logger logger = LoggerFactory.getLogger(TraineeController.class);
+    Logger logger = Logger.getLogger(TraineeController.class);
 
     /**
      *
@@ -98,7 +101,7 @@ public class TraineeController {
     /**
      *
      * <h1> PerformUserOperation </h1>
-     *
+     * <p>
      * Method used to select the which operation will be happens 
      * 
      * operations are......
@@ -107,7 +110,7 @@ public class TraineeController {
      * ----> update details or change smething in database
      * ----> delete the trainee in our database   
      * ----> create association between trainee and trainees 
-     *
+     * </p>
      * @param {@link String} userOption for perform one operation 
      * @param {@link boolean} isContinue for continue operations 
      * @return {@link boolean} return boolean 
@@ -152,11 +155,10 @@ public class TraineeController {
         
         Scanner scanner = new Scanner(System.in);
         boolean isContinue = true;
-        String position = "";
 
         while (isContinue) {
             getAndSetData();
-            logger.info(" \nIf you want to continue\n" + "1.yes\n" + "2.no");
+            logger.info(" \nIf you want to continue\n1.yes\n2.no");
             String userOption = scanner.next();
             logger.info("----------------------------------------------");
             isContinue = (userOption.equals("1"));                   
@@ -200,7 +202,7 @@ public class TraineeController {
         boolean isContinue = true;
 
         while (isContinue) { 
-	    logger.info("\n1.whole data\n" + "2.particular data");
+	    logger.info("\n1.whole data\n2.particular data");
             String userOption = scanner.next();
             logger.info("\n----------------------------------------------"); 
 
@@ -209,7 +211,7 @@ public class TraineeController {
             } else {
                 displayParticularTraineeData();
             }        
-            logger.info("\nif you want to continue\n" + "1.yes\n" + "2.no"); 
+            logger.info("\nif you want to continue\n1.yes\n2.no"); 
             userOption = scanner.next();          
             isContinue = (userOption.equals("1")); 
         }
@@ -308,7 +310,7 @@ public class TraineeController {
             } else {               
                 logger.info("\nno data found\n");
             }
-            logger.info("\nif you want to continue\n" + "1.yes\n" + "2.no"); 
+            logger.info("\nif you want to continue\n1.yes\n2.no"); 
             String userOption = scanner.next();
             isContinue = (userOption.equals("1"));
         }
@@ -339,7 +341,7 @@ public class TraineeController {
             } else {               
                 logger.info("\nno data found\n");
             }
-            logger.info("\nif you want to continue\n" + "1.yes\n" + "2.no"); 
+            logger.info("\nif you want to continue\n1.yes\n2.no"); 
             String userOption = scanner.next();
             isContinue = (userOption.equals("1"));
         }
@@ -366,7 +368,7 @@ public class TraineeController {
             trainee = getTrainersForAssignTrainee(trainee);
             String message = employeeService.updateTraineeData(traineeId, trainee);
             logger.info("{}" + message);
-            logger.info("\nIf you want to continue : \n" + "1.yes\n" + "2.no" );
+            logger.info("\nIf you want to continue : \n1.yes\n2.no" );
             String userOption = scanner.next();
             logger.info("\n----------------------------------------------");
             isContinue = (userOption.equals("1"));
@@ -403,11 +405,12 @@ public class TraineeController {
                 trainerId = scanner.nextInt();
                 int temp = trainerId;               
                 if (trainerId != 0) {
-                    List<Trainer> trainer = trainers.stream().
+                    Set<Trainer> trainer = trainers.stream().
                             filter(filteredTrainer -> filteredTrainer.getTrainerId() == temp).
-                            collect(Collectors.toList());
+                            collect(Collectors.toSet());
+                    List<Trainer> trainerList = new ArrayList<>(trainer);
                     if (trainer.size() != 0) {
-                        trainee.getTrainers().add(trainer.get(0));
+                        trainee.getTrainers().add(trainerList.get(0));
                     } else {
                         logger.info("couldn't found entered trainer");
                     }
@@ -419,36 +422,36 @@ public class TraineeController {
 
     /**
      *
-     * <h1> getInformationFromTrainee </h1>
+     * <h1> getInformationFromTrainer </h1>
      *
-     * Method used to get trainee details from user for create profile
+     * Method used to get trainer details from user for create profile
      *
      * @param {@link String} uuid
-     * @return {@link Trainee} returns trainee
+     * @return {@link Trainer} returns trainer
      *
      */ 
     public Trainee getInformationFromTrainee(String uuid) throws SQLException {
 
         Trainee trainee = new Trainee();
         trainee.setUuid(uuid); 
-        getTraineeName(trainee);
-        getTraineeDateofBirth(trainee);
-        getTraineeDesignation(trainee);
-        getTraineeMailId(trainee);
-        getTraineeMobileNumber(trainee);
-        getTraineeAddress(trainee);
-        getTraineeAadharNumber(trainee);
-        getTraineePanNumber(trainee);
-        getTraineeCurrentTask(trainee);
-        getTraineeCurrentTechknowledge(trainee);
+        validateTraineeName(trainee);
+        validateTraineeDateofBirth(trainee);
+        validateTraineeDesignation(trainee);
+        validateTraineeMailId(trainee);
+        validateTraineeMobileNumber(trainee);
+        validateTraineeAddress(trainee);
+        validateTraineeAadharNumber(trainee);
+        validateTraineePanNumber(trainee);
+        validateTraineeCurrentTask(trainee);
+        validateTraineeCurrentTechknowledge(trainee);
         return trainee;
     }
 
     /**
      *
-     * <h1> getInformationFofUpdateTrainee </h1>
+     * <h1> validateInformationFofUpdateTrainee </h1>
      *
-     * Method used to get trainee details from user for update profile
+     * Method used to validate trainee details from user for update profile
      *
      * @param {@link Trainee} trainee
      * @return {@link Trainee} returns trainee
@@ -456,123 +459,120 @@ public class TraineeController {
      */ 
     public Trainee getInformationForUpdateTrainee(Trainee trainee) throws SQLException {
  
-        getName(trainee);
-        getDateofBirth(trainee);
-        getDesignation(trainee);
-        getMailId(trainee);
-        getMobileNumber(trainee);
-        getAddress(trainee);
-        getAadharNumber(trainee);
-        getPanNumber(trainee);
-        getCurrentTask(trainee);
-        getCurrentTechknowledge(trainee);
+        validateName(trainee);
+        validateDateofBirth(trainee);
+        validateDesignation(trainee);
+        validateMailId(trainee);
+        validateMobileNumber(trainee);
+        validateAddress(trainee);
+        validateAadharNumber(trainee);
+        validatePanNumber(trainee);
+        validateCurrentTask(trainee);
+        validateCurrentTechknowledge(trainee);
         return trainee;
     }
 
     /**
      *
-     * <h1> getTraineeName </h1>
+     * <h1> validateTraineeName </h1>
      *
-     * Method used to get trainee name from user
+     * Method used to validate trainee name from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTraineeName(Trainee trainee) {
+    public void validateTraineeName(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in); 
 	logger.info("Enter Trainee Name : ");
         String name = scanner.nextLine();
 
         if (!name.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name)) {
                 trainee.setEmployeeName(name);
             } else {
                 logger.info("not valid");
-                getTraineeName(trainee);
+                validateTraineeName(trainee);
             }       	    
         }
     }
 
     /**
      *
-     * <h1> getTraineeDateofBirth </h1>
+     * <h1> validateTraineeDateofBirth </h1>
      *
-     * Method used to get trainee date of birth from user
+     * Method used to validate trainee date of birth from user
      *
      * @param {@link Trainee} trainee
-
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTraineeDateofBirth(Trainee trainee) {
+    public void validateTraineeDateofBirth(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainee DateOfBirth YYYY-MM-DD:");
         String employeeDateOfBirth = scanner.nextLine();
 
         if (!employeeDateOfBirth.isEmpty()) {
-
+            
             try {
-                boolean bool = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
-                if (bool = true) {
+                
+                if (employeeUtil.validationOfDateOfBirth(employeeDateOfBirth)) {
                     trainee.setEmployeeDateOfBirth(employeeDateOfBirth);   
                 } else {
                     logger.error("invalid date format");
-                    getTraineeDateofBirth(trainee);
-                }
+                    validateTraineeDateofBirth(trainee);
+                }      
             } catch (NumberFormatException e) {
                 logger.error("invalid date format");
-                getTraineeDateofBirth(trainee);
+                validateTraineeDateofBirth(trainee);
             } catch ( ArrayIndexOutOfBoundsException e) {
                 logger.error("invalid date format");
-                getTraineeDateofBirth(trainee);
+                validateTraineeDateofBirth(trainee);
             }
         }
     }
 
     /**
      *
-     * <h1> getTraineeDesignation </h1>
+     * <h1> validateTraineeDesignation </h1>
      *
-     * Method used to get trainee designation from user
+     * Method used to validate trainee designation from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTraineeDesignation(Trainee trainee) {
+    public void validateTraineeDesignation(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainee Designation : ");
         String designation = scanner.nextLine();
 
         if (!designation.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation)) {
                 trainee.setEmployeeDesignation(designation);
             } else {
                 logger.info("not valid");
-                getTraineeDesignation(trainee);
+                validateTraineeDesignation(trainee);
             }	    
         }  
     }
 
     /**
      *
-     * <h1> getTraineeMailId </h1>
+     * <h1> validateTraineeMailId </h1>
      *
-     * Method used to get trainee mail Id from user
+     * Method used to validate trainee mail Id from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTraineeMailId(Trainee trainee) {
+    public void validateTraineeMailId(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainee Mail : ");
@@ -585,219 +585,212 @@ public class TraineeController {
                 trainee.setEmployeeMail(mail);            
             } catch (EmailMismatchException e) {
                 logger.error("Exception occured :" + e);
-                getTraineeMailId(trainee);
+                validateTraineeMailId(trainee);
             }             
         }
     }
 
     /**
      *
-     * <h1> getTraineeMobileNumber </h1>
+     * <h1> validateTraineeMobileNumber </h1>
      *
-     * Method used to get trainee mobile number from user
+     * Method used to validate trainee mobile number from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */  
-    public void getTraineeMobileNumber(Trainee trainee) {
+    public void validateTraineeMobileNumber(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);     
 	logger.info("Enter Trainee MobileNumber : ");
         String mobileNumber = scanner.nextLine();
 
         if (!mobileNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber)) {
                 trainee.setEmployeeMobileNumber(mobileNumber);
             } else {
                 logger.info("not valid");
-                getTraineeMobileNumber(trainee);
+                validateTraineeMobileNumber(trainee);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getTraineeAddress </h1>
+     * <h1> validateTraineeAddress </h1>
      *
-     * Method used to get trainee address from user
+     * Method used to validate trainee address from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */         
-    public void getTraineeAddress(Trainee trainee) {
+    public void validateTraineeAddress(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainee CurrentAddress : ");
         String currentAddress = scanner.nextLine();
 
         if (!currentAddress.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress)) {
                 trainee.setCurrentAddress(currentAddress);
             } else {
                 logger.info("not valid");
-                getTraineeAddress(trainee);
+                validateTraineeAddress(trainee);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getTraineeAadharNumber </h1>
+     * <h1> validateTraineeAadharNumber </h1>
      *
-     * Method used to get trainee aadhar number from user
+     * Method used to validate trainee aadhar number from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTraineeAadharNumber(Trainee trainee) {
+    public void validateTraineeAadharNumber(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainee AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
 
         if (!aadharNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber)) {
                 trainee.setAadharCardNumber(aadharNumber);
             } else {
                 logger.info("not valid");
-                getTraineeAadharNumber(trainee);
+                validateTraineeAadharNumber(trainee);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getTraineePanNumber </h1>
+     * <h1> validateTraineePanNumber </h1>
      *
-     * Method used to get trainee pan number from user
+     * Method used to validate trainee pan number from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTraineePanNumber(Trainee trainee) {
+    public void validateTraineePanNumber(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainee PanCardNumber : ");            
         String panNumber = scanner.nextLine();
 
         if (!panNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber)) {
                 trainee.setPanCardNumber(panNumber);
             } else {
                 logger.info("not valid");
-                getTraineePanNumber(trainee);
+                validateTraineePanNumber(trainee);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getTraineeCurrentTask </h1>
+     * <h1> validateTraineeCurrentProject </h1>
      *
-     * Method used to get trainee current project from user
+     * Method used to validate trainee current project from user
      *
      * @param {@link Trainee} trainee
 
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTraineeCurrentTask(Trainee trainee) {
+    public void validateTraineeCurrentTask(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter your currentTask : ");            
         String currentTask = scanner.nextLine();
 
         if (!currentTask.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentTask);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentTask)) {
                 trainee.setCurrentTask(currentTask);
             } else {
                 logger.info("not valid");
-                getTraineeCurrentTask(trainee);
+                validateTraineeCurrentTask(trainee);
             }
         }
     }
 
     /**
      *
-     * <h1> getTraineeCurrentTechknowledge </h1>
+     * <h1> validateTraineeCurrentTechknowledge </h1>
      *
-     * Method used to get trainee currentTechknowledge from user
+     * Method used to validate trainee currentTechknowledge from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getTraineeCurrentTechknowledge(Trainee trainee) {
+    public void validateTraineeCurrentTechknowledge(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);	
 	logger.info("Enter your currentTechknowledges : ");            
         String currentTechknowledge = scanner.nextLine();
 
         if (!currentTechknowledge.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentTechknowledge);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentTechknowledge)) {
                 trainee.setCurrentTechknowledge(currentTechknowledge);
             } else {
                 logger.info("not valid");
-                getTraineeCurrentTechknowledge(trainee);
+                validateTraineeCurrentTechknowledge(trainee);
             }
         }
     }
 
     /**
      *
-     * <h1> getName </h1>
+     * <h1> validateName </h1>
      *
-     * Method used to get trainee name from user
+     * Method used to validate trainee name from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getName(Trainee trainee) {
+    public void validateName(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in); 
 	logger.info("Enter Trainee Name : ");
         String name = scanner.nextLine();
 
         if (!name.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",name)) {
                 trainee.setEmployeeName(name);
             } else {
                 logger.info("not valid");
-                getName(trainee);
+                validateName(trainee);
             }           	    
         }
     }
 
     /**
      *
-     * <h1> getDateofBirth </h1>
+     * <h1> validateDateofBirth </h1>
      *
-     * Method used to get trainee date of birth from user
+     * Method used to validate trainee date of birth from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getDateofBirth(Trainee trainee) {
+    public void validateDateofBirth(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);	
         logger.info("Enter Trainee DateOfBirth YYYY-MM-DD:");
@@ -806,62 +799,61 @@ public class TraineeController {
         if (!employeeDateOfBirth.isEmpty()) {
 
             try {
-                boolean bool = employeeUtil.validationOfDateOfBirth(employeeDateOfBirth);
-                if (bool = true) {
+
+                if (employeeUtil.validationOfDateOfBirth(employeeDateOfBirth)) {
                     trainee.setEmployeeDateOfBirth(employeeDateOfBirth);   
                 } else {
                     logger.error("invalid date format");
-                    getTraineeDateofBirth(trainee);
-                }                    
+                    validateTraineeDateofBirth(trainee);
+                }   
             } catch (NumberFormatException e) {
                 logger.error("invalid date format");
-                getTraineeDateofBirth(trainee);
+                validateTraineeDateofBirth(trainee);
             } catch ( ArrayIndexOutOfBoundsException e) {
                 logger.error("invalid date format");
-                getTraineeDateofBirth(trainee);
+                validateTraineeDateofBirth(trainee);
             }
         }
     }
 
     /**
      *
-     * <h1> getDesignation </h1>
+     * <h1> validateDesignation </h1>
      *
-     * Method used to get trainee designation from user
+     * Method used to validate trainee designation from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getDesignation(Trainee trainee) {
+    public void validateDesignation(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainee Designation : ");
         String designation = scanner.nextLine();
 
         if (!designation.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",designation)) {
                 trainee.setEmployeeDesignation(designation);
             } else {
                 logger.info("not valid");
-                getDesignation(trainee);
+                validateDesignation(trainee);
             }  
         }  
     }
 
     /**
      *
-     * <h1> getMailId </h1>
+     * <h1> validateMailId </h1>
      *
-     * Method used to get trainee mail Id  from user
+     * Method used to validate trainee mail Id  from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getMailId(Trainee trainee) {
+    public void validateMailId(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainee Mail : ");
@@ -874,175 +866,169 @@ public class TraineeController {
                 trainee.setEmployeeMail(mail);                 
             } catch (EmailMismatchException e) {
                 logger.error("Exception occured :" + e);
-                getMailId(trainee);
+                validateMailId(trainee);
             }             
         }
     }
 
     /**
      *
-     * <h1> getMobileNumber </h1>
+     * <h1> validateMobileNumber </h1>
      *
-     * Method used to get trainee mobile number from user
+     * Method used to validate trainee mobile number from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */  
-    public void getMobileNumber(Trainee trainee) {
+    public void validateMobileNumber(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);     
 	logger.info("Enter Trainee MobileNumber : ");
         String mobileNumber = scanner.nextLine();
 
         if (!mobileNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber)) {
                 trainee.setEmployeeMobileNumber(mobileNumber);
             } else {
                 logger.info("not valid");
-                getMobileNumber(trainee);
+                validateMobileNumber(trainee);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getAddress </h1>
+     * <h1> validateAddress </h1>
      *
-     * Method used to get trainee address from user
+     * Method used to validate trainee address from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */         
-    public void getAddress(Trainee trainee) {
+    public void validateAddress(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
         logger.info("Enter Trainee CurrentAddress : ");
         String currentAddress = scanner.nextLine();
 
         if (!currentAddress.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$",currentAddress)) {
                 trainee.setCurrentAddress(currentAddress);
             } else {
                 logger.info("not valid");
-                getAddress(trainee);
+                validateAddress(trainee);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getAadharNumber </h1>
+     * <h1> validateAadharNumber </h1>
      *
-     * Method used to get trainee aadhar number from user
+     * Method used to validate trainee aadhar number from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getAadharNumber(Trainee trainee) {
+    public void validateAadharNumber(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainee AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
 
         if (!aadharNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber)) {
                 trainee.setAadharCardNumber(aadharNumber);
             } else {
                 logger.info("not valid");
-                getAadharNumber(trainee);
+                validateAadharNumber(trainee);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getPanNumber </h1>
+     * <h1> validatePanNumber </h1>
      *
-     * Method used to get trainee pan number from user
+     * Method used to validate trainee pan number from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getPanNumber(Trainee trainee) {
+    public void validatePanNumber(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter Trainee PanCardNumber : ");            
         String panNumber = scanner.nextLine();
 
         if (!panNumber.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$",panNumber)) {
                 trainee.setPanCardNumber(panNumber);
             } else {
                 logger.info("not valid");
-                getPanNumber(trainee);
+                validatePanNumber(trainee);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getCurrentTask </h1>
+     * <h1> validateCurrentTask </h1>
      *
-     * Method used to get trainee current project name from user
+     * Method used to validate trainee current project name from user
      *
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getCurrentTask(Trainee trainee) {
+    public void validateCurrentTask(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);
 	logger.info("Enter your currentTask : ");            
         String currentTask = scanner.nextLine();
 
         if (!currentTask.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentTask);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentTask)) {
                 trainee.setCurrentTask(currentTask);
             } else {
                 logger.info("not valid");
-                getCurrentTask(trainee);
+                validateCurrentTask(trainee);
             }	    
         }
     }
 
     /**
      *
-     * <h1> getCurrentTechknowledge </h1>
-     *
-     * Method used to get trainee currentTechknowledge from user
-     *
+     * <h1> validateCurrentTechknowledge </h1>
+     * <p>
+     * Method used to validate trainee currentTechknowledge from user
+     * </p>
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      *
      */ 
-    public void getCurrentTechknowledge(Trainee trainee) {
+    public void validateCurrentTechknowledge(Trainee trainee) {
 
         Scanner scanner = new Scanner(System.in);	
-	logger.info("Enter your currentTechknowledge : ");            
+	    logger.info("Enter your currentTechknowledge : ");            
         String currentTechknowledge = scanner.nextLine();
 
         if (!currentTechknowledge.isEmpty()) {
-            boolean isValid = employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentTechknowledge);
 
-            if (isValid) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$",currentTechknowledge)) {
                 trainee.setCurrentTechknowledge(currentTechknowledge);
             } else {
                 logger.info("not valid");
-                getCurrentTechknowledge(trainee);
+                validateCurrentTechknowledge(trainee);
             }	    
         }
     }

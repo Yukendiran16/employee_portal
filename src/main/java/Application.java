@@ -3,15 +3,16 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.hibernate.HibernateException; 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory; 
+import org.apache.log4j.Logger;
 
 import com.ideas2it.controller.TraineeController;
 import com.ideas2it.controller.TrainerController;
 
 /**
  *
- * <h2>Application</h2>
+ * <h2>Application</h2>1
  * <p>
  * The Application class is an application that
  * main page for do whose operation perform now 
@@ -27,7 +28,8 @@ public class Application {
     
     public static void main(String[] args)  {
 
-        Logger logger = LoggerFactory.getLogger(Application.class);
+        //Logger logger = LoggerFactory.getLogger(Application.class);
+        Logger logger = Logger.getLogger(Application.class);
         TrainerController trainerController = new TrainerController();
         TraineeController traineeController = new TraineeController();
        
