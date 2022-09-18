@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -79,6 +77,26 @@ public class Trainee extends Employee {
     public Set<Trainer> getTrainers() {
         return trainers;
     }
+
+
+   @Override
+    public String toString() {
+        return "{\" traineeId\":\"" + traineeId  +
+                "\",\"uuid\":\"" + super.getUuid() +
+                "\",\" companyName\":\"" + super.getCompanyName() + 
+                "\",\" employeeName\":\"" + super.getEmployeeName() + 
+                "\",\" employeeDateOfBirth\":\"" + super.getEmployeeDateOfBirth() + 
+                "\",\" employeeDesignation\":\"" + super.getEmployeeDesignation() + 
+                "\",\" employeeMail\":\"" + super.getEmployeeMail() + 
+                "\",\" employeeMobileNumber\":\"" + super.getEmployeeMobileNumber() + 
+                "\",\" currentAddress\":\"" + super.getCurrentAddress() + 
+                "\",\" aadharCardNumber\":\"" + super.getAadharCardNumber() + 
+                "\",\" panCardNumber\":\"" + super.getPanCardNumber() + 
+                "\",\" isActive\":\"" + super.getIsActive() + 
+                "\",\" currentTask\":\"" + currentTask + 
+                "\",\" currentTechknowledge\":\"" + currentTechknowledge +
+                "}";
+}
 }
      
 

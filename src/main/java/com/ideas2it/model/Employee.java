@@ -24,7 +24,7 @@ public class Employee {
     private String uuid;   
 
     @Column(name = "company_name")
-    public final String companyName = "ideas2IT";
+    private final String companyName = "ideas2IT";
 
     @Column(name = "name")
     private String employeeName;
@@ -137,19 +137,4 @@ public class Employee {
 	return isActive;
     }
 
-    @Override
-    public String toString() {
-        return "'{" +
-                "uuid='" + uuid + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", employeeName='" + employeeName + '\'' +
-                ", employeeDateOfBirth='" + employeeDateOfBirth + '\'' +
-                ", employeeDesignation='" + employeeDesignation + '\'' +
-                ", employeeMail='" + employeeMail + '\'' +
-                ", employeeMobileNumber='" + employeeMobileNumber + '\'' +
-                ", currentAddress='" + currentAddress + '\'' +
-                ", aadharCardNumber='" + aadharCardNumber + '\'' +
-                ", panCardNumber='" + panCardNumber + '\'' +
-                ", isActive=" + isActive + '\'' ;
-    }
 }

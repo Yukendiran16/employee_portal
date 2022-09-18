@@ -51,6 +51,7 @@ public class Trainer extends Employee {
 	       inverseJoinColumns = @JoinColumn(name = "trainee_id"))
     private Set<Trainee> trainees;
 
+    public void setTrainerId(int trainerId){ this.trainerId = trainerId;}
     public int getTrainerId() {
 	return trainerId;
     }	
@@ -78,14 +79,23 @@ public class Trainer extends Employee {
     public Set<Trainee> getTrainees() {
         return trainees;
     }
-
     @Override
     public String toString() {
-        return  "trainerId=" + trainerId + '\'' +
-                ", currentProject='" + currentProject + '\'' +
-                ", achievement='" + achievement + '\'' +
-                ", trainees=" + trainees +
-                "}'";
+        return "{\" trainerId\":\"" + trainerId  +
+                "\",\"uuid\":\"" + super.getUuid() +
+                "\",\" companyName\":\"" + super.getCompanyName() +
+                "\",\" employeeName\":\"" + super.getEmployeeName() +
+                "\",\" employeeDateOfBirth\":\"" + super.getEmployeeDateOfBirth() +
+                "\",\" employeeDesignation\":\"" + super.getEmployeeDesignation() +
+                "\",\" employeeMail\":\"" + super.getEmployeeMail() +
+                "\",\" employeeMobileNumber\":\"" + super.getEmployeeMobileNumber() +
+                "\",\" currentAddress\":\"" + super.getCurrentAddress() +
+                "\",\" aadharCardNumber\":\"" + super.getAadharCardNumber() +
+                "\",\" panCardNumber\":\"" + super.getPanCardNumber() +
+                "\",\" isActive\":\"" + super.getIsActive() +
+                "\",\" currentProject\":\"" + currentProject +
+                "\",\" achievement\":\"" + achievement +
+                "}";
     }
 }
 
