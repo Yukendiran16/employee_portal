@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -33,53 +34,48 @@ import java.util.List;
 public class TrainerController extends HttpServlet {
     private final EmployeeService employeeService = new EmployeeServiceImpl();
     private final EmployeeUtil employeeUtil = new EmployeeUtil();
-    private final Logger logger = LoggerFactory
-            .getLogger(TrainerController.class);
+    private final Logger logger = LoggerFactory.getLogger(TrainerController.class);
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    protected void doGet(HttpServletRequest req,
-                         HttpServletResponse resp) {
-        String trainerId = req.getParameter("id");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String trainerId = request.getParameter("id");
         int id = Integer.parseInt(trainerId);
         Trainer trainer = null;
         try {
             if (id != 0) {
                 trainer = employeeService.searchTrainerData(id);
-                this.outputResponse(resp, String.valueOf(trainer), 200);
-                resp.setStatus(200);
-                resp.setHeader("Content-Type", "application/json");
+                this.outputResponse(response, String.valueOf(trainer), 200);
+                response.setStatus(200);
+                response.setHeader("Content-Type", "application/json");
                 if (trainer != null) {
                     String object = trainer.toString();
                     logger.info("" + object);
-                    resp.getOutputStream().println(String.valueOf(object));
+                    response.getOutputStream().println(String.valueOf(object));
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("\n\nAssigned Trainees........ :");
                     trainer.getTrainees().forEach(trainee -> {
-                        stringBuilder.append("\nTrainee Id          : ")
-                                .append(trainee.getTraineeId())
-                                .append("\tTrainee Name        : ")
-                                .append(trainee.getEmployeeName());
+                        stringBuilder.append("\nTrainee Id          : ").append(trainee.getTraineeId()).append("\tTrainee Name        : ").append(trainee.getEmployeeName());
                     });
                     logger.info("" + stringBuilder);
-                    resp.getOutputStream().println(String.valueOf(stringBuilder));
+                    response.getOutputStream().println(String.valueOf(stringBuilder));
 
                 } else {
-                    resp.getOutputStream().println("no data found");
+                    response.getOutputStream().println("no data found");
                     logger.info("no data found");
                 }
             } else {
                 List<Trainer> trainers = null;
                 trainers = employeeService.getTrainersData();
                 if (trainers == null) {
-                    resp.getOutputStream().println("no data found");
+                    response.getOutputStream().println("no data found");
                     logger.info("\nNo data found");
                 } else {
                     StringBuilder stringBuilder = new StringBuilder();
                     trainers.forEach(trainer1 -> {
                         String object = trainer1.toString();
                         try {
-                            resp.getOutputStream().println(String.valueOf(object));
+                            response.getOutputStream().println(String.valueOf(object));
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -87,12 +83,13 @@ public class TrainerController extends HttpServlet {
                 }
             }
         } catch (SQLException | IOException e) {
+            response.getOutputStream().println(String.valueOf(e));
             throw new RuntimeException(e);
         }
     }
+
     @Override
-    protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
             StringBuilder buffer = new StringBuilder();
@@ -110,8 +107,7 @@ public class TrainerController extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest request,
-                         HttpServletResponse response) throws IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getPathInfo();
         String message = "";
         if (pathInfo == null || pathInfo.equals("/")) {
@@ -124,9 +120,10 @@ public class TrainerController extends HttpServlet {
             String payload = buffer.toString();
             Trainer trainer = mapper.readValue(payload, Trainer.class);
             try {
-                message = employeeService.updateTrainerData(trainer.getTrainerId(),trainer);
+                message = employeeService.updateTrainerData(trainer.getTrainerId(), trainer);
                 response.getOutputStream().println(message);
             } catch (SQLException e) {
+                response.getOutputStream().println(String.valueOf(e));
                 throw new RuntimeException(e);
             }
         } else {
@@ -135,9 +132,9 @@ public class TrainerController extends HttpServlet {
         }
 
     }
+
     @Override
-    protected void doDelete(HttpServletRequest request,
-                            HttpServletResponse response) throws IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String trainerId = request.getParameter("id");
         int id = Integer.parseInt(trainerId);
         String message = "";
@@ -152,6 +149,7 @@ public class TrainerController extends HttpServlet {
                     response.getOutputStream().println(message);
                 }
             } catch (SQLException e) {
+                response.getOutputStream().println(e.getErrorCode());
                 throw new RuntimeException(e);
             }
         }
@@ -161,17 +159,26 @@ public class TrainerController extends HttpServlet {
      * <h1> validateTrainerName </h1>
      * <p>
      * Method used to validate trainer name from user
+     * </p>
      *
      * @param {@link   Trainer} trainer
      * @param trainer
      * @param response
      * @return {@link } returns nothing
      */
-    public void validationOfInputs(Trainer trainer,
-                                   HttpServletResponse response) {
+    public void validationOfInputs(Trainer trainer, HttpServletResponse response) throws IOException {
         String message = "";
         try {
-            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getEmployeeName()) && EmployeeUtil.validationOfDateOfBirth(trainer.getEmployeeDateOfBirth()) && employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getEmployeeDesignation()) && EmployeeUtil.validationOfMail(trainer.getEmployeeMail()) && employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", trainer.getEmployeeMobileNumber()) && employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", trainer.getCurrentAddress()) && employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", trainer.getAadharCardNumber()) && employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", trainer.getPanCardNumber()) && employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getCurrentProject()) && employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getAchievement())) {
+            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getEmployeeName()) &&
+                    EmployeeUtil.validationOfDateOfBirth(trainer.getEmployeeDateOfBirth()) &&
+                    employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getEmployeeDesignation()) &&
+                    EmployeeUtil.validationOfMail(trainer.getEmployeeMail()) &&
+                    employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", trainer.getEmployeeMobileNumber()) &&
+                    employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", trainer.getCurrentAddress()) &&
+                    employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", trainer.getAadharCardNumber()) &&
+                    employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", trainer.getPanCardNumber()) &&
+                    employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getCurrentProject()) &&
+                    employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getAchievement())) {
                 message = employeeService.addTrainer(trainer);
                 response.getOutputStream().println(message);
             } else {
@@ -179,9 +186,25 @@ public class TrainerController extends HttpServlet {
             }
         } catch (NumberFormatException | SQLException | IOException | ArrayIndexOutOfBoundsException |
                  EmailMismatchException e) {
+            response.getOutputStream().println(String.valueOf(e));
             throw new RuntimeException(e);
         }
     }
-    private void outputResponse(HttpServletResponse resp, String valueOf, int i) {
+
+    private void outputResponse(HttpServletResponse response, String payload, int status) throws IOException {
+        response.setHeader("Content-Type", "application/json");
+        try {
+            response.setStatus(status);
+            if (payload != null) {
+                OutputStream outputStream = response.getOutputStream();
+                outputStream.write(payload.getBytes());
+                outputStream.flush();
+            }
+        } catch (IOException e) {
+            response.getOutputStream().println(String.valueOf(e));
+            throw new RuntimeException(e);
+        }
+
     }
+
 }

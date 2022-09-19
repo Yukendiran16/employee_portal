@@ -1,33 +1,20 @@
 package com.ideas2it.model;
 
+import javax.persistence.*;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
 /**
- *
  * <h1> Trainer </h1>
- *
- * The Trainer class is an POJO class and 
+ * <p>
+ * The Trainer class is an POJO class and
  * it extends Employee class
  * The class implements an application that
  * creates an properties of trainer and then
  * using getter and setters for getting and setting properties
- * 
- * @author  Yukendiran K
- * @version 1.0
- * @since   2022-08-04 
  *
+ * @author Yukendiran K
+ * @version 1.0
+ * @since 2022-08-04
  */
 
 @Entity
@@ -46,42 +33,46 @@ public class Trainer extends Employee {
     private String achievement;
 
     @ManyToMany(fetch = FetchType.EAGER,
-                cascade = {CascadeType.MERGE})
+            cascade = {CascadeType.MERGE})
     @JoinTable(name = "trainer_id_trainee_id", joinColumns = @JoinColumn(name = "trainer_id"),
-	       inverseJoinColumns = @JoinColumn(name = "trainee_id"))
+            inverseJoinColumns = @JoinColumn(name = "trainee_id"))
     private Set<Trainee> trainees;
 
-    public void setTrainerId(int trainerId){ this.trainerId = trainerId;}
+    public void setTrainerId(int trainerId) {
+        this.trainerId = trainerId;
+    }
+
     public int getTrainerId() {
-	return trainerId;
-    }	
+        return trainerId;
+    }
 
     public void setCurrentProject(String currentProject) {
-        this.currentProject = currentProject;  
+        this.currentProject = currentProject;
     }
 
     public String getCurrentProject() {
-	return currentProject;
+        return currentProject;
     }
-     
+
     public void setAchievement(String achievement) {
-        this.achievement = achievement;  
+        this.achievement = achievement;
     }
 
     public String getAchievement() {
-	return achievement;
+        return achievement;
     }
 
     public void setTrainees(Set<Trainee> trainees) {
-        this.trainees = trainees; 
+        this.trainees = trainees;
     }
-  
+
     public Set<Trainee> getTrainees() {
         return trainees;
     }
+
     @Override
     public String toString() {
-        return "{\" trainerId\":\"" + trainerId  +
+        return "{\" trainerId\":\"" + trainerId +
                 "\",\"uuid\":\"" + super.getUuid() +
                 "\",\" companyName\":\"" + super.getCompanyName() +
                 "\",\" employeeName\":\"" + super.getEmployeeName() +

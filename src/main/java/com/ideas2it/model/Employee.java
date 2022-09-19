@@ -4,24 +4,22 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 /**
- *
  * <h1> Employee </h1>
- *
+ * <p>
  * The Employee class is an POJO class
  * The class implements an application that
  * creates an properties of employee and then
  * using getter and setters for getting and setting properties
  *
- * @author  Yukendiran K
+ * @author Yukendiran K
  * @version 1.0
- * @since   2022-08-04 
- *
+ * @since 2022-08-04
  */
 @MappedSuperclass
 public class Employee {
 
     @Column(name = "uuid")
-    private String uuid;   
+    private String uuid;
 
     @Column(name = "company_name")
     private final String companyName = "ideas2IT";
@@ -36,9 +34,9 @@ public class Employee {
     private String employeeDesignation;
 
     @Column(name = "mail")
-    private String employeeMail; 
+    private String employeeMail;
 
-    @Column(name = "mobile_number")   
+    @Column(name = "mobile_number")
     private String employeeMobileNumber;
 
     @Column(name = "address")
@@ -54,39 +52,39 @@ public class Employee {
     private boolean isActive = false;
 
     public void setUuid(String uuid) {
-	this.uuid = uuid;
+        this.uuid = uuid;
     }
 
     public String getUuid() {
-	return uuid;
+        return uuid;
     }
 
     public String getCompanyName() {
-	return companyName;
+        return companyName;
     }
 
     public void setEmployeeName(String employeeName) {
-	this.employeeName = employeeName;
+        this.employeeName = employeeName;
     }
-    
+
     public String getEmployeeName() {
-	return employeeName;
+        return employeeName;
     }
-    
+
     public void setEmployeeDateOfBirth(String employeeDateOfBirth) {
-	this.employeeDateOfBirth = employeeDateOfBirth;
+        this.employeeDateOfBirth = employeeDateOfBirth;
     }
-    
+
     public String getEmployeeDateOfBirth() {
-         return employeeDateOfBirth;
+        return employeeDateOfBirth;
     }
 
     public void setEmployeeDesignation(String employeeDesignation) {
-	this.employeeDesignation= employeeDesignation;
+        this.employeeDesignation = employeeDesignation;
     }
 
     public String getEmployeeDesignation() {
-	return employeeDesignation;
+        return employeeDesignation;
     }
 
     public void setEmployeeMail(String employeeMail) {
@@ -94,47 +92,47 @@ public class Employee {
     }
 
     public String getEmployeeMail() {
-  	return employeeMail;
+        return employeeMail;
     }
 
     public void setEmployeeMobileNumber(String employeeMobileNumber) {
-	this.employeeMobileNumber = employeeMobileNumber;
+        this.employeeMobileNumber = employeeMobileNumber;
     }
 
     public String getEmployeeMobileNumber() {
-	return employeeMobileNumber;
+        return employeeMobileNumber;
     }
 
     public void setCurrentAddress(String currentAddress) {
-	this.currentAddress = currentAddress;
+        this.currentAddress = currentAddress;
     }
 
     public String getCurrentAddress() {
-	return currentAddress;
+        return currentAddress;
     }
 
     public void setAadharCardNumber(String aadharCardNumber) {
-	this.aadharCardNumber = aadharCardNumber;
+        this.aadharCardNumber = aadharCardNumber;
     }
 
     public String getAadharCardNumber() {
-	return aadharCardNumber;
+        return aadharCardNumber;
     }
 
     public void setPanCardNumber(String panCardNumber) {
-	this.panCardNumber = panCardNumber;
+        this.panCardNumber = panCardNumber;
     }
 
     public String getPanCardNumber() {
-	return panCardNumber;
+        return panCardNumber;
     }
-    
+
     public void setIsActive(boolean isActive) {
-	this.isActive = isActive;
+        this.isActive = isActive;
     }
 
     public boolean getIsActive() {
-	return isActive;
+        return isActive;
     }
 
 }

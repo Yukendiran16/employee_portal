@@ -2,10 +2,8 @@ package com.ideas2it.hibernateUtil;
 
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
- 
-import org.hibernate.cfg.Configuration;
-import org.hibernate.HibernateException; 
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 /*
  *
@@ -26,8 +24,8 @@ public class HibernateFactory {
     public static SessionFactory getFactory() throws ExceptionInInitializerError {
 
         try {
-            factory = new Configuration().configure().addPackage("com.ideas2it.model").addAnnotatedClass(Trainer.class).addAnnotatedClass(Trainee.class).buildSessionFactory(); 
-        } catch (Exception ex) { 
+            factory = new Configuration().configure().addPackage("com.ideas2it.model").addAnnotatedClass(Trainer.class).addAnnotatedClass(Trainee.class).buildSessionFactory();
+        } catch (Exception ex) {
             throw ex;
         }
         return factory;
