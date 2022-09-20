@@ -51,8 +51,8 @@ public class TrainerController extends HttpServlet {
                 int id = Integer.parseInt(trainerId);
                 trainer = employeeService.searchTrainerData(id);
                 if (trainer != null) {
-                    String trainerJson = mapper.writeValueAsString(trainer);
-                    outputResponse(response, new Gson().toJson(trainerJson));
+                    Map<String,Object> map = employeeService.getTrainer(trainer);
+                    outputResponse(response, new Gson().toJson(map));
                     response.setStatus(200);
                     response.setHeader("Content-Type", "application/json");
                 } else {
@@ -67,9 +67,9 @@ public class TrainerController extends HttpServlet {
                     outputResponse(response, "no data found");
                     logger.info("\nNo data found");
                 } else {
-                    for (Trainer trainer1 : trainers) {;
-                        String trainerJson = mapper.writeValueAsString(trainer1);
-                        outputResponse(response, new Gson().toJson(trainerJson));
+                    for (Trainer trainer1 : trainers) {
+                        Map<String,Object> map = employeeService.getTrainer(trainer1);
+                        outputResponse(response, new Gson().toJson(map));
                     }
                 }
             }

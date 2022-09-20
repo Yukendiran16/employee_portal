@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,8 +53,8 @@ public class TraineeController extends HttpServlet {
                 int id = Integer.parseInt(traineeId);
                 trainee = employeeService.searchTraineeData(id);
                 if (trainee != null) {
-                    String traineeJson = mapper.writeValueAsString(trainee);
-                    outputResponse(response, new Gson().toJson(traineeJson));
+                    Map<String,Object> map = employeeService.getTrainee(trainee);
+                    outputResponse(response, new Gson().toJson(map));
                     response.setStatus(200);
                     response.setHeader("Content-Type", "application/json");
                 } else {
@@ -69,8 +70,8 @@ public class TraineeController extends HttpServlet {
                     logger.info("\nNo data found");
                 } else {
                     for (Trainee trainee1 : trainees) {
-                        String traineeJson = mapper.writeValueAsString(trainee1);
-                        outputResponse(response, new Gson().toJson(traineeJson));
+                        Map<String,Object> map = employeeService.getTrainee(trainee1);
+                        outputResponse(response, new Gson().toJson(map));
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.ideas2it.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -44,10 +45,9 @@ public class Trainer extends Employee {
             inverseJoinColumns = @JoinColumn(name = "trainee_id"))
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
-    //@JsonIgnore
+    @JsonIgnore
     @JsonManagedReference
     private Set<Trainee> trainees;
-
     public int getTrainerId() {
         return trainerId;
     }

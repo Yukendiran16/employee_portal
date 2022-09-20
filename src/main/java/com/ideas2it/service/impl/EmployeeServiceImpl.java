@@ -8,7 +8,7 @@ import com.ideas2it.service.EmployeeService;
 import org.hibernate.HibernateException;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 /**
  * <h2>EmployeeServiceImpl</h2>
@@ -160,6 +160,49 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public String deleteTraineeData(int traineeId) throws SQLException, HibernateException, NullPointerException {
         return employeeDao.removeTrainee(traineeId);
+    }
+
+    @Override
+    public Map<String, Object> getTrainer(Trainer trainer) {
+        List<Map<String,Object>> traineeList = new ArrayList<>();
+        Set<Trainee> list = trainer.getTrainees();
+        for(Trainee trainee : list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("traineeId",trainee.getTraineeId());
+            map.put("employeeName",trainee.getEmployeeName());
+            traineeList.add(map);
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("trainerId",trainer.getTrainerId());
+        map.put("employeeName",trainer.getEmployeeName());
+        map.put("companyName", trainer.getCompanyName());
+        map.put("employeeDesignation",trainer.getEmployeeDesignation());
+        map.put("employeeMail",trainer.getEmployeeMail());
+        map.put("currentAddress",trainer.getCurrentAddress());
+        map.put("currentProject",trainer.getCurrentProject());
+        map.put("trainees", traineeList);
+        return map;
+    }
+    @Override
+    public Map<String, Object> getTrainee(Trainee trainee) {
+        List<Map<String,Object>> trainerList = new ArrayList<>();
+        Set<Trainer> list = trainee.getTrainers();
+        for(Trainer trainer : list) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("trainerId",trainer.getTrainerId());
+            map.put("employeeName",trainer.getEmployeeName());
+            trainerList.add(map);
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("traineeId",trainee.getTraineeId());
+        map.put("employeeName",trainee.getEmployeeName());
+        map.put("companyName", trainee.getCompanyName());
+        map.put("employeeDesignation",trainee.getEmployeeDesignation());
+        map.put("employeeMail",trainee.getEmployeeMail());
+        map.put("currentAddress",trainee.getCurrentAddress());
+        map.put("currentTask",trainee.getCurrentTask());
+        map.put("trainees", trainerList);
+        return map;
     }
 }  
 

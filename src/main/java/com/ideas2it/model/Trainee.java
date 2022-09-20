@@ -1,6 +1,7 @@
 package com.ideas2it.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
@@ -40,7 +41,7 @@ public class Trainee extends Employee {
     @ManyToMany(mappedBy = "trainees", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
-    //@JsonIgnore
+    @JsonIgnore
     @JsonBackReference
     private Set<Trainer> trainers;
 

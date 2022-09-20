@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <h2>EmployeeService</h2>
@@ -122,5 +123,9 @@ public interface EmployeeService {
      * @return {@link String} returns status of operation
      */
     String deleteTraineeData(int traineeId) throws SQLException, HibernateException, NullPointerException;
+
+    Map<String, Object> getTrainer(Trainer trainer);
+
+    Map<String, Object> getTrainee(Trainee trainee);
 
 }
