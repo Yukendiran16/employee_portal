@@ -15,14 +15,14 @@
         <servlet-class>com.ideas2it.controller.TraineeController</servlet-class>
     </servlet>
 
-    <servlet>
-        <servlet-name>servlet3</servlet-name>
-        <servlet-class>com.ideas2it.controller.associationServlet</servlet-class>
-    </servlet>
-
     <servlet-mapping>
         <servlet-name>servlet1</servlet-name>
         <url-pattern>/trainer</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>servlet1</servlet-name>
+        <url-pattern>/trainers</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -31,8 +31,28 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>servlet3</servlet-name>
-        <url-pattern>/assign</url-pattern>
+        <servlet-name>servlet2</servlet-name>
+        <url-pattern>/trainees</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>servlet1</servlet-name>
+        <url-pattern>/assign_trainee</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>servlet1</servlet-name>
+        <url-pattern>/un_assign_trainee</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>servlet2</servlet-name>
+        <url-pattern>/assign_trainer</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>servlet2</servlet-name>
+        <url-pattern>/un_assign_trainer</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -1,5 +1,11 @@
 package com.ideas2it.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -32,15 +38,15 @@ public class Trainer extends Employee {
     @Column(name = "achievement")
     private String achievement;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JoinTable(name = "trainer_id_trainee_id", joinColumns = @JoinColumn(name = "trainer_id"),
             inverseJoinColumns = @JoinColumn(name = "trainee_id"))
+    @Fetch(FetchMode.SELECT)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    //@JsonIgnore
+    @JsonManagedReference
     private Set<Trainee> trainees;
-
-    public void setTrainerId(int trainerId) {
-        this.trainerId = trainerId;
-    }
 
     public int getTrainerId() {
         return trainerId;
@@ -62,31 +68,11 @@ public class Trainer extends Employee {
         return achievement;
     }
 
-    public void setTrainees(Set<Trainee> trainees) {
-        this.trainees = trainees;
-    }
-
     public Set<Trainee> getTrainees() {
         return trainees;
     }
-
-    @Override
-    public String toString() {
-        return "{\" trainerId\":\"" + trainerId +
-                "\",\"uuid\":\"" + super.getUuid() +
-                "\",\" companyName\":\"" + super.getCompanyName() +
-                "\",\" employeeName\":\"" + super.getEmployeeName() +
-                "\",\" employeeDateOfBirth\":\"" + super.getEmployeeDateOfBirth() +
-                "\",\" employeeDesignation\":\"" + super.getEmployeeDesignation() +
-                "\",\" employeeMail\":\"" + super.getEmployeeMail() +
-                "\",\" employeeMobileNumber\":\"" + super.getEmployeeMobileNumber() +
-                "\",\" currentAddress\":\"" + super.getCurrentAddress() +
-                "\",\" aadharCardNumber\":\"" + super.getAadharCardNumber() +
-                "\",\" panCardNumber\":\"" + super.getPanCardNumber() +
-                "\",\" isActive\":\"" + super.getIsActive() +
-                "\",\" currentProject\":\"" + currentProject +
-                "\",\" achievement\":\"" + achievement +
-                "}";
+    public void setTrainees(Set<Trainee> trainees) {
+        this.trainees = trainees;
     }
 }
 

@@ -1,5 +1,11 @@
 package com.ideas2it.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -31,13 +37,12 @@ public class Trainee extends Employee {
     @Column(name = "current_techknowledge")
     private String currentTechknowledge;
 
-    @ManyToMany(mappedBy = "trainees", fetch = FetchType.EAGER,
-            cascade = {CascadeType.MERGE})
+    @ManyToMany(mappedBy = "trainees", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    //@JsonIgnore
+    @JsonBackReference
     private Set<Trainer> trainers;
-
-    public void setTraineeId(int traineeId) {
-        this.traineeId = traineeId;
-    }
 
     public int getTraineeId() {
         return traineeId;
@@ -65,26 +70,6 @@ public class Trainee extends Employee {
 
     public Set<Trainer> getTrainers() {
         return trainers;
-    }
-
-
-    @Override
-    public String toString() {
-        return "{\" traineeId\":\"" + traineeId +
-                "\",\"uuid\":\"" + super.getUuid() +
-                "\",\" companyName\":\"" + super.getCompanyName() +
-                "\",\" employeeName\":\"" + super.getEmployeeName() +
-                "\",\" employeeDateOfBirth\":\"" + super.getEmployeeDateOfBirth() +
-                "\",\" employeeDesignation\":\"" + super.getEmployeeDesignation() +
-                "\",\" employeeMail\":\"" + super.getEmployeeMail() +
-                "\",\" employeeMobileNumber\":\"" + super.getEmployeeMobileNumber() +
-                "\",\" currentAddress\":\"" + super.getCurrentAddress() +
-                "\",\" aadharCardNumber\":\"" + super.getAadharCardNumber() +
-                "\",\" panCardNumber\":\"" + super.getPanCardNumber() +
-                "\",\" isActive\":\"" + super.getIsActive() +
-                "\",\" currentTask\":\"" + currentTask +
-                "\",\" currentTechknowledge\":\"" + currentTechknowledge +
-                "}";
     }
 }
      

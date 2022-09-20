@@ -1,8 +1,10 @@
 package com.ideas2it.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.ideas2it.exception.EmailMismatchException;
 import com.ideas2it.model.Trainee;
+import com.ideas2it.model.Trainer;
 import com.ideas2it.service.EmployeeService;
 import com.ideas2it.service.impl.EmployeeServiceImpl;
 import com.ideas2it.util.EmployeeUtil;
@@ -16,14 +18,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <h2> TraineeController </h2>
  * <p>
  * The TraineeController class is an application that
  * do the main operation create, read, update, delete
- * if one will be choosen the respect operation performs
+ * if one will be choose the respect operation performs
  * until user exit the operation is same for all operation
  * </p>
  *
@@ -36,66 +41,49 @@ public class TraineeController extends HttpServlet {
     private final EmployeeUtil employeeUtil = new EmployeeUtil();
     private final Logger logger = LoggerFactory.getLogger(TraineeController.class);
     private final ObjectMapper mapper = new ObjectMapper();
-    private String payload;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String url = request.getRequestURI();
         String traineeId = request.getParameter("id");
-        int id = Integer.parseInt(traineeId);
+        Trainee trainee;
         try {
-        if (id != 0) {
-            Trainee trainee = null;
-
+            if (url.equals("/Servlet/trainee")) {
+                int id = Integer.parseInt(traineeId);
                 trainee = employeeService.searchTraineeData(id);
-                this.outputResponse(response, String.valueOf(trainee), 200);
-                response.setStatus(200);
-                response.setHeader("Content-Type", "application/json");
-                if (null != trainee) {
-                    String object = trainee.toString();
-                    logger.info("" + object);
-                    response.getOutputStream().println(String.valueOf(object));
-                    StringBuilder stringBuilder1 = new StringBuilder();
-                    stringBuilder1.append("\n\nAssigned Trainees........ :");
-                    trainee.getTrainers().forEach(trainer -> {
-                        stringBuilder1.append("\nTrainee Id          : ")
-                                .append(trainer.getTrainerId())
-                                .append("\tTrainee Name        : ")
-                                .append(trainer.getEmployeeName());
-                    });
-                    logger.info("" + stringBuilder1);
-                    response.getOutputStream().println(String.valueOf(stringBuilder1));
+                if (trainee != null) {
+                    String traineeJson = mapper.writeValueAsString(trainee);
+                    outputResponse(response, new Gson().toJson(traineeJson));
+                    response.setStatus(200);
+                    response.setHeader("Content-Type", "application/json");
                 } else {
-                    response.getOutputStream().println("no data found");
+                    outputResponse(response, "no data found");
                     logger.info("no data found");
                 }
-            }else {
-                List<Trainee> trainees = null;
+            }
+            if (url.equals("/Servlet/trainees")) {
+                List<Trainee> trainees;
                 trainees = employeeService.getTraineesData();
                 if (trainees == null) {
-                    response.getOutputStream().println("no data found");
+                    outputResponse(response, "no data found");
                     logger.info("\nNo data found");
                 } else {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    trainees.forEach(trainer1 -> {
-                        String object = trainer1.toString();
-                        try {
-                            response.getOutputStream().println(String.valueOf(object));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+                    for (Trainee trainee1 : trainees) {
+                        String traineeJson = mapper.writeValueAsString(trainee1);
+                        outputResponse(response, new Gson().toJson(traineeJson));
+                    }
                 }
-        }
+            }
         } catch (SQLException | IOException e) {
-            response.getOutputStream().println(String.valueOf(e));
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             throw new RuntimeException(e);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String pathInfo = request.getPathInfo();
-        if (pathInfo == null || pathInfo.equals("/")) {
+        String pathInfo = request.getRequestURI();
+        if (pathInfo.equals("/Servlet/trainee")) {
             StringBuilder buffer = new StringBuilder();
             BufferedReader reader = request.getReader();
             String line;
@@ -112,9 +100,9 @@ public class TraineeController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String pathInfo = request.getPathInfo();
+        String pathInfo = request.getRequestURI();
         String message = "";
-        if (pathInfo == null || pathInfo.equals("/")) {
+        if (pathInfo.equals("/Servlet/trainee")) {
             StringBuilder buffer = new StringBuilder();
             BufferedReader reader = request.getReader();
             String line;
@@ -125,68 +113,165 @@ public class TraineeController extends HttpServlet {
             Trainee trainee = mapper.readValue(payload, Trainee.class);
             try {
                 message = employeeService.updateTraineeData(trainee.getTraineeId(), trainee);
-                response.getOutputStream().println(message);
+                outputResponse(response, message);
             } catch (SQLException e) {
-                response.getOutputStream().println(String.valueOf(e));
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, String.valueOf(e));
+                throw new RuntimeException(e);
+            }
+        } else if (pathInfo.equals("/Servlet/assign_trainer")) {
+            String id = request.getParameter("traineeId");
+            int traineeId = Integer.parseInt(id);
+            try {
+                Trainee trainee = employeeService.searchTraineeData(traineeId);
+                String traineesId = request.getParameter("traineesList");
+                assignTrainers(trainee, traineesId, response);
+            } catch (SQLException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, message);
+        }
+
+    }
+
+    protected void assignTrainers(Trainee trainee, String trainersList, HttpServletResponse response) throws IOException, SQLException {
+        String[] trainersId = trainersList.split(",");
+        List<Trainer> trainers = employeeService.getTrainersData();
+        try {
+            for (String s : trainersId) {
+                int trainerId = Integer.parseInt(s);
+                Set<Trainer> trainer = trainers.stream().filter(filterTrainer -> filterTrainer.getTrainerId() == trainerId).collect(Collectors.toSet());
+                List<Trainer> trainerList = new ArrayList<>(trainer);
+                if (trainer.size() == 0) {
+                    logger.info("couldn't found entered traineeId :" + trainerId);
+                    response.getOutputStream().println("couldn't found entered trainee :" + trainerId);
+
+                } else {
+                    trainee.getTrainers().add(trainerList.get(0));
+                }
+            }
+            String message = employeeService.updateTraineeData(trainee.getTraineeId(), trainee);
+            outputResponse(response, message);
+        } catch (SQLException e) {
+            response.sendError(e.getErrorCode());
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        String traineeId = request.getParameter("id");
+        String pathInfo = request.getRequestURI();
+        String message = "";
+        if (pathInfo.equals("/Servlet/trainee")) {
+            Trainee trainee;
+            int id = Integer.parseInt(traineeId);
+            try {
+                trainee = employeeService.searchTraineeData(id);
+                if (trainee != null) {
+                    message = employeeService.deleteTraineeData(id);
+                    outputResponse(response, message);
+                } else {
+                    outputResponse(response, "no data");
+                }
+            } catch (SQLException e) {
+                response.sendError(e.getErrorCode());
+                throw new RuntimeException(e);
+            }
+        } else if (pathInfo.equals("/Servlet/un_assign_trainer")) {
+            try {
+                traineeId = request.getParameter("traineeId");
+                String trainerId = request.getParameter("trainerId");
+                Trainee trainee = employeeService.searchTraineeData(Integer.parseInt(traineeId));
+                if (null != trainee) {
+                    Set<Trainer> trainers = trainee.getTrainers();
+                    List<Trainer> trainer = new ArrayList<>(trainers);
+
+                    for (int i = 0; i < trainers.size(); i++) {
+
+                        if (Integer.parseInt(trainerId) == trainer.get(i).getTrainerId()) trainer.remove(i);
+                    }
+                    message = employeeService.updateTraineeData(Integer.parseInt(traineeId), trainee);
+                    logger.info("" + message);
+                    response.getOutputStream().println(message);
+                } else {
+                    logger.info("couldn't found entered trainee or trainee");
+                    outputResponse(response, message);
+                }
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             response.getOutputStream().println(message);
         }
-
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String traineeId = request.getParameter("id");
-        int id = Integer.parseInt(traineeId);
-        String message = "";
-        if (id != 0) {
-            Trainee trainee = null;
-            try {
-                trainee = employeeService.searchTraineeData(id);
-                if (trainee != null) {
-                    message = employeeService.deleteTraineeData(id);
-                    response.getOutputStream().println(message);
-                } else {
-                    response.getOutputStream().println(message);
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    public void validationOfInputs(Trainee trainee, HttpServletResponse response) {
+    /**
+     * <h1> validateTraineeName </h1>
+     * <p>
+     * Method used to validate trainee name from user
+     * </p>
+     */
+    public void validationOfInputs(Trainee trainee, HttpServletResponse response) throws IOException {
+        String message;
+        int count = 0;
         try {
-            if (employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getEmployeeName()) &&
-                    EmployeeUtil.validationOfDateOfBirth(trainee.getEmployeeDateOfBirth()) &&
-                    employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getEmployeeDesignation()) &&
-                    EmployeeUtil.validationOfMail(trainee.getEmployeeMail()) &&
-                    employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", trainee.getEmployeeMobileNumber()) &&
-                    employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", trainee.getCurrentAddress()) &&
-                    employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", trainee.getAadharCardNumber()) &&
-                    employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", trainee.getPanCardNumber()) &&
-                    employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getCurrentTask()) &&
-                    employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getCurrentTechknowledge())) {
-                String message = employeeService.addTrainee(trainee);
-                response.getOutputStream().println(message);
-            } else {
-                response.getOutputStream().println("some inputs are wrong please enter valid inputs");
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getEmployeeName())) {
+                response.getOutputStream().println("enter valid name");
+                count++;
             }
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException | EmailMismatchException e) {
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+            if (!EmployeeUtil.validationOfDateOfBirth(trainee.getEmployeeDateOfBirth())) {
+                response.getOutputStream().println("enter valid date of birth");
+                count++;
+            }
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getEmployeeDesignation())) {
+                response.getOutputStream().println("enter valid designation");
+                count++;
+            }
+            if (!EmployeeUtil.validationOfMail(trainee.getEmployeeMail())) {
+                response.getOutputStream().println("enter valid mail");
+                count++;
+            }
+            if (!employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", trainee.getEmployeeMobileNumber())) {
+                response.getOutputStream().println("enter valid mobile number");
+                count++;
+            }
+            if (!employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", trainee.getCurrentAddress())) {
+                response.getOutputStream().println("enter valid address");
+                count++;
+            }
+            if (!employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", trainee.getAadharCardNumber())) {
+                response.getOutputStream().println("enter valid aadhar card number");
+                count++;
+            }
+            if (!employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", trainee.getPanCardNumber())) {
+                response.getOutputStream().println("enter valid pan card number");
+                count++;
+            }
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getCurrentTask())) {
+                response.getOutputStream().println("enter valid current project");
+                count++;
+            }
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getCurrentTechknowledge())) {
+                response.getOutputStream().println("enter valid achievement");
+                count++;
+            }
+            if (0 == count) {
+                message = employeeService.addTrainee(trainee);
+                response.getOutputStream().println(message);
+            }
+        } catch (NumberFormatException | SQLException | IOException | ArrayIndexOutOfBoundsException |
+                 EmailMismatchException e) {
+            response.getOutputStream().println(String.valueOf(e));
             throw new RuntimeException(e);
         }
     }
 
-    private void outputResponse(HttpServletResponse response, String payload, int status) throws IOException {
+    private void outputResponse(HttpServletResponse response, String payload) throws IOException {
         response.setHeader("Content-Type", "application/json");
         try {
-            response.setStatus(status);
+            response.setStatus(200);
             if (payload != null) {
                 OutputStream outputStream = response.getOutputStream();
                 outputStream.write(payload.getBytes());
