@@ -1,6 +1,7 @@
 package com.ideas2it.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.ideas2it.exception.EmailMismatchException;
 import com.ideas2it.model.Trainee;
@@ -90,7 +91,7 @@ public class TrainerController extends HttpServlet {
                 buffer.append(line);
             }
             String payload = buffer.toString();
-            Trainer trainer = mapper.readValue(payload, Trainer.class);
+            Trainer trainer = mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false).findAndRegisterModules().readValue(payload, Trainer.class);
             validationOfInputs(trainer, response);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -218,7 +219,7 @@ public class TrainerController extends HttpServlet {
                 response.getOutputStream().println("enter valid name");
                 count++;
             }
-            if (!EmployeeUtil.validationOfDateOfBirth(trainer.getEmployeeDateOfBirth())) {
+            if (!EmployeeUtil.validationOfDateOfBirth(String.valueOf(trainer.getEmployeeDateOfBirth()))) {
                 response.getOutputStream().println("enter valid date of birth");
                 count++;
             }
@@ -226,6 +227,7 @@ public class TrainerController extends HttpServlet {
                 response.getOutputStream().println("enter valid designation");
                 count++;
             }
+
             if (!EmployeeUtil.validationOfMail(trainer.getEmployeeMail())) {
                 response.getOutputStream().println("enter valid mail");
                 count++;

@@ -2,6 +2,7 @@ package com.ideas2it.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDate;
 
 /**
  * <h1> Employee </h1>
@@ -28,7 +29,7 @@ public class Employee {
     private String employeeName;
 
     @Column(name = "date_of_birth")
-    private String employeeDateOfBirth;
+    private LocalDate employeeDateOfBirth;
 
     @Column(name = "designation")
     private String employeeDesignation;
@@ -71,11 +72,10 @@ public class Employee {
         return employeeName;
     }
 
-    public void setEmployeeDateOfBirth(String employeeDateOfBirth) {
+    public void setEmployeeDateOfBirth(LocalDate employeeDateOfBirth) {
         this.employeeDateOfBirth = employeeDateOfBirth;
     }
-
-    public String getEmployeeDateOfBirth() {
+    public LocalDate getEmployeeDateOfBirth() {
         return employeeDateOfBirth;
     }
 

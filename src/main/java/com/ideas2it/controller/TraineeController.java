@@ -1,6 +1,7 @@
 package com.ideas2it.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.ideas2it.exception.EmailMismatchException;
 import com.ideas2it.model.Trainee;
@@ -92,7 +93,7 @@ public class TraineeController extends HttpServlet {
                 buffer.append(line);
             }
             String payload = buffer.toString();
-            Trainee trainee = mapper.readValue(payload, Trainee.class);
+            Trainee trainee = mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false).findAndRegisterModules().readValue(payload, Trainee.class);
             validationOfInputs(trainee, response);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -222,7 +223,7 @@ public class TraineeController extends HttpServlet {
                 response.getOutputStream().println("enter valid name");
                 count++;
             }
-            if (!EmployeeUtil.validationOfDateOfBirth(trainee.getEmployeeDateOfBirth())) {
+            if (!EmployeeUtil.validationOfDateOfBirth(String.valueOf(trainee.getEmployeeDateOfBirth()))) {
                 response.getOutputStream().println("enter valid date of birth");
                 count++;
             }
