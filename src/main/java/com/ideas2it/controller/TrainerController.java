@@ -52,12 +52,12 @@ public class TrainerController extends HttpServlet {
                 int id = Integer.parseInt(trainerId);
                 trainer = employeeService.searchTrainerData(id);
                 if (trainer != null) {
-                    Map<String,Object> map = employeeService.getTrainer(trainer);
+                    Map<String, Object> map = employeeService.getTrainer(trainer);
                     outputResponse(response, new Gson().toJson(map));
                     response.setStatus(200);
                     response.setHeader("Content-Type", "application/json");
                 } else {
-                    outputResponse(response,"no data found");
+                    outputResponse(response, "no data found");
                     logger.info("no data found");
                 }
             }
@@ -69,7 +69,7 @@ public class TrainerController extends HttpServlet {
                     logger.info("\nNo data found");
                 } else {
                     for (Trainer trainer1 : trainers) {
-                        Map<String,Object> map = employeeService.getTrainer(trainer1);
+                        Map<String, Object> map = employeeService.getTrainer(trainer1);
                         outputResponse(response, new Gson().toJson(map));
                     }
                 }
@@ -83,6 +83,7 @@ public class TrainerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getRequestURI();
+        String message;
         if (pathInfo.equals("/Servlet/trainer")) {
             StringBuilder buffer = new StringBuilder();
             BufferedReader reader = request.getReader();
@@ -90,9 +91,19 @@ public class TrainerController extends HttpServlet {
             while ((line = reader.readLine()) != null) {
                 buffer.append(line);
             }
-            String payload = buffer.toString();
-            Trainer trainer = mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false).findAndRegisterModules().readValue(payload, Trainer.class);
-            validationOfInputs(trainer, response);
+            String str = buffer.toString();
+            Map<String, String> map = new Gson().fromJson(str, Map.class);
+            outputResponse(response, map.toString());
+            int valid = validationOfInputs(map, response);
+            if (0 == valid) {
+                Trainer trainer = mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false).findAndRegisterModules().readValue(buffer.toString(), Trainer.class);
+                try {
+                    message = employeeService.addTrainer(trainer);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                response.getOutputStream().println(message);
+            }
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -113,7 +124,7 @@ public class TrainerController extends HttpServlet {
             Trainer trainer = mapper.readValue(payload, Trainer.class);
             try {
                 message = employeeService.updateTrainerData(trainer.getTrainerId(), trainer);
-                outputResponse(response,message);
+                outputResponse(response, message);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, String.valueOf(e));
                 throw new RuntimeException(e);
@@ -129,7 +140,7 @@ public class TrainerController extends HttpServlet {
                 throw new RuntimeException(e);
             }
         } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,message);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, message);
         }
 
     }
@@ -137,18 +148,17 @@ public class TrainerController extends HttpServlet {
     protected void assignTrainees(Trainer trainer, String traineesList, HttpServletResponse response) throws IOException, InputMismatchException, HibernateException, NullPointerException, SQLException {
         String[] traineesId = traineesList.split(",");
         List<Trainee> trainees = employeeService.getTraineesData();
-        Map<Integer,String> listOfTrainees = new HashMap<>();
+        Map<Integer, String> listOfTrainees = new HashMap<>();
         for (String s : traineesId) {
             int traineeId = Integer.parseInt(s);
-            trainees.forEach(trainee -> { trainees
-                    .stream().filter(x->x.getTraineeId() == traineeId)
-                    .collect(Collectors.toList());
-                listOfTrainees.put(trainee.getTraineeId(),trainee.getEmployeeName());
+            trainees.forEach(trainee -> {
+                trainees.stream().filter(x -> x.getTraineeId() == traineeId).collect(Collectors.toList());
+                listOfTrainees.put(trainee.getTraineeId(), trainee.getEmployeeName());
             });
             String message = employeeService.updateTrainerData(trainer.getTrainerId(), trainer);
         }
         String message = employeeService.updateTrainerData(trainer.getTrainerId(), trainer);
-        outputResponse(response,message);
+        outputResponse(response, message);
     }
 
     @Override
@@ -164,9 +174,9 @@ public class TrainerController extends HttpServlet {
                 trainer = employeeService.searchTrainerData(id);
                 if (trainer != null) {
                     message = employeeService.deleteTrainerData(id);
-                    outputResponse(response,message);
+                    outputResponse(response, message);
                 } else {
-                    outputResponse(response,"no data");
+                    outputResponse(response, "no data");
                 }
             } catch (SQLException e) {
                 response.sendError(e.getErrorCode());
@@ -183,8 +193,7 @@ public class TrainerController extends HttpServlet {
 
                     for (int i = 0; i < trainees.size(); i++) {
 
-                        if (Integer.parseInt(traineeId) == trainee.get(i)
-                                .getTraineeId()) trainee.remove(i);
+                        if (Integer.parseInt(traineeId) == trainee.get(i).getTraineeId()) trainee.remove(i);
                     }
                     message = employeeService.updateTrainerData(Integer.parseInt(trainerId), trainer);
                     logger.info("" + message);
@@ -209,62 +218,58 @@ public class TrainerController extends HttpServlet {
      * <p>
      * Method used to validate trainer name from user
      * </p>
-     *
      */
-    public void validationOfInputs(Trainer trainer, HttpServletResponse response) throws IOException {
+    public int validationOfInputs(Map<String, String> map, HttpServletResponse response) throws IOException {
         String message;
         int count = 0;
         try {
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getEmployeeName())) {
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeName"))) {
                 response.getOutputStream().println("enter valid name");
                 count++;
             }
-            if (!EmployeeUtil.validationOfDateOfBirth(String.valueOf(trainer.getEmployeeDateOfBirth()))) {
+            if (!EmployeeUtil.validationOfDateOfBirth(map.get("employeeDateOfBirth"))) {
                 response.getOutputStream().println("enter valid date of birth");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getEmployeeDesignation())) {
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeDesignation"))) {
                 response.getOutputStream().println("enter valid designation");
                 count++;
             }
 
-            if (!EmployeeUtil.validationOfMail(trainer.getEmployeeMail())) {
+            if (!EmployeeUtil.validationOfMail(map.get("employeeMail"))) {
                 response.getOutputStream().println("enter valid mail");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", trainer.getEmployeeMobileNumber())) {
+            if (!employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", map.get("employeeMobileNumber"))) {
                 response.getOutputStream().println("enter valid mobile number");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", trainer.getCurrentAddress())) {
+            if (!employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", map.get("currentAddress"))) {
                 response.getOutputStream().println("enter valid address");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", trainer.getAadharCardNumber())) {
+            if (!employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", map.get("aadharCardNumber"))) {
                 response.getOutputStream().println("enter valid aadhar Card number");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", trainer.getPanCardNumber())) {
+            if (!employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", map.get("panCardNumber"))) {
                 response.getOutputStream().println("enter valid pan card number");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getCurrentProject())) {
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentProject"))) {
                 response.getOutputStream().println("enter valid current project");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainer.getAchievement())) {
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("achievement"))) {
                 response.getOutputStream().println("enter valid achievement");
                 count++;
             }
-            if (0 == count) {
-                message = employeeService.addTrainer(trainer);
-                response.getOutputStream().println(message);
-            }
-        } catch (NumberFormatException | SQLException | IOException | ArrayIndexOutOfBoundsException |
-                 EmailMismatchException e) {
+
+        } catch (NumberFormatException | IOException | ArrayIndexOutOfBoundsException | EmailMismatchException e) {
             response.getOutputStream().println(String.valueOf(e));
             throw new RuntimeException(e);
         }
+        return count;
     }
 
     private void outputResponse(HttpServletResponse response, String payload) throws IOException {

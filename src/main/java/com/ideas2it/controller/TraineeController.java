@@ -92,9 +92,20 @@ public class TraineeController extends HttpServlet {
             while ((line = reader.readLine()) != null) {
                 buffer.append(line);
             }
-            String payload = buffer.toString();
-            Trainee trainee = mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false).findAndRegisterModules().readValue(payload, Trainee.class);
-            validationOfInputs(trainee, response);
+            String message;
+            String str = buffer.toString();
+            Map<String, String> map = new Gson().fromJson(str, Map.class);
+            outputResponse(response, map.toString());
+            int valid = validationOfInputs(map, response);
+            if (0 == valid) {
+                Trainer trainer = mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false).findAndRegisterModules().readValue(buffer.toString(), Trainer.class);
+                try {
+                    message = employeeService.addTrainer(trainer);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                response.getOutputStream().println(message);
+            }
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -215,59 +226,57 @@ public class TraineeController extends HttpServlet {
      * Method used to validate trainee name from user
      * </p>
      */
-    public void validationOfInputs(Trainee trainee, HttpServletResponse response) throws IOException {
+    public int validationOfInputs(Map<String, String> map, HttpServletResponse response) throws IOException {
         String message;
         int count = 0;
         try {
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getEmployeeName())) {
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeName"))) {
                 response.getOutputStream().println("enter valid name");
                 count++;
             }
-            if (!EmployeeUtil.validationOfDateOfBirth(String.valueOf(trainee.getEmployeeDateOfBirth()))) {
+            if (!EmployeeUtil.validationOfDateOfBirth(map.get("employeeDateOfBirth"))) {
                 response.getOutputStream().println("enter valid date of birth");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getEmployeeDesignation())) {
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeDesignation"))) {
                 response.getOutputStream().println("enter valid designation");
                 count++;
             }
-            if (!EmployeeUtil.validationOfMail(trainee.getEmployeeMail())) {
+
+            if (!EmployeeUtil.validationOfMail(map.get("employeeMail"))) {
                 response.getOutputStream().println("enter valid mail");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", trainee.getEmployeeMobileNumber())) {
+            if (!employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", map.get("employeeMobileNumber"))) {
                 response.getOutputStream().println("enter valid mobile number");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", trainee.getCurrentAddress())) {
+            if (!employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", map.get("currentAddress"))) {
                 response.getOutputStream().println("enter valid address");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", trainee.getAadharCardNumber())) {
-                response.getOutputStream().println("enter valid aadhar card number");
+            if (!employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", map.get("aadharCardNumber"))) {
+                response.getOutputStream().println("enter valid aadhar Card number");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", trainee.getPanCardNumber())) {
+            if (!employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", map.get("panCardNumber"))) {
                 response.getOutputStream().println("enter valid pan card number");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getCurrentTask())) {
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTask"))) {
                 response.getOutputStream().println("enter valid current project");
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", trainee.getCurrentTechknowledge())) {
+            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTechknowledge"))) {
                 response.getOutputStream().println("enter valid achievement");
                 count++;
             }
-            if (0 == count) {
-                message = employeeService.addTrainee(trainee);
-                response.getOutputStream().println(message);
-            }
-        } catch (NumberFormatException | SQLException | IOException | ArrayIndexOutOfBoundsException |
-                 EmailMismatchException e) {
+
+        } catch (NumberFormatException | IOException | ArrayIndexOutOfBoundsException | EmailMismatchException e) {
             response.getOutputStream().println(String.valueOf(e));
             throw new RuntimeException(e);
         }
+        return count;
     }
 
     private void outputResponse(HttpServletResponse response, String payload) throws IOException {
