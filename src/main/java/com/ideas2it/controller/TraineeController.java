@@ -3,6 +3,7 @@ package com.ideas2it.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
+import com.ideas2it.exception.EmailMismatchException;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.service.EmployeeService;
@@ -226,52 +227,55 @@ public class TraineeController extends HttpServlet {
      */
     public int validationOfInputs(Map<String, String> map, HttpServletResponse response) throws IOException {
         int count = 0;
+        if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeName"))) {
+            outputResponse(response, new Gson().toJson("enter valid name"));
+            count++;
+        }
         try {
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeName"))) {
-                outputResponse(response, new Gson().toJson("enter valid name"));
-                count++;
-            }
             if (!EmployeeUtil.validationOfDateOfBirth(map.get("employeeDateOfBirth"))) {
+                count++;
                 outputResponse(response, new Gson().toJson("enter valid date of birth"));
-                count++;
             }
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeDesignation"))) {
-                outputResponse(response, new Gson().toJson("enter valid designation"));
-                count++;
-            }
-
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+            count ++;
+            outputResponse(response, new Gson().toJson("enter valid date of birth"));
+        }
+        if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeDesignation"))) {
+            outputResponse(response, new Gson().toJson("enter valid designation"));
+            count++;
+        }
+        try {
             if (!EmployeeUtil.validationOfMail(map.get("employeeMail"))) {
                 outputResponse(response, new Gson().toJson("enter valid mail"));
                 count++;
             }
-            if (!employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", map.get("employeeMobileNumber"))) {
-                outputResponse(response, new Gson().toJson("enter valid mobile number"));
-                count++;
-            }
-            if (!employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", map.get("currentAddress"))) {
-                outputResponse(response, new Gson().toJson("enter valid address"));
-                count++;
-            }
-            if (!employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", map.get("aadharCardNumber"))) {
-                outputResponse(response, new Gson().toJson("enter valid aadhar Card number"));
-                count++;
-            }
-            if (!employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", map.get("panCardNumber"))) {
-                outputResponse(response, new Gson().toJson("enter valid pan card number"));
-                count++;
-            }
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTask"))) {
-                outputResponse(response, new Gson().toJson("enter valid current project"));
-                count++;
-            }
-            if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTechknowledge"))) {
-                outputResponse(response, new Gson().toJson("enter valid achievement"));
-                count++;
-            }
-
-        } catch (IOException e) {
-            outputResponse(response, new Gson().toJson(String.valueOf(e)));
-            throw new RuntimeException(e);
+        } catch (EmailMismatchException e) {
+            count ++;
+            outputResponse(response, new Gson().toJson("enter valid date of email"));
+        }
+        if (!employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", map.get("employeeMobileNumber"))) {
+            outputResponse(response, new Gson().toJson("enter valid mobile number"));
+            count++;
+        }
+        if (!employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", map.get("currentAddress"))) {
+            outputResponse(response, new Gson().toJson("enter valid address"));
+            count++;
+        }
+        if (!employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", map.get("aadharCardNumber"))) {
+            outputResponse(response, new Gson().toJson("enter valid aadhar Card number"));
+            count++;
+        }
+        if (!employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", map.get("panCardNumber"))) {
+            outputResponse(response, new Gson().toJson("enter valid pan card number"));
+            count++;
+        }
+        if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTask"))) {
+            outputResponse(response, new Gson().toJson("enter valid current project"));
+            count++;
+        }
+        if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTechknowledge"))) {
+            outputResponse(response, new Gson().toJson("enter valid achievement"));
+            count++;
         }
         return count;
     }

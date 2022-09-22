@@ -1,5 +1,6 @@
 package com.ideas2it.util;
 
+import com.ideas2it.exception.EmailMismatchException;
 import org.apache.commons.validator.routines.DateValidator;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.RegexValidator;
@@ -77,16 +78,20 @@ public class EmployeeUtil {
      * @param {@link String} employeeDateOfBirth
      * @return {@link boolean} returns boolean
      */
-    public static boolean validationOfDateOfBirth(String employeeDateOfBirth) {
+    public static boolean validationOfDateOfBirth(String employeeDateOfBirth) throws NumberFormatException, ArrayIndexOutOfBoundsException {
         boolean bool;
-        LocalDate currentDate = LocalDate.now();
-        int currentYear = currentDate.getYear();
-        String[] date = employeeDateOfBirth.split("-");
-        int year = Integer.parseInt(date[0]);
-        if ((currentYear - 60) <= year && year <= (currentYear - 18)) {
-            bool = DateValidator.getInstance().isValid(employeeDateOfBirth, "yyyy-MM-dd");
-        } else {
-            bool = false;
+        try {
+            LocalDate currentDate = LocalDate.now();
+            int currentYear = currentDate.getYear();
+            String[] date = employeeDateOfBirth.split("-");
+            int year = Integer.parseInt(date[0]);
+            if ((currentYear - 60) <= year && year <= (currentYear - 18)) {
+                bool = DateValidator.getInstance().isValid(employeeDateOfBirth, "yyyy-MM-dd");
+            } else {
+                bool = false;
+            }
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+            throw e;
         }
         return bool;
     }
@@ -99,7 +104,7 @@ public class EmployeeUtil {
      * @param {@link String} mailId
      * @return {@link boolean} returns boolean
      */
-    public static boolean validationOfMail(String identifier) {
+    public static boolean validationOfMail(String identifier) throws EmailMismatchException {
         boolean mail = EmailValidator.getInstance().isValid(identifier);
         if (mail) {
             return mail;
