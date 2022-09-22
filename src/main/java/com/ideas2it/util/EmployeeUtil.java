@@ -1,6 +1,5 @@
 package com.ideas2it.util;
 
-import com.ideas2it.exception.EmailMismatchException;
 import org.apache.commons.validator.routines.DateValidator;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.RegexValidator;
@@ -78,20 +77,16 @@ public class EmployeeUtil {
      * @param {@link String} employeeDateOfBirth
      * @return {@link boolean} returns boolean
      */
-    public static boolean validationOfDateOfBirth(String employeeDateOfBirth) throws NumberFormatException, ArrayIndexOutOfBoundsException {
-        boolean bool = true;
-        try {
-            LocalDate currentDate = LocalDate.now();
-            int currentYear = currentDate.getYear();
-            String[] date = employeeDateOfBirth.split("-");
-            int year = Integer.parseInt(date[0]);
-            if ((currentYear - 60) <= year && year <= (currentYear - 18)) {
-                bool = DateValidator.getInstance().isValid(employeeDateOfBirth, "yyyy-MM-dd");
-            }
-        } catch (NumberFormatException e) {
-            throw e;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw e;
+    public static boolean validationOfDateOfBirth(String employeeDateOfBirth) {
+        boolean bool;
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        String[] date = employeeDateOfBirth.split("-");
+        int year = Integer.parseInt(date[0]);
+        if ((currentYear - 60) <= year && year <= (currentYear - 18)) {
+            bool = DateValidator.getInstance().isValid(employeeDateOfBirth, "yyyy-MM-dd");
+        } else {
+            bool = false;
         }
         return bool;
     }
@@ -104,10 +99,10 @@ public class EmployeeUtil {
      * @param {@link String} mailId
      * @return {@link boolean} returns boolean
      */
-    public static boolean validationOfMail(String identifier) throws EmailMismatchException {
+    public static boolean validationOfMail(String identifier) {
         boolean mail = EmailValidator.getInstance().isValid(identifier);
-        if (mail == false) {
-            throw new EmailMismatchException("invalid email");
+        if (mail) {
+            return mail;
         } else {
             return mail;
         }

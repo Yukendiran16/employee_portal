@@ -3,7 +3,6 @@ package com.ideas2it.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
-import com.ideas2it.exception.EmailMismatchException;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.service.EmployeeService;
@@ -54,12 +53,12 @@ public class TraineeController extends HttpServlet {
                 int id = Integer.parseInt(traineeId);
                 trainee = employeeService.searchTraineeData(id);
                 if (trainee != null) {
-                    Map<String,Object> map = employeeService.getTrainee(trainee);
+                    Map<String, Object> map = employeeService.getTrainee(trainee);
                     outputResponse(response, new Gson().toJson(map));
                     response.setStatus(200);
                     response.setHeader("Content-Type", "application/json");
                 } else {
-                    outputResponse(response, "no data found");
+                    outputResponse(response, new Gson().toJson("no data found"));
                     logger.info("no data found");
                 }
             }
@@ -67,11 +66,11 @@ public class TraineeController extends HttpServlet {
                 List<Trainee> trainees;
                 trainees = employeeService.getTraineesData();
                 if (trainees == null) {
-                    outputResponse(response, "no data found");
+                    outputResponse(response, new Gson().toJson("no data found"));
                     logger.info("\nNo data found");
                 } else {
                     for (Trainee trainee1 : trainees) {
-                        Map<String,Object> map = employeeService.getTrainee(trainee1);
+                        Map<String, Object> map = employeeService.getTrainee(trainee1);
                         outputResponse(response, new Gson().toJson(map));
                     }
                 }
@@ -95,7 +94,6 @@ public class TraineeController extends HttpServlet {
             String message;
             String str = buffer.toString();
             Map<String, String> map = new Gson().fromJson(str, Map.class);
-            outputResponse(response, map.toString());
             int valid = validationOfInputs(map, response);
             if (0 == valid) {
                 Trainer trainer = mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false).findAndRegisterModules().readValue(buffer.toString(), Trainer.class);
@@ -104,7 +102,7 @@ public class TraineeController extends HttpServlet {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                response.getOutputStream().println(message);
+                outputResponse(response, new Gson().toJson(message));
             }
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -126,7 +124,7 @@ public class TraineeController extends HttpServlet {
             Trainee trainee = mapper.readValue(payload, Trainee.class);
             try {
                 message = employeeService.updateTraineeData(trainee.getTraineeId(), trainee);
-                outputResponse(response, message);
+                outputResponse(response, new Gson().toJson(message));
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, String.valueOf(e));
                 throw new RuntimeException(e);
@@ -142,7 +140,7 @@ public class TraineeController extends HttpServlet {
                 throw new RuntimeException(e);
             }
         } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, message);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, new Gson().toJson(message));
         }
 
     }
@@ -157,16 +155,16 @@ public class TraineeController extends HttpServlet {
                 List<Trainer> trainerList = new ArrayList<>(trainer);
                 if (trainer.size() == 0) {
                     logger.info("couldn't found entered traineeId :" + trainerId);
-                    response.getOutputStream().println("couldn't found entered trainee :" + trainerId);
+                    outputResponse(response, new Gson().toJson("couldn't found entered trainee :" + trainerId));
 
                 } else {
                     trainee.getTrainers().add(trainerList.get(0));
                 }
             }
             String message = employeeService.updateTraineeData(trainee.getTraineeId(), trainee);
-            outputResponse(response, message);
+            outputResponse(response, new Gson().toJson(message));
         } catch (SQLException e) {
-            response.sendError(e.getErrorCode());
+            response.sendError(Integer.parseInt(new Gson().toJson(e.getErrorCode())));
         }
     }
 
@@ -185,10 +183,10 @@ public class TraineeController extends HttpServlet {
                     message = employeeService.deleteTraineeData(id);
                     outputResponse(response, message);
                 } else {
-                    outputResponse(response, "no data");
+                    outputResponse(response, new Gson().toJson("no data"));
                 }
             } catch (SQLException e) {
-                response.sendError(e.getErrorCode());
+                response.sendError(Integer.parseInt(new Gson().toJson(e.getErrorCode())));
                 throw new RuntimeException(e);
             }
         } else if (pathInfo.equals("/Servlet/un_assign_trainer")) {
@@ -206,17 +204,17 @@ public class TraineeController extends HttpServlet {
                     }
                     message = employeeService.updateTraineeData(Integer.parseInt(traineeId), trainee);
                     logger.info("" + message);
-                    response.getOutputStream().println(message);
+                    outputResponse(response, new Gson().toJson(message));
                 } else {
                     logger.info("couldn't found entered trainee or trainee");
-                    outputResponse(response, message);
+                    outputResponse(response, new Gson().toJson(message));
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            response.getOutputStream().println(message);
+            outputResponse(response, new Gson().toJson(message));
         }
     }
 
@@ -227,53 +225,52 @@ public class TraineeController extends HttpServlet {
      * </p>
      */
     public int validationOfInputs(Map<String, String> map, HttpServletResponse response) throws IOException {
-        String message;
         int count = 0;
         try {
             if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeName"))) {
-                response.getOutputStream().println("enter valid name");
+                outputResponse(response, new Gson().toJson("enter valid name"));
                 count++;
             }
             if (!EmployeeUtil.validationOfDateOfBirth(map.get("employeeDateOfBirth"))) {
-                response.getOutputStream().println("enter valid date of birth");
+                outputResponse(response, new Gson().toJson("enter valid date of birth"));
                 count++;
             }
             if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeDesignation"))) {
-                response.getOutputStream().println("enter valid designation");
+                outputResponse(response, new Gson().toJson("enter valid designation"));
                 count++;
             }
 
             if (!EmployeeUtil.validationOfMail(map.get("employeeMail"))) {
-                response.getOutputStream().println("enter valid mail");
+                outputResponse(response, new Gson().toJson("enter valid mail"));
                 count++;
             }
             if (!employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", map.get("employeeMobileNumber"))) {
-                response.getOutputStream().println("enter valid mobile number");
+                outputResponse(response, new Gson().toJson("enter valid mobile number"));
                 count++;
             }
             if (!employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", map.get("currentAddress"))) {
-                response.getOutputStream().println("enter valid address");
+                outputResponse(response, new Gson().toJson("enter valid address"));
                 count++;
             }
             if (!employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", map.get("aadharCardNumber"))) {
-                response.getOutputStream().println("enter valid aadhar Card number");
+                outputResponse(response, new Gson().toJson("enter valid aadhar Card number"));
                 count++;
             }
             if (!employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", map.get("panCardNumber"))) {
-                response.getOutputStream().println("enter valid pan card number");
+                outputResponse(response, new Gson().toJson("enter valid pan card number"));
                 count++;
             }
             if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTask"))) {
-                response.getOutputStream().println("enter valid current project");
+                outputResponse(response, new Gson().toJson("enter valid current project"));
                 count++;
             }
             if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTechknowledge"))) {
-                response.getOutputStream().println("enter valid achievement");
+                outputResponse(response, new Gson().toJson("enter valid achievement"));
                 count++;
             }
 
-        } catch (NumberFormatException | IOException | ArrayIndexOutOfBoundsException | EmailMismatchException e) {
-            response.getOutputStream().println(String.valueOf(e));
+        } catch (IOException e) {
+            outputResponse(response, new Gson().toJson(String.valueOf(e)));
             throw new RuntimeException(e);
         }
         return count;
@@ -289,7 +286,7 @@ public class TraineeController extends HttpServlet {
                 outputStream.flush();
             }
         } catch (IOException e) {
-            response.getOutputStream().println(String.valueOf(e));
+            outputResponse(response, new Gson().toJson(String.valueOf(e)));
             throw new RuntimeException(e);
         }
 
