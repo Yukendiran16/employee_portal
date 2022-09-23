@@ -118,11 +118,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public Trainer retrieveTrainer(int trainerId) throws HibernateException, NullPointerException {
 
         Transaction transaction = null;
-        Trainer trainer = null;
+        Trainer trainer;
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
             transaction = session.beginTransaction();
-            trainer = (Trainer) session.get(Trainer.class, trainerId);
+            trainer = session.get(Trainer.class, trainerId);
             trainer.getTrainees();
             return (!trainer.getIsActive()) ? trainer : null;
         }
@@ -183,7 +183,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns nothing
      */
     @Override
-    public String updateTrainer(int trainerId, Trainer trainer) throws HibernateException, SQLException, NullPointerException {
+    public String updateTrainer(int trainerId, Trainer trainer) throws HibernateException, NullPointerException {
 
         Transaction transaction = null;
         String message = "";
@@ -192,7 +192,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
             transaction = session.beginTransaction();
 
             if (!trainer.getIsActive()) {
-
                 Trainer updateTrainer = (Trainer) session.get(Trainer.class, trainerId);
                 updateTrainer.setEmployeeName(trainer.getEmployeeName());
                 updateTrainer.setEmployeeDateOfBirth(trainer.getEmployeeDateOfBirth());
@@ -228,7 +227,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns nothing
      */
     @Override
-    public String updateTrainee(int traineeId, Trainee trainee) throws HibernateException, SQLException, NullPointerException {
+    public String updateTrainee(int traineeId, Trainee trainee) throws HibernateException, NullPointerException {
 
         Transaction transaction = null;
         String message = "";
@@ -273,7 +272,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns message. message contains status of the method.
      */
     @Override
-    public String removeTrainer(int trainerId) throws HibernateException, SQLException, NullPointerException {
+    public String removeTrainer(int trainerId) throws HibernateException, NullPointerException {
 
         Transaction transaction = null;
         String message = "no operation ahead";
@@ -303,7 +302,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns message. message contains status of the method.
      */
     @Override
-    public String removeTrainee(int traineeId) throws HibernateException, SQLException, NullPointerException {
+    public String removeTrainee(int traineeId) throws HibernateException, NullPointerException {
 
         Transaction transaction = null;
         String message = "no operation ahead";

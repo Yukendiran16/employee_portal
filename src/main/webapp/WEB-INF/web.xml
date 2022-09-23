@@ -7,12 +7,12 @@
 
     <servlet>
         <servlet-name>servlet1</servlet-name>
-        <servlet-class>com.ideas2it.controller.TrainerController</servlet-class>
+        <servlet-class>com.ideas2it.controller.TrainerServlet</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>servlet2</servlet-name>
-        <servlet-class>com.ideas2it.controller.TraineeController</servlet-class>
+        <servlet-class>com.ideas2it.controller.TraineeServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Servlet" />
         <module name="servlet" />
+        <module name="employee_portal" />
       </profile>
     </annotationProcessing>
   </component>
