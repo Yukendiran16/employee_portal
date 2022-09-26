@@ -1,17 +1,19 @@
-package com.ideas2it.controller;
+package com.ideas2it.controller.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.ideas2it.exception.EmailMismatchException;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.service.EmployeeService;
+import com.ideas2it.service.impl.EmployeeServiceImpl;
 import com.ideas2it.util.EmployeeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
@@ -36,19 +38,20 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 2022-08-04
  */
-@Controller
+@RestController
 public class TrainerServlet extends HttpServlet {
-
-    EmployeeService employeeService;
-
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
+    @Autowired
+    private final EmployeeService employeeService = new EmployeeServiceImpl();
+    @Autowired
     private final EmployeeUtil employeeUtil = new EmployeeUtil();
+    @Autowired
     private final Logger logger = LoggerFactory.getLogger(TrainerServlet.class);
+    @Autowired
+    private final ObjectMapper mapper = new ObjectMapper();
 
-    @PostMapping (value = "/trainer",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/trainer",
+            method = RequestMethod.POST,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseEntity<String> addTrainer(@RequestBody Trainer trainer) throws IOException, SQLException {
         String message = null;
@@ -64,8 +67,8 @@ public class TrainerServlet extends HttpServlet {
         return new ResponseEntity<String>(message, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/trainers",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/trainers", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseEntity<List<Trainer>> getTrainers() throws SQLException {
         logger.debug("requested URL is correct. This URL is returns all trainer details");
@@ -79,8 +82,8 @@ public class TrainerServlet extends HttpServlet {
         }
     }
 
-    @GetMapping(path = "/trainer/{id}",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/trainer/{id}", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseEntity<Trainer> getTrainer(@PathVariable("id") String id) throws SQLException {
         logger.debug("requested URL is correct. This URL is returns all trainer details");
@@ -96,8 +99,9 @@ public class TrainerServlet extends HttpServlet {
         }
     }
 
-    @PutMapping(value = "/trainer",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/trainer",
+            method = RequestMethod.PUT,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseEntity<String> updateTrainer(@RequestBody Trainer trainer) throws SQLException {
         logger.debug("requested URL is correct. This URl is update the exists employee profile");
@@ -105,8 +109,9 @@ public class TrainerServlet extends HttpServlet {
         return new ResponseEntity<String>(message, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/assign_trainee/{trainerId,traineesId}",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/assign_trainee/{trainerId,traineesId}",
+            method = RequestMethod.PUT,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseEntity<String> assignTrainee(@PathVariable("trainerId") String trainerId,
                                                 @PathVariable("traineesId") String traineesId) throws SQLException {
@@ -140,8 +145,8 @@ public class TrainerServlet extends HttpServlet {
         return new ResponseEntity<String>(message + "association successful", HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/trainer/{id}",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/trainer/{id}", method = RequestMethod.DELETE,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseEntity<String> deleteTrainer(@PathVariable("id") String id) throws SQLException {
         logger.debug("requested URL is correct. This URL is returns all trainer details");
@@ -152,11 +157,11 @@ public class TrainerServlet extends HttpServlet {
         if (trainer == null) {
             logger.info("trainer list is empty" + "y");
             message = employeeService.deleteTrainerData(trainerId);
-            //Set<Trainee> trainee = trainer.getTrainees();
-            //if (null != trainee) {
-              //  trainee.removeAll(trainee);
-              //  message = employeeService.updateTrainerData(trainerId, trainer);
-            //}
+            Set<Trainee> trainee = trainer.getTrainees();
+            if (null != trainee) {
+                trainee.removeAll(trainee);
+                message = employeeService.updateTrainerData(trainerId, trainer);
+            }
             return new ResponseEntity<String>(message, HttpStatus.NOT_FOUND);
         } else {
             logger.debug("details successfully shown");
@@ -164,8 +169,9 @@ public class TrainerServlet extends HttpServlet {
         }
     }
 
-    @DeleteMapping(value = "/assign_trainee/{trainerId,traineeId}",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/assign_trainee/{trainerId,traineeId}",
+            method = RequestMethod.DELETE,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseEntity<String> un_assignTrainee(@PathVariable("trainerId") String trainerId,
                                                    @PathVariable("traineeId") String traineeId) throws SQLException {
