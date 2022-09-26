@@ -1,11 +1,11 @@
 package com.ideas2it.service.impl;
 
 import com.ideas2it.dao.EmployeeDao;
-import com.ideas2it.dao.impl.EmployeeDaoImpl;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.service.EmployeeService;
 import org.hibernate.HibernateException;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -24,9 +24,14 @@ import java.util.*;
  * @version 1.0
  * @since 2022-08-04
  */
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeDao employeeDao = new EmployeeDaoImpl();
+    EmployeeDao employeeDao;
+
+    public void setEmployeeDao(EmployeeDao employeedao) {
+        this.employeeDao = employeedao;
+    }
 
     /**
      * <h1> addTrainer </h1>
@@ -164,43 +169,44 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Map<String, Object> getTrainer(Trainer trainer) {
-        List<Map<String,Object>> traineeList = new ArrayList<>();
+        List<Map<String, Object>> traineeList = new ArrayList<>();
         Set<Trainee> list = trainer.getTrainees();
-        for(Trainee trainee : list) {
-            Map<String,Object> map = new HashMap<>();
-            map.put("traineeId",trainee.getTraineeId());
-            map.put("employeeName",trainee.getEmployeeName());
+        for (Trainee trainee : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("traineeId", trainee.getTraineeId());
+            map.put("employeeName", trainee.getEmployeeName());
             traineeList.add(map);
         }
-        Map<String,Object> map = new HashMap<>();
-        map.put("trainerId",trainer.getTrainerId());
-        map.put("employeeName",trainer.getEmployeeName());
+        Map<String, Object> map = new HashMap<>();
+        map.put("trainerId", trainer.getTrainerId());
+        map.put("employeeName", trainer.getEmployeeName());
         map.put("companyName", trainer.getCompanyName());
-        map.put("employeeDesignation",trainer.getEmployeeDesignation());
-        map.put("employeeMail",trainer.getEmployeeMail());
-        map.put("currentAddress",trainer.getCurrentAddress());
-        map.put("currentProject",trainer.getCurrentProject());
+        map.put("employeeDesignation", trainer.getEmployeeDesignation());
+        map.put("employeeMail", trainer.getEmployeeMail());
+        map.put("currentAddress", trainer.getCurrentAddress());
+        map.put("currentProject", trainer.getCurrentProject());
         map.put("trainees", traineeList);
         return map;
     }
+
     @Override
     public Map<String, Object> getTrainee(Trainee trainee) {
-        List<Map<String,Object>> trainerList = new ArrayList<>();
+        List<Map<String, Object>> trainerList = new ArrayList<>();
         Set<Trainer> list = trainee.getTrainers();
-        for(Trainer trainer : list) {
-            Map<String,Object> map = new HashMap<>();
-            map.put("trainerId",trainer.getTrainerId());
-            map.put("employeeName",trainer.getEmployeeName());
+        for (Trainer trainer : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("trainerId", trainer.getTrainerId());
+            map.put("employeeName", trainer.getEmployeeName());
             trainerList.add(map);
         }
-        Map<String,Object> map = new HashMap<>();
-        map.put("traineeId",trainee.getTraineeId());
-        map.put("employeeName",trainee.getEmployeeName());
+        Map<String, Object> map = new HashMap<>();
+        map.put("traineeId", trainee.getTraineeId());
+        map.put("employeeName", trainee.getEmployeeName());
         map.put("companyName", trainee.getCompanyName());
-        map.put("employeeDesignation",trainee.getEmployeeDesignation());
-        map.put("employeeMail",trainee.getEmployeeMail());
-        map.put("currentAddress",trainee.getCurrentAddress());
-        map.put("currentTask",trainee.getCurrentTask());
+        map.put("employeeDesignation", trainee.getEmployeeDesignation());
+        map.put("employeeMail", trainee.getEmployeeMail());
+        map.put("currentAddress", trainee.getCurrentAddress());
+        map.put("currentTask", trainee.getCurrentTask());
         map.put("trainees", trainerList);
         return map;
     }

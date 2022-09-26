@@ -41,7 +41,7 @@ public class Trainer extends Employee {
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE,CascadeType.PERSIST})
-    @JoinTable(name = "trainer_trainee", joinColumns = @JoinColumn(name = "trainer_id"),
+    @JoinTable(name = "trainer_id_trainee_id", joinColumns = @JoinColumn(name = "trainer_id"),
             inverseJoinColumns = @JoinColumn(name = "trainee_id"))
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)

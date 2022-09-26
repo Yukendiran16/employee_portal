@@ -1,23 +1,21 @@
 package com.ideas2it.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.ideas2it.exception.EmailMismatchException;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.service.EmployeeService;
-import com.ideas2it.service.impl.EmployeeServiceImpl;
 import com.ideas2it.util.EmployeeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ import java.util.stream.Collectors;
  * <p>
  * The TraineeController class is an application that
  * do the main operation create, read, update, delete
- * if one will be choose the respect operation performs
+ * if one will be choose one respect operation will be performs
  * until user exit the operation is same for all operation
  * </p>
  *
@@ -38,233 +36,173 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 2022-08-04
  */
+@Controller
 public class TraineeServlet extends HttpServlet {
-    private final EmployeeService employeeService = new EmployeeServiceImpl();
+    EmployeeService employeeService;
+
+    public void setEmployeeService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
     private final EmployeeUtil employeeUtil = new EmployeeUtil();
     private final Logger logger = LoggerFactory.getLogger(TraineeServlet.class);
-    private final ObjectMapper mapper = new ObjectMapper();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String url = request.getRequestURI();
-        logger.debug("request URL :" + url);
-        String traineeId = request.getParameter("id");
-        logger.info(traineeId + "requested trainee Id for view details.");
-        Trainee trainee;
-        try {
-            if (url.equals("/employee_portal/trainee")) {
-                logger.debug("requested URL is correct. This URl is returns searched trainee details");
-                int id = Integer.parseInt(traineeId);
-                trainee = employeeService.searchTraineeData(id);
-                logger.debug("searching successful");
-                if (trainee != null) {
-                    Map<String, Object> map = employeeService.getTrainee(trainee);
-                    outputResponse(response, new Gson().toJson(map));
-                    logger.debug("details successfully shown");
-                    logger.info(map.toString());
-                    response.setStatus(200);
-                    response.setHeader("Content-Type", "application/json");
-                } else {
-                    outputResponse(response, new Gson().toJson("searched trainee not found"));
-                    logger.info("searched trainee not found");
-                }
-            } else if (url.equals("/employee_portal/trainees")) {
-                logger.debug("requested URL is correct. This URL is returns all trainee details");
-                List<Trainee> trainees;
-                trainees = employeeService.getTraineesData();
-                if (trainees == null) {
-                    outputResponse(response, new Gson().toJson("trainee list is empty"));
-                    logger.info("trainee list is empty");
-                } else {
-                    for (Trainee trainee1 : trainees) {
-                        Map<String, Object> map = employeeService.getTrainee(trainee1);
-                        outputResponse(response, new Gson().toJson(map));
-                    }
-                    logger.debug("details successfully shown");
-                }
-            } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                logger.error("error occurs : " + HttpServletResponse.SC_BAD_REQUEST);
-            }
-        } catch (SQLException | IOException e) {
-            logger.error("error occurs : " + e);
-            throw new RuntimeException(e);
+    @RequestMapping(value = "/trainee",
+            method = RequestMethod.POST,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseEntity<String> addTrainee(@RequestBody Trainee trainee) throws IOException, SQLException {
+        String message = null;
+        Map<String, String> map = new Gson().fromJson(String.valueOf(trainee), Map.class);
+        logger.info("details successfully received from user and send it for validation");
+        int valid = validationOfInputs(map);
+        logger.info("validation successful");
+        if (0 == valid) {
+            logger.info("trainee object send to database");
+            message = employeeService.addTrainee(trainee);
+            logger.info("message from database : " + message);
         }
+        return new ResponseEntity<String>(message, HttpStatus.OK);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String pathInfo = request.getRequestURI();
-        logger.debug("request URL :" + pathInfo);
-        if (pathInfo.equals("/employee_portal/trainee")) {
-            logger.debug("requested URL is correct. This URl create new employee profile");
-            StringBuilder buffer = new StringBuilder();
-            BufferedReader reader = request.getReader();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line);
-            }
-            String message;
-            String str = buffer.toString();
-            Map<String, String> map = new Gson().fromJson(str, Map.class);
-            logger.info("details successfully received from user and send it for validation");
-            int valid = validationOfInputs(map, response);
-            logger.info("validation successful");
-            if (0 == valid) {
-                logger.info("details is mapped to trainer using ObjectMapper");
-                Trainer trainer = mapper.configure(SerializationFeature
-                        .WRITE_DATES_AS_TIMESTAMPS, false).findAndRegisterModules()
-                        .readValue(buffer.toString(), Trainer.class);
-                logger.info("mapping successful");
-                try {
-                    logger.info("trainer object send to database");
-                    message = employeeService.addTrainer(trainer);
-                    outputResponse(response, new Gson().toJson(message));
-                    logger.info("message from database : " + message);
-                } catch (SQLException e) {
-                    logger.error("error occurs : " + e);
-                    throw new RuntimeException(e);
-                }
-            }
+    @RequestMapping(value = "/trainees", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseEntity<List<Trainee>> getTrainees() throws SQLException {
+        logger.debug("requested URL is correct. This URL is returns all trainee details");
+        List<Trainee> trainees = employeeService.getTraineesData();
+        if (trainees == null) {
+            logger.info("trainee list is empt" + "y");
+            return new ResponseEntity<List<Trainee>>(HttpStatus.NOT_FOUND);
         } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            logger.error("error occurs : " + HttpServletResponse.SC_BAD_REQUEST);
+            logger.debug("details successfully shown");
+            return new ResponseEntity<List<Trainee>>(trainees, HttpStatus.OK);
         }
     }
 
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String pathInfo = request.getRequestURI();
-        logger.debug("request URL :" + pathInfo);
-        String message;
-        if (pathInfo.equals("/employee_portal/trainee")) {
-            logger.debug("requested URL is correct. This URl is update the exists employee profile");
-            StringBuilder buffer = new StringBuilder();
-            BufferedReader reader = request.getReader();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line);
-            }
-            String payload = buffer.toString();
-            Trainee trainee = mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false).findAndRegisterModules().readValue(payload, Trainee.class);
-            try {
-                message = employeeService.updateTraineeData(trainee.getTraineeId(), trainee);
-                outputResponse(response, new Gson().toJson(message));
-            } catch (SQLException e) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, String.valueOf(e));
-                throw new RuntimeException(e);
-            }
-        } else if (pathInfo.equals("/employee_portal/assign_trainer")) {
-            logger.debug("requested URL is correct. This URl create association between trainee to trainers");
-            String id = request.getParameter("traineeId");
-            logger.info("trainee Id for assign trainers :" + id);
-            int traineeId = Integer.parseInt(id);
-            try {
-                logger.info("trainee id searching...in database");
-                Trainee trainee = employeeService.searchTraineeData(traineeId);
-                logger.info("trainee Id present...");
-                String trainersId = request.getParameter("trainersList");
-                logger.info("trainer Id list :" + "["+trainersId+"]");
-                logger.debug("trainee Id and trainer Id's pass to create association");
-                assignTrainers(trainee, trainersId, response);
-                logger.debug("association successful");
-            } catch (SQLException | IOException e) {
-                logger.error("error occurs : " + e);
-                throw new RuntimeException(e);
-            }
+    @RequestMapping(value = "/trainee/{id}", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseEntity<Trainee> getTrainee(@PathVariable("id") String id) throws SQLException {
+        logger.debug("requested URL is correct. This URL is returns all trainee details");
+        int traineeId = Integer.parseInt(id);
+        Trainee trainee = employeeService.searchTraineeData(traineeId);
+        logger.info("searching successful");
+        if (trainee == null) {
+            logger.info("trainee list is empty" + "y");
+            return new ResponseEntity<Trainee>(HttpStatus.NOT_FOUND);
         } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            logger.error("error occurs : " + HttpServletResponse.SC_BAD_REQUEST);
+            logger.debug("details successfully shown");
+            return new ResponseEntity<Trainee>(trainee, HttpStatus.OK);
         }
-
     }
 
-    protected void assignTrainers(Trainee trainee, String trainersList, HttpServletResponse response) throws IOException, SQLException {
-        String[] trainersId = trainersList.split(",");
-        List<Trainer> trainers = employeeService.getTrainersData();
-        try {
+    @RequestMapping(value = "/trainee",
+            method = RequestMethod.PUT,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseEntity<String> updateTrainee(@RequestBody Trainee trainee) throws SQLException {
+        logger.debug("requested URL is correct. This URl is update the exists employee profile");
+        String message = employeeService.updateTraineeData(trainee.getTraineeId(), trainee);
+        return new ResponseEntity<String>(message, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/assign_trainer/{traineeId,trainersId}",
+            method = RequestMethod.PUT,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseEntity<String> assignTrainee(@PathVariable("traineeId") String traineeId,
+                                                @PathVariable("trainersId") String trainersId) throws SQLException {
+        String message = null;
+        logger.debug("requested URL is correct. This URl create association between trainee to trainees");
+        int id = Integer.parseInt(traineeId);
+        logger.info("trainee id searching...in database");
+        Trainee trainee = employeeService.searchTraineeData(id);
+        if (trainee != null) {
+            logger.info("trainee Id present...");
+            logger.info("trainer Id list :" + "[" + trainersId + "]");
+            String[] idList = trainersId.split(",");
+            List<Trainer> trainers = employeeService.getTrainersData();
             logger.info("filtering trainer..... in trainers list");
-            for (String s : trainersId) {
+            for (String s : idList) {
                 int trainerId = Integer.parseInt(s);
                 Set<Trainer> trainer = trainers.stream().filter(filterTrainer ->
                         filterTrainer.getTrainerId() == trainerId).collect(Collectors.toSet());
                 List<Trainer> trainerList = new ArrayList<>(trainer);
                 if (trainer.size() == 0) {
                     logger.info("couldn't found trainerId :" + trainerId + "in list");
-                    outputResponse(response, new Gson().toJson("couldn't found trainer :" + trainerId + "in list"));
+                    message = "couldn't found trainer :" + trainerId + "in list";
+                    return new ResponseEntity<String>(message, HttpStatus.OK);
                 } else {
-                    logger.info("trainer :" + trainerId + "found in list");
+                    logger.info("trainee :" + traineeId + "found in list");
                     trainee.getTrainers().add(trainerList.get(0));
                 }
             }
-            String message = employeeService.updateTraineeData(trainee.getTraineeId(), trainee);
+            message = employeeService.updateTraineeData(trainee.getTraineeId(), trainee);
             logger.info(message);
-            outputResponse(response, new Gson().toJson(message));
-        } catch (SQLException e) {
-            logger.error("error occurs : " + e);
-            response.sendError(Integer.parseInt(new Gson().toJson(e.getErrorCode())));
+            logger.debug("association successful");
+            return new ResponseEntity<String>(message + "association successful", HttpStatus.OK);
+        } else {
+            logger.info("couldn't found trainee");
+            message = "couldn't found trainee ";
+            return new ResponseEntity<String>(message, HttpStatus.OK);
         }
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String pathInfo = request.getRequestURI();
-        logger.debug("request URL :" + pathInfo);
-        String traineeId = request.getParameter("id");
-        String message = "";
-        if (pathInfo.equals("/employee_portal/trainee")) {
-            Trainee trainee;
-            int id = Integer.parseInt(traineeId);
-            try {
-                trainee = employeeService.searchTraineeData(id);
-                if (trainee != null) {
-                    message = employeeService.deleteTraineeData(id);
-                    outputResponse(response, message);
-                    logger.info(message);
-                    Set<Trainer> trainer = trainee.getTrainers();
-                    if (null != trainer) {
-                        for (Trainer tr : trainer) {
-                            trainer.remove(tr.getTrainerId());
-                        }
-                        message = employeeService.updateTraineeData(id,trainee);
-                    }
-                } else {
-                    outputResponse(response, new Gson().toJson("no data found"));
-                    logger.info("no data found");
-                }
-            } catch (SQLException e) {
-                logger.error("error occurs : " + e);
-                response.sendError(Integer.parseInt(new Gson().toJson(e.getErrorCode())));
-                throw new RuntimeException(e);
+    @RequestMapping(value = "/trainee/{id}", method = RequestMethod.DELETE,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseEntity<String> deleteTrainee(@PathVariable("id") String id) throws SQLException {
+        logger.debug("requested URL is correct. This URL is returns all trainee details");
+        int traineeId = Integer.parseInt(id);
+        String message = null;
+        Trainee trainee = employeeService.searchTraineeData(traineeId);
+        logger.info("searching successful");
+        if (trainee == null) {
+            logger.info("trainee list is empty" + "y");
+            message = employeeService.deleteTraineeData(traineeId);
+            Set<Trainer> trainer = trainee.getTrainers();
+            if (null != trainer) {
+                trainer.removeAll(trainer);
+                message = employeeService.updateTraineeData(traineeId, trainee);
             }
-        } else if (pathInfo.equals("/employee_portal/un_assign_trainer")) {
-            try {
-                traineeId = request.getParameter("traineeId");
-                String trainerId = request.getParameter("trainerId");
-                Trainee trainee = employeeService.searchTraineeData(Integer.parseInt(traineeId));
-                if (null != trainee) {
-                    Set<Trainer> trainers = trainee.getTrainers();
-                    List<Trainer> trainer = new ArrayList<>(trainers);
-
-                    for (int i = 0; i < trainers.size(); i++) {
-
-                        if (Integer.parseInt(trainerId) == trainer.get(i).getTrainerId()) trainer.remove(i);
-                    }
-                    message = employeeService.updateTraineeData(Integer.parseInt(traineeId), trainee);
-                    logger.info("" + message);
-                    outputResponse(response, new Gson().toJson(message));
-                } else {
-                    logger.info("couldn't found entered trainee or trainee");
-                    outputResponse(response, new Gson().toJson(message));
-                }
-            } catch (SQLException e) {
-                logger.error("error occurs : " + e);
-                throw new RuntimeException(e);
-            }
+            return new ResponseEntity<String>(message, HttpStatus.NOT_FOUND);
         } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            logger.error("error occurs : " + HttpServletResponse.SC_BAD_REQUEST);
+            logger.debug("details successfully shown");
+            return new ResponseEntity<String>(message, HttpStatus.OK);
         }
+    }
+
+    @RequestMapping(value = "/un_assign_trainee/{trainerId,traineeId}",
+            method = RequestMethod.DELETE,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ResponseEntity<String> un_assignTrainee(@PathVariable("trainerId") String trainerId,
+                                                   @PathVariable("traineeId") String traineeId) throws SQLException {
+        String message = null;
+        logger.debug("requested URL is correct. This URl create association between trainee to trainees");
+        int id = Integer.parseInt(traineeId);
+        logger.info("trainee id searching...in database");
+        Trainee trainee = employeeService.searchTraineeData(id);
+        logger.info("trainee Id " + id + "present...");
+        logger.info("trainee Id list :" + traineeId);
+        List<Trainer> trainers = employeeService.getTrainersData();
+        logger.info("filtering trainee..... in trainees list");
+        Set<Trainer> trainer = trainers.stream().filter(filterTrainer ->
+                        filterTrainer.getTrainerId() == Integer.parseInt(trainerId))
+                .collect(Collectors.toSet());
+        List<Trainer> trainerList = new ArrayList<>(trainer);
+        if (trainer.size() == 0) {
+            logger.info("couldn't found traineeId :" + traineeId + "in list");
+            message = "couldn't found trainee :" + traineeId + "in list";
+            return new ResponseEntity<String>(message, HttpStatus.OK);
+        } else {
+            logger.info("trainee :" + traineeId + "found in list");
+            trainee.getTrainers().remove(trainerList.get(0));
+        }
+        message = employeeService.updateTraineeData(trainee.getTraineeId(), trainee);
+        logger.info(message);
+        logger.debug("un assign successful");
+        return new ResponseEntity<String>(message + "un assign successful", HttpStatus.OK);
     }
 
     /**
@@ -273,74 +211,70 @@ public class TraineeServlet extends HttpServlet {
      * Method used to validate trainee name from user
      * </p>
      */
-    public int validationOfInputs(Map<String, String> map, HttpServletResponse response) throws IOException {
+    public int validationOfInputs(Map<String, String> map) throws IOException {
         int count = 0;
         if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeName"))) {
-            outputResponse(response, new Gson().toJson("enter valid name"));
+            logger.info("wrong name");
+            new Gson().toJson("enter valid name");
             count++;
         }
         try {
             if (!EmployeeUtil.validationOfDateOfBirth(map.get("employeeDateOfBirth"))) {
                 count++;
-                outputResponse(response, new Gson().toJson("enter valid date of birth"));
+                logger.info("wrong employeeDateOfBirth");
+                new Gson().toJson("enter valid date of birth");
             }
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
-            count ++;
-            outputResponse(response, new Gson().toJson("enter valid date of birth"));
+            count++;
+            logger.info("wrong employeeDateOfBirth");
+            new Gson().toJson("enter valid date of birth");
         }
         if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("employeeDesignation"))) {
-            outputResponse(response, new Gson().toJson("enter valid designation"));
+            logger.info("wrong employeeDesignation");
+            new Gson().toJson("enter valid designation");
             count++;
         }
         try {
             if (!EmployeeUtil.validationOfMail(map.get("employeeMail"))) {
-                outputResponse(response, new Gson().toJson("enter valid mail"));
+                logger.info("wrong employeeMail");
+                new Gson().toJson("enter valid mail");
                 count++;
             }
         } catch (EmailMismatchException e) {
-            count ++;
-            outputResponse(response, new Gson().toJson("enter valid date of email"));
+            logger.info("employeeMail");
+            count++;
+            new Gson().toJson("enter valid date of email");
         }
         if (!employeeUtil.matchRegex("^(([6-9]{1}[0-9]{9})*)$", map.get("employeeMobileNumber"))) {
-            outputResponse(response, new Gson().toJson("enter valid mobile number"));
+            logger.info("wrong employeeMobileNumber");
+            new Gson().toJson("enter valid mobile number");
             count++;
         }
         if (!employeeUtil.matchRegex("^(([0-9\\sa-zA-Z,.-]{3,150})*)$", map.get("currentAddress"))) {
-            outputResponse(response, new Gson().toJson("enter valid address"));
+            logger.info("wrong currentAddress");
+            new Gson().toJson("enter valid address");
             count++;
         }
         if (!employeeUtil.matchRegex("^(([1-9]{1}[0-9]{11})*)$", map.get("aadharCardNumber"))) {
-            outputResponse(response, new Gson().toJson("enter valid aadhar Card number"));
+            logger.info("wrong panCardNumber");
+            new Gson().toJson("enter valid aadhar Card number");
             count++;
         }
         if (!employeeUtil.matchRegex("^(([A-Z0-9]{10})*)$", map.get("panCardNumber"))) {
-            outputResponse(response, new Gson().toJson("enter valid pan card number"));
+            logger.info("wrong panCardNumber");
+            new Gson().toJson("enter valid pan card number");
             count++;
         }
-        if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTask"))) {
-            outputResponse(response, new Gson().toJson("enter valid current task"));
+        if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currenTask"))) {
+            logger.info("wrong currentTask");
+            new Gson().toJson("enter valid current Task");
             count++;
         }
         if (!employeeUtil.matchRegex("^(([a-z\\sA-Z_]{3,50})*)$", map.get("currentTechknowledge"))) {
-            outputResponse(response, new Gson().toJson("enter valid techknowledge"));
+            logger.info("wrong currentTechknowledge");
+            new Gson().toJson("enter valid currentTechknowledge");
             count++;
         }
         return count;
-    }
-
-    private void outputResponse(HttpServletResponse response, String payload) throws IOException {
-        response.setHeader("Content-Type", "application/json");
-        try {
-            response.setStatus(200);
-            if (payload != null) {
-                OutputStream outputStream = response.getOutputStream();
-                outputStream.write(payload.getBytes());
-                outputStream.flush();
-            }
-        } catch (IOException e) {
-            outputResponse(response, new Gson().toJson(String.valueOf(e)));
-            throw new RuntimeException(e);
-        }
-
     }
 }

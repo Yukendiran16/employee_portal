@@ -4,13 +4,11 @@ import com.ideas2it.dao.EmployeeDao;
 import com.ideas2it.hibernateUtil.HibernateFactory;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
-import java.sql.SQLException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -28,6 +26,8 @@ import java.util.List;
  * @version 1.0
  * @since 2022-08-04
  */
+@Repository
+@Transactional
 public class EmployeeDaoImpl implements EmployeeDao {
 
     /**
@@ -39,7 +39,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns nothing
      */
     @Override
-    public String insertTrainer(Trainer trainer) throws HibernateException, SQLException, NullPointerException {
+    public String insertTrainer(Trainer trainer) throws HibernateException, NullPointerException {
 
         Transaction transaction = null;
         String message = "couldn't insert data";
@@ -71,7 +71,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         Transaction transaction = null;
         String message = "couldn't insert data";
 
-        try (Session session = HibernateFactory.getFactory().openSession();) {
+        try (Session session = HibernateFactory.getFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(trainee);
             transaction.commit();
@@ -94,10 +94,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public List<Trainer> retrieveTrainers() throws HibernateException, NullPointerException {
 
         List<Trainer> trainers;
-        Transaction transaction = null;
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Trainer.class)
                     .add(Restrictions.eq("isActive", false))
                     .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -117,11 +115,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public Trainer retrieveTrainer(int trainerId) throws HibernateException, NullPointerException {
 
-        Transaction transaction = null;
         Trainer trainer;
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
             trainer = session.get(Trainer.class, trainerId);
             trainer.getTrainees();
             return (!trainer.getIsActive()) ? trainer : null;
@@ -139,10 +135,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public List<Trainee> retrieveTrainees() throws HibernateException {
 
         List<Trainee> trainees;
-        Transaction transaction = null;
-
         try (Session session = HibernateFactory.getFactory().openSession();) {
-            transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Trainee.class)
                     .add(Restrictions.eq("isActive", false))
                     .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -162,11 +155,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public Trainee retrieveTrainee(int traineeId) throws HibernateException, NullPointerException {
 
-        Transaction transaction = null;
-        Trainee trainee = null;
+        Trainee trainee;
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
             trainee = session.get(Trainee.class, traineeId);
             trainee.getTrainers();
             return (!trainee.getIsActive()) ? trainee : null;
@@ -186,30 +177,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public String updateTrainer(int trainerId, Trainer trainer) throws HibernateException, NullPointerException {
 
         Transaction transaction = null;
-        String message = "";
+        String message;
 
         try (Session session = HibernateFactory.getFactory().openSession();) {
             transaction = session.beginTransaction();
-
-            if (!trainer.getIsActive()) {
-                Trainer updateTrainer = (Trainer) session.get(Trainer.class, trainerId);
-                updateTrainer.setEmployeeName(trainer.getEmployeeName());
-                updateTrainer.setEmployeeDateOfBirth(trainer.getEmployeeDateOfBirth());
-                updateTrainer.setEmployeeDesignation(trainer.getEmployeeDesignation());
-                updateTrainer.setEmployeeMail(trainer.getEmployeeMail());
-                updateTrainer.setEmployeeMobileNumber(trainer.getEmployeeMobileNumber());
-                updateTrainer.setCurrentAddress(trainer.getCurrentAddress());
-                updateTrainer.setAadharCardNumber(trainer.getAadharCardNumber());
-                updateTrainer.setPanCardNumber(trainer.getPanCardNumber());
-                updateTrainer.setCurrentProject(trainer.getCurrentProject());
-                updateTrainer.setAchievement(trainer.getAchievement());
-                updateTrainer.setTrainees(trainer.getTrainees());
-                transaction.commit();
-                message = "updated successfully";
-
-            } else {
-                message = "employee is not active";
-            }
+            session.saveOrUpdate(trainer);
+            transaction.commit();
+            message = "updated successfully";
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             throw e;
@@ -230,31 +204,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public String updateTrainee(int traineeId, Trainee trainee) throws HibernateException, NullPointerException {
 
         Transaction transaction = null;
-        String message = "";
+        String message;
 
         try (Session session = HibernateFactory.getFactory().openSession();) {
             transaction = session.beginTransaction();
+            session.saveOrUpdate(trainee);
+            transaction.commit();
+            message = "updated successfully";
 
-            if (!trainee.getIsActive()) {
-
-                Trainee updateTrainee = session.get(Trainee.class, traineeId);
-                updateTrainee.setEmployeeName(trainee.getEmployeeName());
-                updateTrainee.setEmployeeDateOfBirth(trainee.getEmployeeDateOfBirth());
-                updateTrainee.setEmployeeDesignation(trainee.getEmployeeDesignation());
-                updateTrainee.setEmployeeMail(trainee.getEmployeeMail());
-                updateTrainee.setEmployeeMobileNumber(trainee.getEmployeeMobileNumber());
-                updateTrainee.setCurrentAddress(trainee.getCurrentAddress());
-                updateTrainee.setAadharCardNumber(trainee.getAadharCardNumber());
-                updateTrainee.setPanCardNumber(trainee.getPanCardNumber());
-                updateTrainee.setCurrentTask(trainee.getCurrentTask());
-                updateTrainee.setCurrentTechknowledge(trainee.getCurrentTechknowledge());
-                updateTrainee.setTrainers(trainee.getTrainers());
-                transaction.commit();
-                message = "updated successfully";
-
-            } else {
-                message = "employee is not active";
-            }
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             throw e;
@@ -279,7 +236,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         try (Session session = HibernateFactory.getFactory().openSession();) {
             transaction = session.beginTransaction();
-            Trainer trainer = (Trainer) session.get(Trainer.class, trainerId);
+            Trainer trainer =session.get(Trainer.class, trainerId);
             trainer.setIsActive(true);
             session.update(trainer);
             System.out.println("update");
@@ -309,7 +266,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         try (Session session = HibernateFactory.getFactory().openSession();) {
             transaction = session.beginTransaction();
-            Trainee trainee = (Trainee) session.get(Trainee.class, traineeId);
+            Trainee trainee =session.get(Trainee.class, traineeId);
             trainee.setIsActive(true);
             session.update(trainee);
             transaction.commit();
