@@ -1,7 +1,6 @@
 package com.ideas2it.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
@@ -46,7 +45,6 @@ public class Trainer extends Employee {
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
-    @JsonManagedReference
     private Set<Trainee> trainees;
     public int getTrainerId() {
         return trainerId;

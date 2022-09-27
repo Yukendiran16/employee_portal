@@ -82,6 +82,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Trainer searchTrainerData(int trainerId) throws SQLException, HibernateException, NullPointerException {
+        System.out.println("service here");
         Trainer trainer = employeeDao.retrieveTrainer(trainerId);
         return trainer;
     }

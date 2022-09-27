@@ -47,20 +47,20 @@ public class TrainerServlet extends HttpServlet {
     private final EmployeeUtil employeeUtil = new EmployeeUtil();
     private final Logger logger = LoggerFactory.getLogger(TrainerServlet.class);
 
-    @PostMapping (value = "/trainer",
+    @PostMapping (path = "/trainer",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<String> addTrainer(@RequestBody Trainer trainer) throws IOException, SQLException {
         String message = null;
-        Map<String, String> map = new Gson().fromJson(String.valueOf(trainer), Map.class);
-        logger.info("details successfully received from user and send it for validation");
-        int valid = validationOfInputs(map);
-        logger.info("validation successful");
-        if (0 == valid) {
+        //Map<String, String> map = new Gson().fromJson(String.valueOf(trainer), Map.class);
+        //logger.info("details successfully received from user and send it for validation");
+        //int valid = validationOfInputs(map);
+        //logger.info("validation successful");
+        //if (0 == valid) {
             logger.info("trainer object send to database");
             message = employeeService.addTrainer(trainer);
             logger.info("message from database : " + message);
-        }
+       // }
         return new ResponseEntity<String>(message, HttpStatus.OK);
     }
 
@@ -105,7 +105,7 @@ public class TrainerServlet extends HttpServlet {
         return new ResponseEntity<String>(message, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/assign_trainee/{trainerId,traineesId}",
+    @PutMapping(value = "/assign_trainee/{trainerId}/{traineesId}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<String> assignTrainee(@PathVariable("trainerId") String trainerId,
@@ -164,7 +164,7 @@ public class TrainerServlet extends HttpServlet {
         }
     }
 
-    @DeleteMapping(value = "/assign_trainee/{trainerId,traineeId}",
+    @DeleteMapping(value = "/assign_trainee/{trainerId}/{traineeId}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<String> un_assignTrainee(@PathVariable("trainerId") String trainerId,
