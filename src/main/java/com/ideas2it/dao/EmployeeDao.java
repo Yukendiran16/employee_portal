@@ -4,7 +4,6 @@ import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import org.hibernate.HibernateException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ public interface EmployeeDao {
      * @param {@link Trainer} trainer object
      * @return {@link String} returns nothing
      */
-    String insertTrainer(Trainer trainer) throws SQLException, HibernateException, NullPointerException;
+    String insertTrainer(Trainer trainer) throws  HibernateException;
 
     /**
      * <h1> insertTrainee </h1>
@@ -40,7 +39,7 @@ public interface EmployeeDao {
      * @param {@link Trainee} trainee object
      * @return {@link String} returns nothing
      */
-    String insertTrainee(Trainee trainee) throws SQLException, HibernateException, NullPointerException;
+    String insertTrainee(Trainee trainee) throws  HibernateException;
 
     /**
      * <h1> retrieveTrainers</h1>
@@ -49,7 +48,7 @@ public interface EmployeeDao {
      *
      * @return {@link List<Trainer>} returns list of trainers Data
      */
-    List<Trainer> retrieveTrainers() throws SQLException, HibernateException, NullPointerException;
+    List<Trainer> retrieveTrainers() throws  HibernateException;
 
     /**
      * <h1> retrieveTrainer </h1>
@@ -59,7 +58,7 @@ public interface EmployeeDao {
      * @param {@link int} trainerId
      * @return {@link Trainer} returns trainer Data
      */
-    Trainer retrieveTrainer(int trainerId) throws SQLException, HibernateException, NullPointerException;
+    Trainer retrieveTrainer(int trainerId) throws  HibernateException;
 
     /**
      * <h1> retrieveTrainees </h1>
@@ -68,7 +67,7 @@ public interface EmployeeDao {
      *
      * @return {@link List<Trainee>} returns list of trainees Data
      */
-    List<Trainee> retrieveTrainees() throws SQLException, HibernateException, NullPointerException;
+    List<Trainee> retrieveTrainees() throws  HibernateException;
 
     /**
      * <h1> retrieveTrainee </h1>
@@ -78,7 +77,7 @@ public interface EmployeeDao {
      * @param {@link String} trainee Id
      * @return {@link Trainee} returns trainee Data
      */
-    Trainee retrieveTrainee(int traineeId) throws SQLException, HibernateException, NullPointerException;
+    Trainee retrieveTrainee(int traineeId) throws  HibernateException;
 
     /**
      * <h1> updateTrainer </h1>
@@ -89,7 +88,7 @@ public interface EmployeeDao {
      * @param {@link Trainer} trainer object
      * @return {@link String} returns nothing
      */
-    String updateTrainer(int trainerId, Trainer trainer) throws SQLException, HibernateException, NullPointerException;
+    String updateTrainer(int trainerId, Trainer trainer) throws  HibernateException;
 
     /**
      * <h1> updateTrainee </h1>
@@ -100,7 +99,7 @@ public interface EmployeeDao {
      * @param {@link Trainee} trainee object
      * @return {@link String} returns nothing
      */
-    String updateTrainee(int traineeId, Trainee trainee) throws SQLException, HibernateException, NullPointerException;
+    String updateTrainee(int traineeId, Trainee trainee) throws  HibernateException;
 
     /**
      * <h1> removetrainer </h1>
@@ -111,7 +110,7 @@ public interface EmployeeDao {
      * @param {@link String} trainer Id
      * @return {@link String} returns message. message contains status of the method.
      */
-    String removeTrainer(int trainerId) throws SQLException, HibernateException, NullPointerException;
+    String removeTrainer(int trainerId) throws  HibernateException;
 
     /**
      * <h1> removeTrainee </h1>
@@ -122,5 +121,5 @@ public interface EmployeeDao {
      * @param {@link String} trainee Id
      * @return {@link String} returns message. message contains status of the method.
      */
-    String removeTrainee(int traineeId) throws SQLException, HibernateException, NullPointerException;
+    String removeTrainee(int traineeId) throws  HibernateException;
 }

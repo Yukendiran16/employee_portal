@@ -7,7 +7,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 /**
  * <h1> Trainer </h1>
@@ -32,51 +32,25 @@ public class Trainer extends Employee {
     @Column(name = "id")
     private int trainerId;
 
-    @Column(name = "current_project")
-    private String currentProject;
-
-    @Column(name = "achievement")
-    private String achievement;
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE,CascadeType.PERSIST})
-    @JoinTable(name = "trainer_id_trainee_id", joinColumns = @JoinColumn(name = "trainer_id"),
+    @JoinTable(name = "trainer_trainee", joinColumns = @JoinColumn(name = "trainer_id"),
             inverseJoinColumns = @JoinColumn(name = "trainee_id"))
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
-    private Set<Trainee> trainees;
+    private List<Trainee> trainees;
     public int getTrainerId() {
         return trainerId;
     }
 
-    public void setCurrentProject(String currentProject) {
-        this.currentProject = currentProject;
-    }
-
-    public String getCurrentProject() {
-        return currentProject;
-    }
-
-    public void setAchievement(String achievement) {
-        this.achievement = achievement;
-    }
-
-    public String getAchievement() {
-        return achievement;
-    }
-
-    public Set<Trainee> getTrainees() {
+    public List<Trainee> getTrainees() {
         return trainees;
     }
-    public void setTrainees(Set<Trainee> trainees) {
+    public void setTrainees(List<Trainee> trainees) {
         this.trainees = trainees;
     }
 }
-
-
-
-             
 
        
 	    

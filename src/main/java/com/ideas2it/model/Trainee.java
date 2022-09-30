@@ -7,7 +7,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 /**
  * <h1> Trainee </h1>
@@ -31,43 +31,21 @@ public class Trainee extends Employee {
     @Column(name = "id")
     private int traineeId;
 
-    @Column(name = "current_task")
-    private String currentTask;
-
-    @Column(name = "current_techknowledge")
-    private String currentTechknowledge;
-
     @ManyToMany(mappedBy = "trainees", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
-    private Set<Trainer> trainers;
+    private List<Trainer> trainers;
 
     public int getTraineeId() {
         return traineeId;
     }
 
-    public void setCurrentTask(String currentTask) {
-        this.currentTask = currentTask;
-    }
-
-    public String getCurrentTask() {
-        return currentTask;
-    }
-
-    public void setCurrentTechknowledge(String currentTechknowledge) {
-        this.currentTechknowledge = currentTechknowledge;
-    }
-
-    public String getCurrentTechknowledge() {
-        return currentTechknowledge;
-    }
-
-    public void setTrainers(Set<Trainer> trainers) {
+    public void setTrainers(List<Trainer> trainers) {
         this.trainers = trainers;
     }
 
-    public Set<Trainer> getTrainers() {
+    public List<Trainer> getTrainers() {
         return trainers;
     }
 }

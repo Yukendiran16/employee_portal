@@ -33,13 +33,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
     /**
      * <h1> insertTrainer </h1>
      * <p>
-     * Method used to get trainer details from EmployeeService and insert details to traier table
+     * Method used to get trainer details from EmployeeService and insert details to trainer table
      *
      * @param {@link Trainer} trainer object
      * @return {@link String} returns nothing
      */
     @Override
-    public String insertTrainer(Trainer trainer) throws HibernateException, NullPointerException {
+    public String insertTrainer(Trainer trainer) throws HibernateException {
 
         Transaction transaction = null;
         String message = "couldn't insert data";
@@ -66,7 +66,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns nothing
      */
     @Override
-    public String insertTrainee(Trainee trainee) throws HibernateException, NullPointerException {
+    public String insertTrainee(Trainee trainee) throws HibernateException {
 
         Transaction transaction = null;
         String message = "couldn't insert data";
@@ -91,9 +91,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link List<Trainer>} returns list of trainers Data
      */
     @Override
-    public List<Trainer> retrieveTrainers() throws HibernateException, NullPointerException {
+    public List<Trainer> retrieveTrainers() throws HibernateException {
 
-        List<Trainer> trainers;
+        List<Trainer> trainers = null;
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
             Criteria criteria = session.createCriteria(Trainer.class)
@@ -113,15 +113,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link Trainer} returns trainer Data
      */
     @Override
-    public Trainer retrieveTrainer(int trainerId) throws HibernateException, NullPointerException {
+    public Trainer retrieveTrainer(int trainerId) throws HibernateException {
 
-        Trainer trainer;
+        Trainer trainer = null;
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
             trainer = session.get(Trainer.class, trainerId);
-            trainer.getTrainees();
-            return (!trainer.getIsActive()) ? trainer : null;
         }
+        return trainer;
     }
 
     /**
@@ -134,7 +133,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public List<Trainee> retrieveTrainees() throws HibernateException {
 
-        List<Trainee> trainees;
+        List<Trainee> trainees = null;
         try (Session session = HibernateFactory.getFactory().openSession();) {
             Criteria criteria = session.createCriteria(Trainee.class)
                     .add(Restrictions.eq("isActive", false))
@@ -153,13 +152,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link Trainee} returns trainee Data
      */
     @Override
-    public Trainee retrieveTrainee(int traineeId) throws HibernateException, NullPointerException {
+    public Trainee retrieveTrainee(int traineeId) throws HibernateException {
 
-        Trainee trainee;
+        Trainee trainee = null;
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
             trainee = session.get(Trainee.class, traineeId);
-            trainee.getTrainers();
             return (!trainee.getIsActive()) ? trainee : null;
         }
     }
@@ -174,7 +172,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns nothing
      */
     @Override
-    public String updateTrainer(int trainerId, Trainer trainer) throws HibernateException, NullPointerException {
+    public String updateTrainer(int trainerId, Trainer trainer) throws HibernateException {
 
         Transaction transaction = null;
         String message;
@@ -201,7 +199,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns nothing
      */
     @Override
-    public String updateTrainee(int traineeId, Trainee trainee) throws HibernateException, NullPointerException {
+    public String updateTrainee(int traineeId, Trainee trainee) throws HibernateException {
 
         Transaction transaction = null;
         String message;
@@ -220,7 +218,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     /**
-     * <h1> removetrainer </h1>
+     * <h1> removeTrainer </h1>
      * <p>
      * Method used to remove trainer details by using trainer Id and it is a soft delete.
      * It means details is present but trainer not active.
@@ -229,14 +227,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns message. message contains status of the method.
      */
     @Override
-    public String removeTrainer(int trainerId) throws HibernateException, NullPointerException {
+    public String removeTrainer(int trainerId) throws HibernateException {
 
         Transaction transaction = null;
         String message = "no operation ahead";
 
         try (Session session = HibernateFactory.getFactory().openSession();) {
             transaction = session.beginTransaction();
-            Trainer trainer =session.get(Trainer.class, trainerId);
+            Trainer trainer = session.get(Trainer.class, trainerId);
             trainer.setIsActive(true);
             session.update(trainer);
             System.out.println("update");
@@ -259,14 +257,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * @return {@link String} returns message. message contains status of the method.
      */
     @Override
-    public String removeTrainee(int traineeId) throws HibernateException, NullPointerException {
+    public String removeTrainee(int traineeId) throws HibernateException {
 
         Transaction transaction = null;
         String message = "no operation ahead";
 
         try (Session session = HibernateFactory.getFactory().openSession();) {
             transaction = session.beginTransaction();
-            Trainee trainee =session.get(Trainee.class, traineeId);
+            Trainee trainee = session.get(Trainee.class, traineeId);
             trainee.setIsActive(true);
             session.update(trainee);
             transaction.commit();

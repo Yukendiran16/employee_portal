@@ -4,10 +4,8 @@ import com.ideas2it.dao.EmployeeDao;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.service.EmployeeService;
-import org.hibernate.HibernateException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -16,7 +14,7 @@ import java.util.*;
  * The EmployeeServiceImpl class is implements EmployeeService and
  * The class implements an application that
  * defines all methods used in EmployeeController class
- * the medhods perform pass the parameters to DAO class
+ * method perform pass the parameters to DAO class
  * and return data's to controller from Dao
  * </p>
  *
@@ -29,7 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     EmployeeDao employeeDao;
 
-    public void setEmployeeDao(EmployeeDao employeedao) {
+    public EmployeeServiceImpl(EmployeeDao employeedao) {
         this.employeeDao = employeedao;
     }
 
@@ -38,11 +36,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get trainer details from controller to pass the details to dao
      *
-     * @param {@link Trainer} trainer object
-     * @return {@link String} returns status of operation
+     * @param trainer object
+     * @return status of operation
      */
     @Override
-    public String addTrainer(Trainer trainer) throws SQLException, HibernateException, NullPointerException {
+    public String addTrainer(Trainer trainer)  {
         return employeeDao.insertTrainer(trainer);
     }
 
@@ -51,11 +49,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get trainee details from controller to pass the details to dao
      *
-     * @param {@link Trainee} trainee object
-     * @return {@link String} returns status of operation
+     * @param trainee object
+     * @return status of operation
      */
     @Override
-    public String addTrainee(Trainee trainee) throws SQLException, HibernateException, NullPointerException {
+    public String addTrainee(Trainee trainee)  {
         return employeeDao.insertTrainee(trainee);
     }
 
@@ -64,12 +62,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to call the dao for get all trainer details
      *
-     * @return {@link List<Trainer>} returns trainers Data
+     * @return list of trainers Data
      */
     @Override
-    public List<Trainer> getTrainersData() throws SQLException, HibernateException, NullPointerException {
-        List<Trainer> trainer = employeeDao.retrieveTrainers();
-        return trainer;
+    public List<Trainer> getTrainersData()  {
+        return employeeDao.retrieveTrainers();
     }
 
     /**
@@ -77,14 +74,13 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get employeeId from controller to pass the employeeId to dao
      *
-     * @param {@link int} trainer Id
-     * @return {@link Trainer} returns trainer Data
+     * @param trainerId for
+     * @return searched trainer Data
      */
     @Override
-    public Trainer searchTrainerData(int trainerId) throws SQLException, HibernateException, NullPointerException {
-        System.out.println("service here");
-        Trainer trainer = employeeDao.retrieveTrainer(trainerId);
-        return trainer;
+    public Trainer searchTrainerData(int trainerId)  {
+
+        return employeeDao.retrieveTrainer(trainerId);
     }
 
     /**
@@ -95,9 +91,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link List<Trainee>} returns trainees Data
      */
     @Override
-    public List<Trainee> getTraineesData() throws SQLException, HibernateException, NullPointerException {
-        List<Trainee> trainee = employeeDao.retrieveTrainees();
-        return trainee;
+    public List<Trainee> getTraineesData()  {
+        return employeeDao.retrieveTrainees();
     }
 
     /**
@@ -105,13 +100,12 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get employeeId from controller to pass the employeeId to dao
      *
-     * @param {@link int} trainee Id
-     * @return {@link Trainee} returns trainee Data
+     * @param traineeId for
+     * @return searched trainee Data
      */
     @Override
-    public Trainee searchTraineeData(int traineeId) throws SQLException, HibernateException, NullPointerException {
-        Trainee trainee = employeeDao.retrieveTrainee(traineeId);
-        return trainee;
+    public Trainee searchTraineeData(int traineeId)  {
+        return employeeDao.retrieveTrainee(traineeId);
     }
 
     /**
@@ -119,12 +113,12 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get updated trainer details from controller to pass the details to dao
      *
-     * @param {@link int} trainer Id
-     * @param {@link Trainer} trainer object
-     * @return {@link String} returns status of operation
+     * @param trainerId for
+     * @param trainer object
+     * @return status of operation
      */
     @Override
-    public String updateTrainerData(int trainerId, Trainer trainer) throws SQLException, HibernateException, NullPointerException {
+    public String updateTrainerData(int trainerId, Trainer trainer)  {
         return employeeDao.updateTrainer(trainerId, trainer);
     }
 
@@ -133,12 +127,12 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get updated trainee details from controller to pass the details to dao
      *
-     * @param {@link int} trainee Id
-     * @param {@link Trainee} trainee object
-     * @return {@link String} returns status of operation
+     * @param traineeId for
+     * @param trainee object
+     * @return status of operation
      */
     @Override
-    public String updateTraineeData(int traineeId, Trainee trainee) throws SQLException, HibernateException, NullPointerException {
+    public String updateTraineeData(int traineeId, Trainee trainee)  {
         return employeeDao.updateTrainee(traineeId, trainee);
     }
 
@@ -147,11 +141,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get employeeId from controller to pass the employeeId to dao
      *
-     * @param {@link String} employeeId
-     * @return {@link String} returns status of operation
+     * @param trainerId for
+     * @return status of operation
      */
     @Override
-    public String deleteTrainerData(int trainerId) throws SQLException, HibernateException, NullPointerException {
+    public String deleteTrainerData(int trainerId)  {
         return employeeDao.removeTrainer(trainerId);
     }
 
@@ -160,18 +154,18 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get employeeId from controller to pass the employeeId to dao for deleting trainer details
      *
-     * @param {@link int} trainee Id
+     * @param traineeId for
      * @return {@link String} returns status of operation
      */
     @Override
-    public String deleteTraineeData(int traineeId) throws SQLException, HibernateException, NullPointerException {
+    public String deleteTraineeData(int traineeId)  {
         return employeeDao.removeTrainee(traineeId);
     }
 
     @Override
     public Map<String, Object> getTrainer(Trainer trainer) {
         List<Map<String, Object>> traineeList = new ArrayList<>();
-        Set<Trainee> list = trainer.getTrainees();
+        List<Trainee> list = trainer.getTrainees();
         for (Trainee trainee : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("traineeId", trainee.getTraineeId());
@@ -185,7 +179,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         map.put("employeeDesignation", trainer.getEmployeeDesignation());
         map.put("employeeMail", trainer.getEmployeeMail());
         map.put("currentAddress", trainer.getCurrentAddress());
-        map.put("currentProject", trainer.getCurrentProject());
         map.put("trainees", traineeList);
         return map;
     }
@@ -193,7 +186,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Map<String, Object> getTrainee(Trainee trainee) {
         List<Map<String, Object>> trainerList = new ArrayList<>();
-        Set<Trainer> list = trainee.getTrainers();
+        List<Trainer> list = trainee.getTrainers();
         for (Trainer trainer : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("trainerId", trainer.getTrainerId());
@@ -207,7 +200,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         map.put("employeeDesignation", trainee.getEmployeeDesignation());
         map.put("employeeMail", trainee.getEmployeeMail());
         map.put("currentAddress", trainee.getCurrentAddress());
-        map.put("currentTask", trainee.getCurrentTask());
         map.put("trainees", trainerList);
         return map;
     }

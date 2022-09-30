@@ -19,15 +19,11 @@ import org.hibernate.cfg.Configuration;
  */
 public class HibernateFactory {
 
-    private static SessionFactory factory;
-
+    private HibernateFactory() {
+    }
     public static SessionFactory getFactory() throws ExceptionInInitializerError {
 
-        try {
-            factory = new Configuration().configure().addPackage("com.ideas2it.model").addAnnotatedClass(Trainer.class).addAnnotatedClass(Trainee.class).buildSessionFactory();
-        } catch (Exception ex) {
-            throw ex;
-        }
-        return factory;
+        return new Configuration().configure().addPackage("com.ideas2it.model")
+                .addAnnotatedClass(Trainer.class).addAnnotatedClass(Trainee.class).buildSessionFactory();
     }
 }

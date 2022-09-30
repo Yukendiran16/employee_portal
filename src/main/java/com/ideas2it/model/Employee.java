@@ -1,7 +1,11 @@
 package com.ideas2it.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 /**
@@ -23,29 +27,44 @@ public class Employee {
     private String uuid;
 
     @Column(name = "company_name")
-    private final String companyName = "ideas2IT";
+    private static final String companyName = "ideas2IT";
 
+    @NotBlank(message = "Name is required.")
+    @Pattern(regexp = "((([a-zA-Z_]{3,20})(\\s)){2,})*",message = "Name shall consist of 2-30 English letters " + "and First name Second name is required")
     @Column(name = "name")
     private String employeeName;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    //@NotEmpty(message = "Date of birth is required.")
     @Column(name = "date_of_birth")
     private LocalDate employeeDateOfBirth;
 
+    //@Pattern(regexp = "([a-z\\sA-Z_]{3,50})*",message = "Designation shall consist of 2-30 English letters")
+    //@NotEmpty(message = "Designation is required.")
     @Column(name = "designation")
     private String employeeDesignation;
 
+    //@Email(message = "Enter valid mail")
+    //@NotEmpty(message = "Mail id is required.")
     @Column(name = "mail")
     private String employeeMail;
 
+    //@Pattern(regexp = "([6-9][0-9]{9})*", message = "Enter valid mobile number it may consist of (0-9)")
+    //@NotEmpty(message = "Mobile number is required.")
     @Column(name = "mobile_number")
     private String employeeMobileNumber;
 
     @Column(name = "address")
+    //@NotEmpty(message = "Address is required.")
     private String currentAddress;
 
-    @Column(name = "aadhar_card_number")
-    private String aadharCardNumber;
+    //@Pattern(regexp = "([0-9]{12})*", message = "Enter valid Aadhaar card number")
+    //@NotEmpty(message = "Aadhaar card number is required.")
+    @Column(name = "aadhaar_card_number")
+    private String aadhaarCardNumber;
 
+    //@Pattern(regexp = "([A-Z0-9]{10})*", message = "Enter valid pan card number")
+    //@NotEmpty(message = "Pan card number is required.")
     @Column(name = "pan_card_number")
     private String panCardNumber;
 
@@ -111,12 +130,12 @@ public class Employee {
         return currentAddress;
     }
 
-    public void setAadharCardNumber(String aadharCardNumber) {
-        this.aadharCardNumber = aadharCardNumber;
+    public void setAadhaarCardNumber(String aadhaarCardNumber) {
+        this.aadhaarCardNumber = aadhaarCardNumber;
     }
 
-    public String getAadharCardNumber() {
-        return aadharCardNumber;
+    public String getAadhaarCardNumber() {
+        return aadhaarCardNumber;
     }
 
     public void setPanCardNumber(String panCardNumber) {
