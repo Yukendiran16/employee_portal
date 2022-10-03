@@ -4,7 +4,7 @@ package com.ideas2it.exception;
  * <h2>EmailMismatchException</h2>
  * <p>
  * The EmailMismatchException class is extends Exception
- * the class is created for custum exception handling for email vlaidation
+ * the class is created for custom exception handling for email validation
  * and return data's to EmployeeUtil
  * </p>
  *

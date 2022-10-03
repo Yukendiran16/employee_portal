@@ -64,9 +64,9 @@ public class EmployeeUtil {
      * <h1> validationOfMail </h1>
      * <p>
      * method used to validate the mail
-     *
-     * @param {@link String} mailId
-     * @return {@link boolean} returns boolean
+     * </p>
+     * @param identifier is an input mail id
+     * @return boolean
      */
     public static boolean validationOfMail(String identifier)
             throws EmailMismatchException {

@@ -158,7 +158,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
             trainee = session.get(Trainee.class, traineeId);
-            return (!trainee.getIsActive()) ? trainee : null;
+            return trainee;
         }
     }
 

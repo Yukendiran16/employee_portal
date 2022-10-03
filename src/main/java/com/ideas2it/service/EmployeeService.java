@@ -1,5 +1,6 @@
 package com.ideas2it.service;
 
+import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 
@@ -26,22 +27,20 @@ public interface EmployeeService {
      * <p>
      * method used to get trainer details from controller to pass the details to dao
      *
-     * @param {@link Trainer} trainer object
-     * @return {@link String} returns status of operation
+     * @param trainer object
+     * @return status of operation
      */
-    String addTrainer(Trainer trainer) ;
-
-    ;
+    String addTrainer(Trainer trainer);
 
     /**
      * <h1> addTrainee </h1>
      * <p>
      * method used to get trainee details from controller to pass the details to dao
      *
-     * @param {@link Trainee} trainee object
-     * @return {@link String} returns status of operation
+     * @param trainee object
+     * @return status of operation
      */
-    String addTrainee(Trainee trainee) ;
+    String addTrainee(Trainee trainee);
 
     /**
      * <h1> getTrainersData </h1>
@@ -50,77 +49,87 @@ public interface EmployeeService {
      *
      * @return {@link List<Trainer>} returns trainers Data
      */
-    List<Trainer> getTrainersData() ;
+    List<Trainer> getTrainersData() throws EmployeeNotFoundException;
 
     /**
      * <h1> searchTrainerData </h1>
      * <p>
      * method used to get employeeId from controller to pass the employeeId to dao
      *
-     * @param {@link int} trainer Id
-     * @return {@link Trainer} returns trainer Data
+     * @param trainerId for
+     * @return trainer Data
      */
-    Trainer searchTrainerData(int trainerId) ;
+    Trainer searchTrainerData(int trainerId) throws EmployeeNotFoundException;
 
     /**
      * <h1> getTraineesData </h1>
      * <p>
      * method used to call the dao for get all trainee details
      *
-     * @return {@link List<Trainee>} returns trainees Data
+     * @return trainees Data
      */
-    List<Trainee> getTraineesData() ;
+    List<Trainee> getTraineesData() throws EmployeeNotFoundException;
 
     /**
      * <h1> getTraineesData </h1>
      * <p>
      * method used to call the dao for get all trainee details
      *
-     * @return {@link List<Trainee>} returns trainees Data
+     * @return trainees Data
      */
-    Trainee searchTraineeData(int traineeId) ;
+    Trainee searchTraineeData(int traineeId) throws EmployeeNotFoundException;
 
     /**
      * <h1> updateTrainerData </h1>
      * <p>
      * method used to get updated trainer details from controller to pass the details to dao
      *
-     * @param {@link int} trainer Id
-     * @param {@link Trainer} trainer object
-     * @return {@link String} returns status of operation
+     * @param trainerId for
+     * @param trainer object
+     * @return status of operation
      */
-    String updateTrainerData(int trainerId, Trainer trainer) ;
+    String updateTrainerData(int trainerId, Trainer trainer);
 
     /**
      * <h1> updateTraineeData </h1>
      * <p>
      * method used to get updated trainee details from controller to pass the details to dao
      *
-     * @param {@link int} trainee Id
-     * @param {@link Trainee} trainee object
-     * @return {@link String} returns status of operation
+     * @param traineeId for
+     * @param trainee object
+     * @return status of operation
      */
-    String updateTraineeData(int traineeId, Trainee trainee) ;
+    String updateTraineeData(int traineeId, Trainee trainee);
 
     /**
      * <h1> deleteTrainerData </h1>
      * <p>
      * method used to get employeeId from controller to pass the employeeId to dao
      *
-     * @param {@link String} employeeId
-     * @return {@link String} returns status of operation
+     * @param trainerId for
+     * @return status of operation
      */
-    String deleteTrainerData(int trainerId) ;
+
+    String deleteTrainerData(Trainer trainer, int trainerId) throws EmployeeNotFoundException;
 
     /**
      * <h1> deleteTraineeData </h1>
      * <p>
      * method used to get employeeId from controller to pass the employeeId to dao for deleting trainer details
      *
-     * @param {@link int} trainee Id
-     * @return {@link String} returns status of operation
+     * @param traineeId for
+     * @return status of operation
      */
-    String deleteTraineeData(int traineeId) ;
+
+    String deleteTraineeData(Trainee trainee, int traineeId) throws EmployeeNotFoundException;
+
+    Trainer updateTraineeListInTrainer(Trainer trainer, String[] idList) throws Exception;
+
+    Trainee updateTrainerListInTrainee(Trainee trainee, String[] idList) throws EmployeeNotFoundException;
+
+    Trainer deleteTraineeInTrainer(Trainer trainer, int traineeId) throws EmployeeNotFoundException;
+
+    Trainee deleteTrainerInTrainee(Trainee trainer, int traineeId) throws EmployeeNotFoundException;
 
     Map<String, Object> getTrainer(Trainer trainer);
 
