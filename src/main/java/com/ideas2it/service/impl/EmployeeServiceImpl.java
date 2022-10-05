@@ -45,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return status of operation
      */
     @Override
-    public String addTrainer(Trainer trainer)  {
+    public String addTrainer(Trainer trainer) {
         return employeeDao.insertTrainer(trainer);
     }
 
@@ -58,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return status of operation
      */
     @Override
-    public String addTrainee(Trainee trainee)  {
+    public String addTrainee(Trainee trainee) {
         return employeeDao.insertTrainee(trainee);
     }
 
@@ -105,7 +105,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return {@link List<Trainee>} returns trainees Data
      */
     @Override
-    public List<Trainee> getTraineesData()throws  EmployeeNotFoundException {
+    public List<Trainee> getTraineesData() throws EmployeeNotFoundException {
         List<Trainee> trainee = employeeDao.retrieveTrainees();
         if (trainee == null) {
             logger.info("trainee list is empty");
@@ -138,11 +138,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      * method used to get updated trainer details from controller to pass the details to dao
      *
      * @param trainerId for
-     * @param trainer object
+     * @param trainer   object
      * @return status of operation
      */
     @Override
-    public String updateTrainerData(int trainerId, Trainer trainer)  {
+    public String updateTrainerData(int trainerId, Trainer trainer) {
         return employeeDao.updateTrainer(trainerId, trainer);
     }
 
@@ -152,7 +152,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * method used to get updated trainee details from controller to pass the details to dao
      *
      * @param traineeId for
-     * @param trainee object
+     * @param trainee   object
      * @return status of operation
      */
     @Override
@@ -212,15 +212,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         logger.info("filtering trainee..... in trainees list");
         for (String s : idList) {
             int traineeId = Integer.parseInt(s);
-            Set<Trainee> trainee = trainees.stream().filter(filterTrainee ->
-                    filterTrainee.getTraineeId() == traineeId).collect(Collectors.toSet());
+            List<Trainee> trainee = trainees.stream().filter(filterTrainee ->
+                    filterTrainee.getTraineeId() == traineeId).collect(Collectors.toList());
             if (trainee.size() == 0) {
                 logger.info("couldn't found traineeId :" + traineeId + "in list");
                 throw new EmployeeNotFoundException("couldn't found trainee :" + traineeId + "in list");
             } else {
+                for (Trainee trainee1 : trainer.getTrainees()) {
+                    if (trainee1.getTraineeId() == traineeId) {
+                        logger.info("trainee id already exists");
+                        throw new RuntimeException("trainee Id already exists");
+                    }
+                }
                 logger.info("trainee :" + traineeId + "found in list");
-                trainer.getTrainees().add(trainee.iterator().next());
-                logger.info(String.valueOf(trainer.getTrainees().size()));
+                trainer.getTrainees().add(trainee.get(0));
             }
         }
         return trainer;
@@ -232,50 +237,59 @@ public class EmployeeServiceImpl implements EmployeeService {
         logger.info("filtering trainee..... in trainees list");
         for (String s : idList) {
             int trainerId = Integer.parseInt(s);
-            Set<Trainer> trainer = trainers.stream().filter(filterTrainer ->
-                    filterTrainer.getTrainerId() == trainerId).collect(Collectors.toSet());
+            List<Trainer> trainer = trainers.stream().filter(filterTrainer ->
+                    filterTrainer.getTrainerId() == trainerId).collect(Collectors.toList());
             if (trainer.size() == 0) {
                 logger.info("couldn't found trainerId :" + trainerId + "in list");
                 throw new EmployeeNotFoundException("couldn't found trainer :" + trainerId + "in list");
             } else {
+                for (Trainer trainer1 : trainee.getTrainers()) {
+                    if (trainer1.getTrainerId() == trainerId) {
+                        logger.info("trainer id already exists");
+                        throw new RuntimeException("trainer Id already exists");
+                    }
+                }
                 logger.info("trainer :" + trainerId + "found in list");
-                trainee.getTrainers().add(trainer.iterator().next());
-                logger.info(String.valueOf(trainee.getTrainers().size()));
+                trainee.getTrainers().add(trainer.get(0));
             }
         }
         return trainee;
     }
 
     @Override
-    public Trainer deleteTraineeInTrainer(Trainer trainer, int traineeId)throws EmployeeNotFoundException {
-        List<Trainee> trainees = this.getTraineesData();
+    public Trainer deleteTraineeInTrainer(Trainer trainer, int traineeId) throws EmployeeNotFoundException {
+        Set<Trainee> trainees = trainer.getTrainees();
         logger.info("filtering trainee..... in trainees list");
-        Set<Trainee> trainee = trainees.stream().filter(filterTrainee ->
-                        filterTrainee.getTraineeId() == traineeId)
-                .collect(Collectors.toSet());
-        if (trainee.size() == 0) {
-            logger.info("couldn't found traineeId :" + traineeId + "in list");
-            throw new EmployeeNotFoundException("couldn't found trainee :" + traineeId + "in list");
+        if (null != trainees) {
+            List<Trainee> trainee = trainees.stream().filter(filterTrainee ->
+                            filterTrainee.getTraineeId() == traineeId)
+                    .collect(Collectors.toList());
+            if (trainee.size() == 0) {
+                logger.info("couldn't found traineeId :" + traineeId + "in list");
+                throw new EmployeeNotFoundException("couldn't found trainee :" + traineeId + "in list");
+            } else {
+                logger.info("trainee :" + traineeId + "found in list");
+                trainees.remove(trainee.get(0));
+            }
         } else {
-            logger.info("trainee :" + traineeId + "found in list");
-            trainer.getTrainees().remove(trainee);
+            throw new EmployeeNotFoundException("empty list");
         }
         return trainer;
     }
 
     @Override
     public Trainee deleteTrainerInTrainee(Trainee trainee, int trainerId) throws EmployeeNotFoundException {
-        List<Trainer> trainers = this.getTrainersData();
+        Set<Trainer> trainers = trainee.getTrainers();
         logger.info("filtering trainer..... in trainers list");
-        Set<Trainer> trainer = trainers.stream().filter(filterTrainer ->
+        List<Trainer> trainer = trainers.stream().filter(filterTrainer ->
                         filterTrainer.getTrainerId() == trainerId)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
         if (trainer.size() == 0) {
             logger.info("couldn't found trainerId :" + trainerId + "in list");
             throw new EmployeeNotFoundException("couldn't found trainee :" + trainerId + "in list");
         } else {
             logger.info("trainee :" + trainerId + "found in list");
-            trainee.getTrainers().remove(trainer);
+            trainers.remove(trainer.get(0));
         }
         return trainee;
     }

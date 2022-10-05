@@ -1,5 +1,6 @@
 package com.ideas2it.controller;
 
+import com.google.gson.Gson;
 import com.ideas2it.Dto.TrainerDto;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.model.Trainer;
@@ -47,7 +48,7 @@ public class TrainerServlet extends HttpServlet {
         Trainer trainer = new Trainer();
         trainer = trainer.TrainerDtoToTrainer(trainerDto);
         logger.info("trainer object send to database");
-        return new ResponseEntity<>(employeeService.addTrainer(trainer), HttpStatus.CREATED);
+        return new ResponseEntity<>(new Gson().toJson("message : " + employeeService.addTrainer(trainer)), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/trainers",
@@ -60,7 +61,7 @@ public class TrainerServlet extends HttpServlet {
         trainers.forEach(trainer -> {
             Map<String,Object> trainer1 = employeeService.getTrainer(trainer);
             trainerList.add(trainer1);});
-        return new ResponseEntity<>(trainerList, HttpStatus.OK);
+        return new ResponseEntity<>(trainerList,HttpStatus.OK);
     }
 
     @GetMapping(path = "/trainer/{id}",
@@ -90,7 +91,7 @@ public class TrainerServlet extends HttpServlet {
         logger.debug("requested URL is correct. This URl is update the exists employee profile");
         Trainer trainer = employeeService.searchTrainerData(trainerDto.getTrainerId());
         trainer = trainer.TrainerDtoToTrainer(trainerDto);
-        return new ResponseEntity<>(employeeService.updateTrainerData(trainer.getTrainerId(), trainer), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson("message : " + employeeService.updateTrainerData(trainer.getTrainerId(), trainer)), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/trainer/{id}",
@@ -102,7 +103,7 @@ public class TrainerServlet extends HttpServlet {
         logger.info("searching successful");
         message = employeeService.deleteTrainerData(trainer, trainerId);
         logger.debug(message + "trainerId : " + trainerId);
-        return new ResponseEntity<>(message + "trainerId : " + trainerId, HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson("message : " + message + "," + "trainerId : " + trainerId), HttpStatus.OK);
     }
 
     @PutMapping(value = "/assign_trainee/{trainerId}/{traineesId}",
@@ -120,7 +121,7 @@ public class TrainerServlet extends HttpServlet {
         message = employeeService.updateTrainerData(trainer.getTrainerId(), trainer);
         logger.info(message);
         logger.debug("association successful");
-        return new ResponseEntity<>(message + " association successful", HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson("message : " + " association successful"), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/un_assign_trainee/{trainerId}/{traineeId}",
@@ -137,6 +138,6 @@ public class TrainerServlet extends HttpServlet {
         message = employeeService.updateTrainerData(trainer.getTrainerId(), trainer);
         logger.info(message);
         logger.debug("Un association successful");
-        return new ResponseEntity<>(message + " Un association successful", HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson("message : " + " Un association successful"), HttpStatus.OK);
     }
 }

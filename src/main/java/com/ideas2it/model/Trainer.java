@@ -8,6 +8,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -39,11 +40,12 @@ public class Trainer extends Employee {
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "trainer_trainee", joinColumns = @JoinColumn(name = "trainers_id"))
+    @JoinTable(name = "trainer_trainee", joinColumns = @JoinColumn(name = "trainers_id"),
+            inverseJoinColumns = @JoinColumn(name = "trainees_id"))
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
-    private Set<Trainee> trainees;
+    private Set<Trainee> trainees = new HashSet<>();
 
     public void setTrainerId(int trainerId) {
         this.trainerId = trainerId;

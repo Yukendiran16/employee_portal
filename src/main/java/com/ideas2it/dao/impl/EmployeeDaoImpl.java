@@ -4,7 +4,10 @@ import com.ideas2it.dao.EmployeeDao;
 import com.ideas2it.hibernateUtil.HibernateFactory;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
-import org.hibernate.*;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -73,7 +76,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.save(trainee);
+            session.saveOrUpdate(trainee);
             transaction.commit();
             message = "insert successfully";
         } catch (Exception e) {
@@ -158,8 +161,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         try (Session session = HibernateFactory.getFactory().openSession()) {
             trainee = session.get(Trainee.class, traineeId);
-            return trainee;
         }
+        return trainee;
     }
 
     /**
@@ -179,7 +182,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         try (Session session = HibernateFactory.getFactory().openSession();) {
             transaction = session.beginTransaction();
-            session.saveOrUpdate(trainer);
+            session.update(trainer);
             transaction.commit();
             message = "updated successfully";
         } catch (Exception e) {
@@ -206,7 +209,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         try (Session session = HibernateFactory.getFactory().openSession();) {
             transaction = session.beginTransaction();
-            session.saveOrUpdate(trainee);
+            session.update(trainee);
             transaction.commit();
             message = "updated successfully";
 
@@ -237,7 +240,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
             Trainer trainer = session.get(Trainer.class, trainerId);
             trainer.setIsActive(true);
             session.update(trainer);
-            System.out.println("update");
             transaction.commit();
             message = "successfully deleted";
         } catch (Exception e) {
