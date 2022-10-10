@@ -53,22 +53,6 @@ public class Trainer extends Employee {
     @JsonIgnore
     private Set<Trainee> trainees = new HashSet<>();
 
-    public Trainer TrainerDtoToTrainer(TrainerDto trainerDto) {
-        Trainer trainer = new Trainer();
-        trainer.setUuid(trainerDto.getUuid());
-        trainer.setEmployeeName(trainerDto.getEmployeeName());
-        trainer.setEmployeeDateOfBirth(trainerDto.getEmployeeDateOfBirth());
-        trainer.setEmployeeDesignation(trainerDto.getEmployeeDesignation());
-        trainer.setEmployeeMail(trainerDto.getEmployeeMail());
-        trainer.setEmployeeMobileNumber(trainerDto.getEmployeeMobileNumber());
-        trainer.setCurrentAddress(trainerDto.getCurrentAddress());
-        trainer.setAadhaarCardNumber(trainerDto.getAadhaarCardNumber());
-        trainer.setPanCardNumber(trainerDto.getPanCardNumber());
-        trainer.setIsActive(trainerDto.isActive());
-        trainer.setTrainerId(trainerDto.getTrainerId());
-        trainer.setTrainees(trainerDto.getTrainees());
-        return trainer;
-    }
 }
 
 

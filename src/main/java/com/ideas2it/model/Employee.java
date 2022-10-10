@@ -26,34 +26,34 @@ import java.time.LocalDate;
 @MappedSuperclass
 public class Employee {
 
-    @Column(name = "uuid")
+    @Column(name = "uuid",nullable = false)
     private String uuid;
 
     @Column(name = "company_name")
     private final String companyName = "ideas2IT";
 
-    @Column(name = "name")
+    @Column(name = "name",nullable = false)
     private String employeeName;
 
-    @Column(name = "date_of_birth")
+    @Column(name = "date_of_birth",nullable = false)
     private LocalDate employeeDateOfBirth;
 
-    @Column(name = "designation")
+    @Column(name = "designation",nullable = false)
     private String employeeDesignation;
 
-    @Column(name = "mail")
+    @Column(name = "mail",unique = true,nullable = false)
     private String employeeMail;
 
-    @Column(name = "mobile_number")
+    @Column(name = "mobile_number",unique = true,nullable = false)
     private String employeeMobileNumber;
 
-    @Column(name = "address")
+    @Column(name = "address",nullable = false)
     private String currentAddress;
 
-    @Column(name = "aadhaar_card_number")
+    @Column(name = "aadhaar_card_number",unique = true,nullable = false)
     private String aadhaarCardNumber;
 
-    @Column(name = "pan_card_number")
+    @Column(name = "pan_card_number",unique = true,nullable = false)
     private String panCardNumber;
 
     @Column(name = "employee_status")

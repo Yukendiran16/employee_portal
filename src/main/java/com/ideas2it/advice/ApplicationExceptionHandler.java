@@ -1,5 +1,6 @@
 package com.ideas2it.advice;
 
+import com.ideas2it.exception.AlreadyAssignedException;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,6 +27,14 @@ public class ApplicationExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(EmployeeNotFoundException.class)
     public Map<String, String> handleBusinessException(EmployeeNotFoundException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(AlreadyAssignedException.class)
+    public Map<String, String> handleBusinessException(AlreadyAssignedException ex) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", ex.getMessage());
         return errorMap;

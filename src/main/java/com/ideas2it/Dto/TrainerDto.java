@@ -10,10 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
@@ -23,6 +20,8 @@ import java.util.Set;
  */
 @Data
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
 public class TrainerDto implements Serializable {
@@ -33,13 +32,12 @@ public class TrainerDto implements Serializable {
     @Pattern(regexp = "(([A-z][a-z]{1,20})(\\s)){2,}", message =
             "Name must be in only alphabets and first name, second name required")
     private String employeeName;
-    @NotEmpty(message = "date of birth is mandatory")
     @Past(message = "invalid date")
     private LocalDate employeeDateOfBirth;
     @NotEmpty(message = "designation is mandatory")
     private String employeeDesignation;
     @NotEmpty(message = "mail is mandatory")
-    @ValidEmail(message = "invalid email")
+    @Email(message = "invalid email")
     private String employeeMail;
     @NotEmpty(message = "mobile number is mandatory")
     @Pattern(regexp = "[+]91[6-9][0-9]{9}", message = "mobile number must be " +
@@ -59,4 +57,8 @@ public class TrainerDto implements Serializable {
     private boolean isActive = false;
     private int trainerId;
     private Set<Trainee> trainees;
+
+    public void setIsActive(boolean active) {
+        isActive = active;
+    }
 }

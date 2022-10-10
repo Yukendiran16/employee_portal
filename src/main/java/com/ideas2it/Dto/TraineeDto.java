@@ -5,10 +5,7 @@ import com.ideas2it.model.Trainer;
 import com.ideas2it.util.ValidEmail;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
@@ -32,9 +29,12 @@ public class TraineeDto implements Serializable {
     @NotNull(message = "date of birth is mandatory")
     @Past(message = "invalid date")
     private LocalDate employeeDateOfBirth;
+    @NotEmpty(message = "Employee designation is mandatory")
+    @Pattern(regexp = "(([A-z][a-z]{1,20})(\\s)){2,}", message =
+            "Designation must be in only alphabets")
     private String employeeDesignation;
     @NotEmpty(message = "mail is mandatory")
-    @ValidEmail(message = "invalid email")
+    @Email(message = "invalid email")
     private String employeeMail;
     @NotEmpty(message = "mobile number is mandatory")
     @Pattern(regexp = "[+]91[6-9][0-9]{9}", message = "mobile number must be " +
@@ -55,4 +55,7 @@ public class TraineeDto implements Serializable {
     private int traineeId;
     private Set<Trainer> trainers;
 
+    public void setIsActive(boolean active) {
+        isActive = active;
+    }
 }

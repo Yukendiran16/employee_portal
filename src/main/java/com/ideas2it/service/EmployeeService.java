@@ -2,7 +2,6 @@ package com.ideas2it.service;
 
 import com.ideas2it.Dto.TraineeDto;
 import com.ideas2it.Dto.TrainerDto;
-import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 
@@ -51,7 +50,7 @@ public interface EmployeeService {
      *
      * @return {@link List<Trainer>} returns trainers Data
      */
-    List<Trainer> getTrainersData() throws EmployeeNotFoundException;
+    List<Trainer> getTrainersData() ;
 
     /**
      * <h1> searchTrainerData </h1>
@@ -61,7 +60,7 @@ public interface EmployeeService {
      * @param trainerId for
      * @return trainer Data
      */
-    Trainer searchTrainerData(int trainerId) throws EmployeeNotFoundException;
+    Trainer searchTrainerData(int trainerId) ;
 
     /**
      * <h1> getTraineesData </h1>
@@ -70,7 +69,7 @@ public interface EmployeeService {
      *
      * @return trainees Data
      */
-    List<Trainee> getTraineesData() throws EmployeeNotFoundException;
+    List<Trainee> getTraineesData() ;
 
     /**
      * <h1> getTraineesData </h1>
@@ -79,7 +78,7 @@ public interface EmployeeService {
      *
      * @return trainees Data
      */
-    Trainee searchTraineeData(int traineeId) throws EmployeeNotFoundException;
+    Trainee searchTraineeData(int traineeId) ;
 
     /**
      * <h1> updateTrainerData </h1>
@@ -111,7 +110,7 @@ public interface EmployeeService {
      * @param trainerId for
      */
 
-    void deleteTrainerData(Trainer trainer, int trainerId) throws EmployeeNotFoundException;
+    void deleteTrainerData(Trainer trainer, int trainerId) ;
 
     /**
      * <h1> deleteTraineeData </h1>
@@ -121,15 +120,15 @@ public interface EmployeeService {
      * @param traineeId for
      */
 
-    void deleteTraineeData(Trainee trainee, int traineeId) throws EmployeeNotFoundException;
+    void deleteTraineeData(Trainee trainee, int traineeId) ;
 
-    Trainer updateTraineeListInTrainer(Trainer trainer, String[] idList) throws Exception;
+    Trainer updateTraineeListInTrainer(Trainer trainer, int traineeId) ;
 
-    Trainee updateTrainerListInTrainee(Trainee trainee, String[] idList) throws EmployeeNotFoundException;
+    Trainee updateTrainerListInTrainee(Trainee trainee, int trainerId) ;
 
-    Trainer deleteTraineeInTrainer(Trainer trainer, int traineeId) throws EmployeeNotFoundException;
+    Trainer deleteTraineeInTrainer(Trainer trainer, int traineeId) ;
 
-    Trainee deleteTrainerInTrainee(Trainee trainer, int traineeId) throws EmployeeNotFoundException;
+    Trainee deleteTrainerInTrainee(Trainee trainer, int traineeId) ;
 
     Map<String, Object> getTrainer(Trainer trainer);
 
