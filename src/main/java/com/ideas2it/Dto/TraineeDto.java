@@ -3,9 +3,7 @@ package com.ideas2it.Dto;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.util.ValidEmail;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,10 +17,12 @@ import java.util.Set;
 /**
  * A DTO for the {@link Trainee} entity
  */
+@Data
 @Builder
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TraineeDto implements Serializable {
+
     @NotEmpty(message = "UUID is mandatory")
     private String uuid;
     @NotEmpty(message = "Employee name is mandatory")

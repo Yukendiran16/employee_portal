@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TrainerRepository extends JpaRepository<Trainer,Integer> {
-        List<Trainer> findByIsActive(boolean isActive);
-
+public interface TrainerRepository extends JpaRepository<Trainer, Integer> {
+    List<Trainer> findByIsActive(boolean isActive);
 }

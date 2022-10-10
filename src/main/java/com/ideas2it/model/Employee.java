@@ -1,5 +1,8 @@
 package com.ideas2it.model;
 
+import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
@@ -16,6 +19,10 @@ import java.time.LocalDate;
  * @version 1.0
  * @since 2022-08-04
  */
+@Getter
+@Setter
+@AllArgsConstructor(staticName = "build")
+@NoArgsConstructor
 @MappedSuperclass
 public class Employee {
 
@@ -50,83 +57,7 @@ public class Employee {
     private String panCardNumber;
 
     @Column(name = "employee_status")
-    private boolean isActive = false;
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
-
-    public String getEmployeeName() {
-        return employeeName;
-    }
-
-    public void setEmployeeDateOfBirth(LocalDate employeeDateOfBirth) {
-            this.employeeDateOfBirth = employeeDateOfBirth;
-    }
-    public LocalDate getEmployeeDateOfBirth() {
-        return employeeDateOfBirth;
-    }
-
-    public void setEmployeeDesignation(String employeeDesignation) {
-        this.employeeDesignation = employeeDesignation;
-    }
-
-    public String getEmployeeDesignation() {
-        return employeeDesignation;
-    }
-
-    public void setEmployeeMail(String employeeMail) {
-        this.employeeMail = employeeMail;
-    }
-
-    public String getEmployeeMail() {
-        return employeeMail;
-    }
-
-    public void setEmployeeMobileNumber(String employeeMobileNumber) {
-        this.employeeMobileNumber = employeeMobileNumber;
-    }
-
-    public String getEmployeeMobileNumber() {
-        return employeeMobileNumber;
-    }
-
-    public void setCurrentAddress(String currentAddress) {
-        this.currentAddress = currentAddress;
-    }
-
-    public String getCurrentAddress() {
-        return currentAddress;
-    }
-
-    public void setAadhaarCardNumber(String aadhaarCardNumber) {
-        this.aadhaarCardNumber = aadhaarCardNumber;
-    }
-
-    public String getAadhaarCardNumber() {
-        return aadhaarCardNumber;
-    }
-
-    public void setPanCardNumber(String panCardNumber) {
-        this.panCardNumber = panCardNumber;
-    }
-
-    public String getPanCardNumber() {
-        return panCardNumber;
-    }
-
+    private boolean isActive = Boolean.FALSE;
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
@@ -134,5 +65,4 @@ public class Employee {
     public boolean getIsActive() {
         return isActive;
     }
-
 }

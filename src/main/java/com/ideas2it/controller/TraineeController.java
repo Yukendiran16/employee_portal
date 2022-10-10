@@ -2,10 +2,8 @@ package com.ideas2it.controller;
 
 import com.google.gson.Gson;
 import com.ideas2it.Dto.TraineeDto;
-import com.ideas2it.Dto.TrainerDto;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.mapper.TraineeMapper;
-import com.ideas2it.mapper.TrainerMapper;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.service.EmployeeService;
 import org.slf4j.Logger;
@@ -14,7 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -49,12 +54,10 @@ public class TraineeController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Trainee> addTrainee(@Valid @RequestBody TraineeDto traineeDto) {
         logger.info("trainee object send to database");
-        Trainee trainee = new Trainee();
-        trainee = trainee.TraineeDtoToTrainee(traineeDto);
-        return new ResponseEntity<>(employeeService.addTrainee(trainee), HttpStatus.CREATED);
+        return new ResponseEntity<>(employeeService.addTrainee(traineeDto), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/trainees", method = RequestMethod.GET,
+    @GetMapping(value = "/trainees",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Map<String,Object>>> displayTrainees() throws EmployeeNotFoundException {
         logger.debug("requested URL is correct. This URL is returns all trainee details");
@@ -95,6 +98,7 @@ public class TraineeController {
     public ResponseEntity<Trainee> updateTrainee(@RequestBody TraineeDto traineeDto) throws EmployeeNotFoundException {
         logger.debug("requested URL is correct. This URl is update the exists employee profile");
         Trainee trainee = employeeService.searchTraineeData(traineeDto.getTraineeId());
+        if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active");
         trainee = trainee.TraineeDtoToTrainee(traineeDto);
         return new ResponseEntity<>(employeeService.updateTraineeData(trainee.getTraineeId(), trainee), HttpStatus.OK);
     }
@@ -104,6 +108,7 @@ public class TraineeController {
     public ResponseEntity<String> deleteTrainee(@PathVariable("id") int traineeId) throws EmployeeNotFoundException {
         logger.debug("requested URL is correct. This URL is returns all trainee details");
         Trainee trainee = employeeService.searchTraineeData(traineeId);
+        if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active");
         logger.info("searching successful");
         employeeService.deleteTraineeData(trainee, traineeId);
         logger.debug("Successfully deleted traineeId : " + traineeId);
@@ -116,6 +121,7 @@ public class TraineeController {
         logger.debug("requested URL is correct. This URl create association between trainee to trainees");
         logger.info("trainee id searching...in database");
         Trainee trainee = employeeService.searchTraineeData(Integer.parseInt(assign.get("traineeId")));
+        if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active");
         logger.info("trainee Id present...");
         logger.info("trainee Id list :" + "[" + assign.get("trainerId") + "]");
         String[] idList = assign.get("trainerId").split(",");
@@ -131,6 +137,7 @@ public class TraineeController {
         logger.debug("requested URL is correct. This URl create association between trainee to trainees");
         logger.info("trainee id searching...in database");
         Trainee trainee = employeeService.searchTraineeData(un_assign.get("traineeId"));
+        if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active");
         logger.info("trainee Id " + un_assign.get("traineeId") + "present...");
         employeeService.updateTraineeData(trainee.getTraineeId(),
                 employeeService.deleteTrainerInTrainee(trainee, un_assign.get("trainerId")));

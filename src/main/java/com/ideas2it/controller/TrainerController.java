@@ -12,7 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -46,34 +53,33 @@ public class TrainerController {
 
     @PostMapping(path = "/trainer",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> addTrainer(@Valid @RequestBody TrainerDto trainerDto) {
-        Trainer trainer = new Trainer();
-        trainer = trainer.TrainerDtoToTrainer(trainerDto);
+    public ResponseEntity<Trainer> addTrainer(@RequestBody @Valid TrainerDto trainerDto) {
         logger.info("trainer object send to database");
-        return new ResponseEntity<>(new Gson().toJson("message : " + employeeService.addTrainer(trainer)), HttpStatus.CREATED);
+        return new ResponseEntity<>(employeeService.addTrainer(trainerDto), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/trainers",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Map<String,Object>>> getTrainers() throws EmployeeNotFoundException {
+    public ResponseEntity<List<Map<String, Object>>> getTrainers() throws EmployeeNotFoundException {
         logger.debug("requested URL is correct. This URL is returns all trainer details");
         List<Trainer> trainers = employeeService.getTrainersData();
         if (null == trainers) throw new EmployeeNotFoundException("empty list");
         logger.debug("details successfully shown");
         List<Map<String, Object>> trainerList = new ArrayList<>();
         trainers.forEach(trainer -> {
-            Map<String,Object> trainer1 = employeeService.getTrainer(trainer);
-            trainerList.add(trainer1);});
-        return new ResponseEntity<>(trainerList,HttpStatus.OK);
+            Map<String, Object> trainer1 = employeeService.getTrainer(trainer);
+            trainerList.add(trainer1);
+        });
+        return new ResponseEntity<>(trainerList, HttpStatus.OK);
     }
 
     @GetMapping(path = "/trainer/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Map<String,Object>> displayTrainer(@PathVariable("id") int trainerId) throws EmployeeNotFoundException {
+    public ResponseEntity<Map<String, Object>> displayTrainer(@PathVariable("id") int trainerId) throws EmployeeNotFoundException {
         logger.debug("requested URL is correct. This URL is returns all trainer details");
         Trainer trainer = employeeService.searchTrainerData(trainerId);
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
-        Map<String,Object> trainer1 = employeeService.getTrainer(trainer);
+        Map<String, Object> trainer1 = employeeService.getTrainer(trainer);
         logger.info("searching successful");
         return new ResponseEntity<>(trainer1, HttpStatus.OK);
     }
@@ -94,6 +100,7 @@ public class TrainerController {
     public ResponseEntity<String> updateTrainer(@RequestBody TrainerDto trainerDto) throws EmployeeNotFoundException {
         logger.debug("requested URL is correct. This URl is update the exists employee profile");
         Trainer trainer = employeeService.searchTrainerData(trainerDto.getTrainerId());
+        if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
         trainer = trainer.TrainerDtoToTrainer(trainerDto);
         return new ResponseEntity<>(new Gson().toJson("message : " + employeeService.updateTrainerData(trainer.getTrainerId(), trainer)), HttpStatus.OK);
     }
@@ -111,10 +118,11 @@ public class TrainerController {
 
     @PutMapping(value = "/assign_trainee/{trainerId}/{traineesId}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> assignTrainee(@RequestBody Map<String,String> assign) throws Exception {
+    public ResponseEntity<String> assignTrainee(@RequestBody Map<String, String> assign) throws Exception {
         logger.debug("requested URL is correct. This URl create association between trainer to trainees");
         logger.info("trainer id searching...in database");
         Trainer trainer = employeeService.searchTrainerData(Integer.parseInt(assign.get("trainerId")));
+        if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
         logger.info("trainer Id present...");
         logger.info("trainee Id list :" + "[" + assign.get("traineeId") + "]");
         String[] idList = assign.get("traineeId").split(",");
@@ -126,11 +134,12 @@ public class TrainerController {
 
     @DeleteMapping(value = "/un_assign_trainee",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> un_assignTrainee(@RequestBody Map<String,Integer> un_assign)
+    public ResponseEntity<String> un_assignTrainee(@RequestBody Map<String, Integer> un_assign)
             throws EmployeeNotFoundException {
         logger.debug("requested URL is correct. This URl create association between trainer to trainees");
         logger.info("trainer id searching...in database");
         Trainer trainer = employeeService.searchTrainerData(un_assign.get("trainerId"));
+        if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
         logger.info("trainer Id " + un_assign.get("trainerId") + "present...");
         logger.info("trainee Id list :" + un_assign.get("traineeId"));
         employeeService.updateTrainerData(trainer.getTrainerId(),

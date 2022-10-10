@@ -1,5 +1,7 @@
 package com.ideas2it.service.impl;
 
+import com.ideas2it.Dto.TraineeDto;
+import com.ideas2it.Dto.TrainerDto;
 import com.ideas2it.dao.TraineeRepository;
 import com.ideas2it.dao.TrainerRepository;
 import com.ideas2it.exception.EmployeeNotFoundException;
@@ -11,7 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -43,11 +49,13 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get trainer details from controller to pass the details to dao
      *
-     * @param trainer object
+     * @param trainerDto object
      * @return status of operation
      */
     @Override
-    public Trainer addTrainer(Trainer trainer) {
+    public Trainer addTrainer(TrainerDto trainerDto) {
+        Trainer trainer = new Trainer();
+        trainer = trainer.TrainerDtoToTrainer(trainerDto);
         return trainerRepository.save(trainer);
     }
 
@@ -56,11 +64,13 @@ public class EmployeeServiceImpl implements EmployeeService {
      * <p>
      * method used to get trainee details from controller to pass the details to dao
      *
-     * @param trainee object
+     * @param traineeDto object
      * @return status of operation
      */
     @Override
-    public Trainee addTrainee(Trainee trainee) {
+    public Trainee addTrainee(TraineeDto traineeDto) {
+        Trainee trainee = new Trainee();
+        trainee = trainee.TraineeDtoToTrainee(traineeDto);
         return traineeRepository.save(trainee);
     }
 
@@ -131,16 +141,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Trainer updateTrainerData(int trainerId, Trainer trainer) {
         Trainer updateTrainer = trainerRepository.findById(trainerId).orElseThrow(()
                 -> new EmployeeNotFoundException("Trainer not found"));
-        updateTrainer.setEmployeeName(trainer.getEmployeeName());
-        updateTrainer.setEmployeeDateOfBirth(trainer.getEmployeeDateOfBirth());
-        updateTrainer.setEmployeeDesignation(trainer.getEmployeeDesignation());
-        updateTrainer.setEmployeeMail(trainer.getEmployeeMail());
-        updateTrainer.setEmployeeMobileNumber(trainer.getEmployeeMobileNumber());
-        updateTrainer.setCurrentAddress(trainer.getCurrentAddress());
-        updateTrainer.setAadhaarCardNumber(trainer.getAadhaarCardNumber());
-        updateTrainer.setPanCardNumber(trainer.getPanCardNumber());
-        updateTrainer.setTrainees(trainer.getTrainees());
-        return trainerRepository.save(updateTrainer);
+        return trainerRepository.save(trainer);
     }
 
     /**
@@ -156,16 +157,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Trainee updateTraineeData(int traineeId, Trainee trainee) {
         Trainee updateTrainee = traineeRepository.findById(traineeId).orElseThrow(()
                 -> new EmployeeNotFoundException("Trainee not found"));
-        updateTrainee.setEmployeeName(trainee.getEmployeeName());
-        updateTrainee.setEmployeeDateOfBirth(trainee.getEmployeeDateOfBirth());
-        updateTrainee.setEmployeeDesignation(trainee.getEmployeeDesignation());
-        updateTrainee.setEmployeeMail(trainee.getEmployeeMail());
-        updateTrainee.setEmployeeMobileNumber(trainee.getEmployeeMobileNumber());
-        updateTrainee.setCurrentAddress(trainee.getCurrentAddress());
-        updateTrainee.setAadhaarCardNumber(trainee.getAadhaarCardNumber());
-        updateTrainee.setPanCardNumber(trainee.getPanCardNumber());
-        updateTrainee.setTrainers(trainee.getTrainers());
-        return traineeRepository.save(updateTrainee);
+        return traineeRepository.save(trainee);
     }
 
     /**
@@ -182,7 +174,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Set<Trainee> trainee = trainer.getTrainees();
         trainee.removeAll(trainee);
         this.updateTrainerData(trainerId, trainer);
-        trainerRepository.deleteById(trainerId);
+        trainer1.setIsActive(true);
+        trainerRepository.save(trainer1);
     }
 
     /**
@@ -199,7 +192,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Set<Trainer> trainer = trainee.getTrainers();
         trainer.removeAll(trainer);
         this.updateTraineeData(traineeId, trainee);
-        trainerRepository.deleteById(traineeId);
+        trainee1.setIsActive(true);
+        traineeRepository.save(trainee1);
     }
 
     @Override

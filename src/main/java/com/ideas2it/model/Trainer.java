@@ -2,12 +2,13 @@ package com.ideas2it.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ideas2it.Dto.TrainerDto;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import lombok.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,8 +25,13 @@ import java.util.Set;
  * @version 1.0
  * @since 2022-08-04
  */
-
+@Getter
+@Setter
+@AllArgsConstructor(staticName = "build")
+@NoArgsConstructor
 @Entity
+@SQLDelete(sql = "UPDATE table trainer_details SET employee_status = true WHERE id=?")
+@Where(clause = "employee_status = 0")
 @Table(name = "trainer_details",uniqueConstraints = {
         @UniqueConstraint(columnNames = "mail"),
         @UniqueConstraint(columnNames = "mobile_number"),
@@ -47,21 +53,6 @@ public class Trainer extends Employee {
     @JsonIgnore
     private Set<Trainee> trainees = new HashSet<>();
 
-    public void setTrainerId(int trainerId) {
-        this.trainerId = trainerId;
-    }
-
-    public int getTrainerId() {
-        return trainerId;
-    }
-
-    public Set<Trainee> getTrainees() {
-        return trainees;
-    }
-    public void setTrainees(Set<Trainee> trainees) {
-        this.trainees = trainees;
-    }
-
     public Trainer TrainerDtoToTrainer(TrainerDto trainerDto) {
         Trainer trainer = new Trainer();
         trainer.setUuid(trainerDto.getUuid());
@@ -78,7 +69,6 @@ public class Trainer extends Employee {
         trainer.setTrainees(trainerDto.getTrainees());
         return trainer;
     }
-
 }
 
 

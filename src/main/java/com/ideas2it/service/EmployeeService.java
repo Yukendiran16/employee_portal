@@ -1,5 +1,7 @@
 package com.ideas2it.service;
 
+import com.ideas2it.Dto.TraineeDto;
+import com.ideas2it.Dto.TrainerDto;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
@@ -27,20 +29,20 @@ public interface EmployeeService {
      * <p>
      * method used to get trainer details from controller to pass the details to dao
      *
-     * @param trainer object
+     * @param trainerDto object
      * @return status of operation
      */
-    Trainer addTrainer(Trainer trainer);
+    Trainer addTrainer(TrainerDto trainerDto);
 
     /**
      * <h1> addTrainee </h1>
      * <p>
      * method used to get trainee details from controller to pass the details to dao
      *
-     * @param trainee object
+     * @param traineeDto object
      * @return status of operation
      */
-    Trainee addTrainee(Trainee trainee);
+    Trainee addTrainee(TraineeDto traineeDto);
 
     /**
      * <h1> getTrainersData </h1>

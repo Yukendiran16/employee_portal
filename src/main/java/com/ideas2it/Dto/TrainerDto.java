@@ -3,14 +3,13 @@ package com.ideas2it.Dto;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.util.ValidEmail;
-import jdk.nashorn.internal.runtime.regexp.RegExp;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -22,20 +21,22 @@ import java.util.Set;
 /**
  * A DTO for the {@link Trainer} entity
  */
+@Data
 @Builder
-@Getter
-@Setter
+@AllArgsConstructor(staticName = "build")
+@NoArgsConstructor
 public class TrainerDto implements Serializable {
 
-    @NotEmpty(message = "UUID is mandatory")
+    @NotNull(message = "UUID is mandatory")
     private String uuid;
     @NotEmpty(message = "Employee name is mandatory")
     @Pattern(regexp = "(([A-z][a-z]{1,20})(\\s)){2,}", message =
             "Name must be in only alphabets and first name, second name required")
     private String employeeName;
-    @NotNull(message = "date of birth is mandatory")
+    @NotEmpty(message = "date of birth is mandatory")
     @Past(message = "invalid date")
     private LocalDate employeeDateOfBirth;
+    @NotEmpty(message = "designation is mandatory")
     private String employeeDesignation;
     @NotEmpty(message = "mail is mandatory")
     @ValidEmail(message = "invalid email")
@@ -45,6 +46,8 @@ public class TrainerDto implements Serializable {
             "contains country code(+91) and starts with 6-9 and contains 10 digit")
     private String employeeMobileNumber;
     @NotEmpty(message = "address is mandatory")
+    @Pattern(regexp = "(([0-9/A-Za-z-]+)?)(,?[a-z\\sA-Z]+)((,([a-z\\sA-Z]+)+){2,3})(-[0-9]{6})(,([a-z\\sA-Z]+)+)",
+            message = "in valid address something missing (house number, street, village or town, city, pinCode, state)")
     private String currentAddress;
     @NotEmpty(message = "aadhaar card number is mandatory")
     @Pattern(regexp = "[0-9]{12}", message = "aadhaar card number must be contains 12 digit")
