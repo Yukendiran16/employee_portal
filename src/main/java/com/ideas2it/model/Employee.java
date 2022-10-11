@@ -1,5 +1,7 @@
 package com.ideas2it.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 
@@ -35,6 +37,7 @@ public class Employee {
     @Column(name = "name",nullable = false)
     private String employeeName;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "date_of_birth",nullable = false)
     private LocalDate employeeDateOfBirth;
 

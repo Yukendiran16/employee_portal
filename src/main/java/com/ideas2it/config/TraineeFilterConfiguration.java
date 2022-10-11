@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class TraineeFilterConfiguration {
-
     @Bean
-    public FilterRegistrationBean<TraineeFilter> registrationBean() {
-        FilterRegistrationBean<TraineeFilter> registrationBean = new FilterRegistrationBean<TraineeFilter>();
-        registrationBean.setFilter(new TraineeFilter());
-        registrationBean.addUrlPatterns("/employee_portal/*");
-        return registrationBean;
+    public FilterRegistrationBean<TraineeFilter> traineeRegistrationBean() {
+        FilterRegistrationBean<TraineeFilter> traineeFilterRegistrationBean = new FilterRegistrationBean<TraineeFilter>();
+        traineeFilterRegistrationBean.setFilter(new TraineeFilter());
+        traineeFilterRegistrationBean.addUrlPatterns("/employee_portal/*");
+        return traineeFilterRegistrationBean;
     }
 }
+

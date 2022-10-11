@@ -1,9 +1,16 @@
 package com.ideas2it.mapper;
 
-import com.ideas2it.Dto.TrainerDto;
+import com.ideas2it.Dto.TraineeDto;
+import com.ideas2it.Dto.TrainerRequestDto;
+import com.ideas2it.Dto.TrainerResponseDto;
+import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class TrainerMapper {
@@ -13,47 +20,52 @@ public class TrainerMapper {
         return TrainerDto.builder()
                 .trainerId(trainer.getTrainerId())
                 .build();
-    }
+    }*/
 
-    public Trainer TrainerDtoToTrainer(TrainerDto trainerDto) {
+    public Trainer TrainerRequestDtoToTrainer(TrainerRequestDto trainerRequestDto) {
         Trainer trainer = new Trainer();
-        trainer.setUuid(trainerDto.getUuid());
-        trainer.setEmployeeName(trainerDto.getEmployeeName());
-        trainer.setEmployeeDateOfBirth(trainerDto.getEmployeeDateOfBirth());
-        trainer.setEmployeeDesignation(trainerDto.getEmployeeDesignation());
-        trainer.setEmployeeMail(trainerDto.getEmployeeMail());
-        trainer.setEmployeeMobileNumber(trainerDto.getEmployeeMobileNumber());
-        trainer.setCurrentAddress(trainerDto.getCurrentAddress());
-        trainer.setAadhaarCardNumber(trainerDto.getAadhaarCardNumber());
-        trainer.setPanCardNumber(trainerDto.getPanCardNumber());
-        trainer.setIsActive(trainerDto.isActive());
-        trainer.setTrainerId(trainerDto.getTrainerId());
-        trainer.setTrainees(trainerDto.getTrainees());
+        trainer.setUuid(trainerRequestDto.getUuid());
+        trainer.setEmployeeName(trainerRequestDto.getEmployeeName());
+        trainer.setEmployeeDateOfBirth(LocalDate.parse(trainerRequestDto.getEmployeeDateOfBirth()));
+        trainer.setEmployeeDesignation(trainerRequestDto.getEmployeeDesignation());
+        trainer.setEmployeeMail(trainerRequestDto.getEmployeeMail());
+        trainer.setEmployeeMobileNumber(trainerRequestDto.getEmployeeMobileNumber());
+        trainer.setCurrentAddress(trainerRequestDto.getCurrentAddress());
+        trainer.setAadhaarCardNumber(trainerRequestDto.getAadhaarCardNumber());
+        trainer.setPanCardNumber(trainerRequestDto.getPanCardNumber());
+        trainer.setIsActive(trainerRequestDto.isActive());
+        trainer.setTrainerId(trainerRequestDto.getTrainerId());
+        trainer.setTrainees(trainerRequestDto.getTrainees());
         return trainer;
     }
 
-    public TrainerDto TrainerToTrainerDto(Trainer trainer) {
-        TrainerDto trainerDto = new TrainerDto();
-        trainerDto.setUuid(trainer.getUuid());
-        trainerDto.setEmployeeName(trainer.getEmployeeName());
-        trainerDto.setEmployeeDateOfBirth(trainer.getEmployeeDateOfBirth());
-        trainerDto.setEmployeeDesignation(trainer.getEmployeeDesignation());
-        trainerDto.setEmployeeMail(trainer.getEmployeeMail());
-        trainerDto.setEmployeeMobileNumber(trainer.getEmployeeMobileNumber());
-        trainerDto.setCurrentAddress(trainer.getCurrentAddress());
-        trainerDto.setAadhaarCardNumber(trainer.getAadhaarCardNumber());
-        trainerDto.setPanCardNumber(trainer.getPanCardNumber());
-        trainerDto.setIsActive(trainer.getIsActive());
-        trainerDto.setTrainerId(trainer.getTrainerId());
-        trainerDto.setTrainees(trainer.getTrainees());
-        return trainerDto;
-    }*/
-
-    public TrainerDto TrainerToTrainerDto(Trainer trainer) {
-        return modelMapper.map(trainer,TrainerDto.class);
+    public TrainerResponseDto TrainerToTrainerResponseDto(Trainer trainer) {
+        TrainerResponseDto trainerResponseDto = new TrainerResponseDto();
+        trainerResponseDto.setEmployeeName(trainer.getEmployeeName());
+        trainerResponseDto.setEmployeeDesignation(trainer.getEmployeeDesignation());
+        trainerResponseDto.setEmployeeMail(trainer.getEmployeeMail());
+        trainerResponseDto.setEmployeeMobileNumber(trainer.getEmployeeMobileNumber());
+        trainerResponseDto.setCurrentAddress(trainer.getCurrentAddress());
+        trainerResponseDto.setTrainerId(trainer.getTrainerId());
+        trainerResponseDto.setTrainees(TraineeToTraineeDto(trainer.getTrainees()));
+        return trainerResponseDto;
     }
 
-    public Trainer TrainerDtoToTrainer(TrainerDto trainerDto) {
+    public Set<TraineeDto> TraineeToTraineeDto(Set<Trainee> trainee) {
+        Set<TraineeDto> traineeDtoList = new HashSet<>();
+        for(Trainee trainee1 : trainee) {
+            TraineeDto traineeDto = new TraineeDto();
+            traineeDto.setEmployeeName(trainee1.getEmployeeName());
+            traineeDto.setTraineeId(trainee1.getTraineeId());
+        }
+        return traineeDtoList;
+    }
+
+    /*public TrainerRequestDto TrainerToTrainerDto(Trainer trainer) {
+        return modelMapper.map(trainer, TrainerRequestDto.class);
+    }
+
+    public Trainer TrainerDtoToTrainer(TrainerRequestDto trainerDto) {
         return modelMapper.map(trainerDto,Trainer.class);
-    }
+    }*/
 }

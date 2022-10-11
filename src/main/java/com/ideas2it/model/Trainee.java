@@ -1,7 +1,6 @@
 package com.ideas2it.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ideas2it.Dto.TraineeDto;
 import lombok.*;
 import org.hibernate.annotations.*;
 

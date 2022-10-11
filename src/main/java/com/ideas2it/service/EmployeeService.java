@@ -1,7 +1,7 @@
 package com.ideas2it.service;
 
-import com.ideas2it.Dto.TraineeDto;
-import com.ideas2it.Dto.TrainerDto;
+import com.ideas2it.Dto.TraineeRequestDto;
+import com.ideas2it.Dto.TrainerRequestDto;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 
@@ -31,7 +31,7 @@ public interface EmployeeService {
      * @param trainerDto object
      * @return status of operation
      */
-    Trainer addTrainer(TrainerDto trainerDto);
+    Trainer addTrainer(TrainerRequestDto trainerDto);
 
     /**
      * <h1> addTrainee </h1>
@@ -41,7 +41,7 @@ public interface EmployeeService {
      * @param traineeDto object
      * @return status of operation
      */
-    Trainee addTrainee(TraineeDto traineeDto);
+    Trainee addTrainee(TraineeRequestDto traineeDto);
 
     /**
      * <h1> getTrainersData </h1>

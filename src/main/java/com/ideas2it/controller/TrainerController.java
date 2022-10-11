@@ -1,23 +1,18 @@
 package com.ideas2it.controller;
 
 import com.google.gson.Gson;
-import com.ideas2it.Dto.TrainerDto;
+import com.ideas2it.Dto.TrainerRequestDto;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.mapper.TrainerMapper;
 import com.ideas2it.model.Trainer;
 //import com.ideas2it.security.AppBasicAuthenticationEntryPoint;
 import com.ideas2it.service.EmployeeService;
-import com.sun.deploy.association.AssociationAlreadyRegisteredException;
-import lombok.SneakyThrows;
-import org.apache.commons.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,7 +57,7 @@ public class TrainerController {
 
     @PostMapping(path = "/trainer",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Trainer> addTrainer(@RequestBody @Valid TrainerDto trainerDto)  {
+    public ResponseEntity<Trainer> addTrainer(@RequestBody @Valid TrainerRequestDto trainerDto)  {
         logger.info("trainer object send to database");
         return new ResponseEntity<>(employeeService.addTrainer(trainerDto), HttpStatus.CREATED);
     }
@@ -95,18 +90,18 @@ public class TrainerController {
 
     @GetMapping(path = "/trainerDetails/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TrainerDto> ShowFullTrainerDetails(@PathVariable("id") int trainerId) {
+    public ResponseEntity<TrainerRequestDto> ShowFullTrainerDetails(@PathVariable("id") int trainerId) {
         logger.info("requested URL is correct. This URL is returns all trainer details");
         Trainer trainer = employeeService.searchTrainerData(trainerId);
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
-        TrainerDto trainerDto = trainerMapper.TrainerToTrainerDto(trainer);
+        TrainerRequestDto trainerDto = trainerMapper.TrainerToTrainerDto(trainer);
         logger.info("searching successful");
         return new ResponseEntity<>(trainerDto, HttpStatus.OK);
     }
 
     @PutMapping(value = "/trainer",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Trainer> updateTrainer(@RequestBody TrainerDto trainerDto) {
+    public ResponseEntity<Trainer> updateTrainer(@RequestBody TrainerRequestDto trainerDto) {
         logger.info("requested URL is correct. This URl is update the exists employee profile");
         Trainer trainer = employeeService.searchTrainerData(trainerDto.getTrainerId());
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");

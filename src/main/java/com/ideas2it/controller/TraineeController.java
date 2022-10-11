@@ -1,7 +1,8 @@
 package com.ideas2it.controller;
 
 import com.google.gson.Gson;
-import com.ideas2it.Dto.TraineeDto;
+import com.ideas2it.Dto.TraineeRequestDto;
+import com.ideas2it.Dto.TraineeResponseDto;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.mapper.TraineeMapper;
 import com.ideas2it.model.Trainee;
@@ -56,7 +57,7 @@ public class TraineeController {
 
     @PostMapping(path = "/trainee",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Trainee> addTrainee(@Valid @RequestBody TraineeDto traineeDto) {
+    public ResponseEntity<Trainee> addTrainee(@Valid @RequestBody TraineeRequestDto traineeDto) {
         logger.info("trainee object send to database");
         return new ResponseEntity<>(employeeService.addTrainee(traineeDto), HttpStatus.CREATED);
     }
@@ -88,22 +89,22 @@ public class TraineeController {
 
     @GetMapping(path = "/traineeDetails/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TraineeDto> showFullTraineeDetails(@PathVariable("id") int traineeId) {
+    public ResponseEntity<TraineeResponseDto> showFullTraineeDetails(@PathVariable("id") int traineeId) {
         logger.debug("requested URL is correct. This URL is returns all trainee details");
         Trainee trainee = employeeService.searchTraineeData(traineeId);
         if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active ");
-        TraineeDto traineeDto = traineeMapper.TraineeToTraineeDto(trainee);
+        TraineeResponseDto traineeDto = traineeMapper.TraineeToTraineeResponseDto(trainee);
         logger.info("searching successful");
         return new ResponseEntity<>(traineeDto, HttpStatus.OK);
     }
 
     @PutMapping(value = "/trainee",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Trainee> updateTrainee(@RequestBody TraineeDto traineeDto) {
+    public ResponseEntity<Trainee> updateTrainee(@RequestBody TraineeRequestDto traineeDto) {
         logger.debug("requested URL is correct. This URl is update the exists employee profile");
         Trainee trainee = employeeService.searchTraineeData(traineeDto.getTraineeId());
         if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active ");
-        trainee = traineeMapper.TraineeDtoToTrainee(traineeDto);
+        trainee = traineeMapper.TraineeRequestDtoToTrainee(traineeDto);
         //Map<String, Object> trainee1 = employeeService.getTrainee(
                 //employeeService.updateTraineeData(trainee.getTraineeId(), trainee));
         return new ResponseEntity<>(employeeService.

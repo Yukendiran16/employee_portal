@@ -1,7 +1,7 @@
 package com.ideas2it.service.impl;
 
-import com.ideas2it.Dto.TraineeDto;
-import com.ideas2it.Dto.TrainerDto;
+import com.ideas2it.Dto.TraineeRequestDto;
+import com.ideas2it.Dto.TrainerRequestDto;
 import com.ideas2it.dao.TraineeRepository;
 import com.ideas2it.dao.TrainerRepository;
 import com.ideas2it.exception.AlreadyAssignedException;
@@ -11,7 +11,6 @@ import com.ideas2it.mapper.TrainerMapper;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.service.EmployeeService;
-import com.sun.deploy.association.AssociationAlreadyRegisteredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.ideas2it.util.Constant.IS_ACTIVE;
 
 /**
  * <h2>EmployeeServiceImpl</h2>
@@ -42,15 +43,15 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
-    TrainerRepository trainerRepository;
+    private TrainerRepository trainerRepository;
     @Autowired
-    TraineeRepository traineeRepository;
+    private TraineeRepository traineeRepository;
 
     @Autowired(required = false)
-    TraineeMapper traineeMapper;
+    private TraineeMapper traineeMapper;
 
     @Autowired(required = false)
-    TrainerMapper trainerMapper;
+    private TrainerMapper trainerMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
@@ -63,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return status of operation
      */
     @Override
-    public Trainer addTrainer(TrainerDto trainerDto) {
+    public Trainer addTrainer(TrainerRequestDto trainerDto) {
         Trainer trainer;
         trainer = trainerMapper.TrainerDtoToTrainer(trainerDto);
         return trainerRepository.save(trainer);
@@ -78,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return status of operation
      */
     @Override
-    public Trainee addTrainee(TraineeDto traineeDto) {
+    public Trainee addTrainee(TraineeRequestDto traineeDto) {
         Trainee trainee;
         trainee = traineeMapper.TraineeDtoToTrainee(traineeDto);
         return traineeRepository.save(trainee);
@@ -93,8 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public List<Trainer> getTrainersData() {
-        boolean isActive = false;
-        return trainerRepository.findByIsActive(isActive);
+        return trainerRepository.findByIsActive(IS_ACTIVE);
     }
 
     /**
@@ -120,8 +120,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public List<Trainee> getTraineesData() {
-        boolean isActive = false;
-        return traineeRepository.findByIsActive(isActive);
+        return traineeRepository.findByIsActive(IS_ACTIVE);
     }
 
     /**
