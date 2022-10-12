@@ -9,6 +9,7 @@ import com.ideas2it.model.Trainer;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,24 +24,22 @@ public class TraineeMapper {
                 .build();
     }*/
 
-    public Trainee TraineeRequestDtoToTrainee(TraineeRequestDto traineeRequestDto) {
+    public Trainee traineeRequestDtoToTrainee(TraineeRequestDto traineeRequestDto) {
         Trainee trainee = new Trainee();
         trainee.setUuid(traineeRequestDto.getUuid());
         trainee.setEmployeeName(traineeRequestDto.getEmployeeName());
-        trainee.setEmployeeDateOfBirth(traineeRequestDto.getEmployeeDateOfBirth());
+        trainee.setEmployeeDateOfBirth(LocalDate.parse(traineeRequestDto.getEmployeeDateOfBirth()));
         trainee.setEmployeeDesignation(traineeRequestDto.getEmployeeDesignation());
         trainee.setEmployeeMail(traineeRequestDto.getEmployeeMail());
         trainee.setEmployeeMobileNumber(traineeRequestDto.getEmployeeMobileNumber());
         trainee.setCurrentAddress(traineeRequestDto.getCurrentAddress());
         trainee.setAadhaarCardNumber(traineeRequestDto.getAadhaarCardNumber());
         trainee.setPanCardNumber(traineeRequestDto.getPanCardNumber());
-        trainee.setIsActive(traineeRequestDto.isActive());
         trainee.setTraineeId(traineeRequestDto.getTraineeId());
-        trainee.setTrainers(traineeRequestDto.getTrainers());
         return trainee;
     }
 
-    public TraineeResponseDto TraineeToTraineeResponseDto(Trainee trainee) {
+    public TraineeResponseDto traineeToTraineeResponseDto(Trainee trainee) {
         TraineeResponseDto traineeResponseDto = new TraineeResponseDto();
         traineeResponseDto.setEmployeeName(trainee.getEmployeeName());
         traineeResponseDto.setEmployeeDesignation(trainee.getEmployeeDesignation());
@@ -48,26 +47,27 @@ public class TraineeMapper {
         traineeResponseDto.setEmployeeMobileNumber(trainee.getEmployeeMobileNumber());
         traineeResponseDto.setCurrentAddress(trainee.getCurrentAddress());
         traineeResponseDto.setTraineeId(trainee.getTraineeId());
-        traineeResponseDto.setTrainers(TrainerToTrainerDto(trainee.getTrainers()));
+        traineeResponseDto.setTrainers(trainerToTrainerDto(trainee.getTrainers()));
         return traineeResponseDto;
     }
 
-    public Set<TrainerDto> TrainerToTrainerDto(Set<Trainer> trainer) {
+    public Set<TrainerDto> trainerToTrainerDto(Set<Trainer> trainer) {
         Set<TrainerDto> trainerDtoList = new HashSet<>();
-        for(Trainer trainer1 : trainer) {
-            TrainerDto trainerDto = new TrainerDto();
-            trainerDto.setEmployeeName(trainer1.getEmployeeName());
-            trainerDto.setTrainerId(trainer1.getTrainerId());
+        if (null != trainer) {
+            for (Trainer trainer1 : trainer) {
+                TrainerDto trainerDto = new TrainerDto();
+                trainerDto.setEmployeeName(trainer1.getEmployeeName());
+                trainerDto.setTrainerId(trainer1.getTrainerId());
+                trainerDtoList.add(trainerDto);
+            }
+            return trainerDtoList;
+        } else {
+            return null;
         }
-        return trainerDtoList;
     }
 
-    /*public TraineeDto TraineeToTraineeDto(Trainee trainee) {
+    public TraineeDto traineeToTraineeDto(Trainee trainee) {
         return modelMapper.map(trainee,TraineeDto.class);
     }
-
-    public Trainee TraineeDtoToTrainee(TraineeRequestDto traineeDto) {
-        return modelMapper.map(traineeDto,Trainee.class);
-    }*/
 
 }

@@ -31,11 +31,7 @@ import java.util.Set;
 @Entity
 @SQLDelete(sql = "UPDATE table trainee_details SET employee_status = true WHERE id=?")
 @Where(clause = "employee_status = 0")
-@Table(name = "trainee_details",uniqueConstraints = {
-        @UniqueConstraint(columnNames = "mail"),
-        @UniqueConstraint(columnNames = "mobile_number"),
-        @UniqueConstraint(columnNames = "aadhaar_card_number"),
-        @UniqueConstraint(columnNames = "pan_card_number")})
+@Table(name = "trainee_details")
 public class Trainee extends Employee {
 
     @Id

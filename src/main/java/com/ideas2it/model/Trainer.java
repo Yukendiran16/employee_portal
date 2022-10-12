@@ -31,11 +31,7 @@ import java.util.Set;
 @Entity
 @SQLDelete(sql = "UPDATE table trainer_details SET employee_status = true WHERE id=?")
 @Where(clause = "employee_status = 0")
-@Table(name = "trainer_details",uniqueConstraints = {
-        @UniqueConstraint(columnNames = "mail"),
-        @UniqueConstraint(columnNames = "mobile_number"),
-        @UniqueConstraint(columnNames = "aadhaar_card_number"),
-        @UniqueConstraint(columnNames = "pan_card_number")})
+@Table(name = "trainer_details")
 public class Trainer extends Employee {
 
     @Id
@@ -45,8 +41,8 @@ public class Trainer extends Employee {
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "trainer_trainee", joinColumns = @JoinColumn(name = "trainers_id"),
-            inverseJoinColumns = @JoinColumn(name = "trainees_id"))
+    @JoinTable(name = "trainer_trainee", joinColumns = @JoinColumn(name = "trainer_id"),
+            inverseJoinColumns = @JoinColumn(name = "trainee_id"))
     @Fetch(FetchMode.SELECT)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore

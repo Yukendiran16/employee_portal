@@ -1,5 +1,6 @@
 package com.ideas2it.Dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.util.Designation;
@@ -23,11 +24,13 @@ import java.util.Set;
 @Data
 @Builder
 @Setter
+@Getter
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
 public class TrainerRequestDto implements Serializable {
 
     @NotEmpty(message = "UUID is mandatory")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String uuid;
     @NotEmpty(message = "Employee name is mandatory")
     @Pattern(regexp = "(([A-Z][a-z]{2,20})(( )([A-Z][a-z]*)))+", message =
@@ -35,6 +38,7 @@ public class TrainerRequestDto implements Serializable {
     private String employeeName;
     @NotEmpty(message = "date is must")
     @UserDate
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String employeeDateOfBirth;
     @NotEmpty(message = "designation is mandatory")
     @Designation
@@ -57,11 +61,10 @@ public class TrainerRequestDto implements Serializable {
     @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]", message = "pan card number contains " +
             "first 5 uppercase letters after 4 numbers after one uppercase letters total 10")
     private String panCardNumber;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean isActive = false;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int trainerId;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Trainee> trainees;
-
-    public void setIsActive(boolean active) {
-        isActive = active;
-    }
 }

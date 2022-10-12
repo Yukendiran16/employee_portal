@@ -1,13 +1,16 @@
 package com.ideas2it.Dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
+import com.ideas2it.util.Designation;
+import com.ideas2it.util.UserDate;
 import lombok.*;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Set;
 
 
@@ -17,22 +20,24 @@ import java.util.Set;
 @Data
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class TraineeRequestDto implements Serializable {
 
     @NotEmpty(message = "UUID is mandatory")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String uuid;
     @NotEmpty(message = "Employee name is mandatory")
-    @Pattern(regexp = "(([A-z][a-z]{1,20})(\\s)){2,}", message =
+    @Pattern(regexp = "(([A-Z][a-z]{2,20})(( )([A-Z][a-z]*)))+", message =
             "Name must be in only alphabets and first name, second name required")
     private String employeeName;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @Past(message = "invalid date")
-    private LocalDate employeeDateOfBirth;
+    @NotEmpty(message = "date is must")
+    @UserDate
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String employeeDateOfBirth;
     @NotEmpty(message = "Employee designation is mandatory")
-    @Pattern(regexp = "(([A-z][a-z]{1,20})(\\s)){2,}", message =
-            "Designation must be in only alphabets")
+    @Designation
     private String employeeDesignation;
     @NotEmpty(message = "mail is mandatory")
     @Email(message = "invalid email")
@@ -52,11 +57,10 @@ public class TraineeRequestDto implements Serializable {
     @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]", message = "pan card number contains " +
             "first 5 uppercase letters after 4 numbers after one uppercase letters total 10")
     private String panCardNumber;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean isActive = false;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int traineeId;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Trainer> trainers;
-
-    public void setIsActive(boolean active) {
-        isActive = active;
-    }
 }

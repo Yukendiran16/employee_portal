@@ -2,11 +2,12 @@ package com.ideas2it.service;
 
 import com.ideas2it.Dto.TraineeRequestDto;
 import com.ideas2it.Dto.TrainerRequestDto;
+import com.ideas2it.Dto.TrainerResponseDto;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <h2>EmployeeService</h2>
@@ -23,6 +24,8 @@ import java.util.Map;
  */
 public interface EmployeeService {
 
+    void findExistingTrainer(String mail, String aadhaarNumber, String mobileNumber, String panNumber) throws SQLIntegrityConstraintViolationException;
+    void findExistingTrainee(String mail, String aadhaarNumber, String mobileNumber, String panNumber) throws SQLIntegrityConstraintViolationException;
     /**
      * <h1> addTrainer </h1>
      * <p>
@@ -31,7 +34,7 @@ public interface EmployeeService {
      * @param trainerDto object
      * @return status of operation
      */
-    Trainer addTrainer(TrainerRequestDto trainerDto);
+    TrainerResponseDto addTrainer(TrainerRequestDto trainerDto);
 
     /**
      * <h1> addTrainee </h1>
@@ -85,22 +88,20 @@ public interface EmployeeService {
      * <p>
      * method used to get updated trainer details from controller to pass the details to dao
      *
-     * @param trainerId for
      * @param trainer   object
      * @return status of operation
      */
-    Trainer updateTrainerData(int trainerId, Trainer trainer);
+    Trainer updateTrainerData(Trainer trainer);
 
     /**
      * <h1> updateTraineeData </h1>
      * <p>
      * method used to get updated trainee details from controller to pass the details to dao
      *
-     * @param traineeId for
      * @param trainee   object
      * @return status of operation
      */
-    Trainee updateTraineeData(int traineeId, Trainee trainee);
+    Trainee updateTraineeData(Trainee trainee);
 
     /**
      * <h1> deleteTrainerData </h1>
@@ -122,16 +123,12 @@ public interface EmployeeService {
 
     void deleteTraineeData(Trainee trainee, int traineeId) ;
 
-    Trainer updateTraineeListInTrainer(Trainer trainer, int traineeId) ;
+    Trainer updateTraineeListInTrainer(Trainer trainer, List<Integer> traineesId) ;
 
-    Trainee updateTrainerListInTrainee(Trainee trainee, int trainerId) ;
+    Trainee updateTrainerListInTrainee(Trainee trainee, List<Integer> trainersId) ;
 
-    Trainer deleteTraineeInTrainer(Trainer trainer, int traineeId) ;
+    Trainer deleteTraineeInTrainer(Trainer trainer, List<Integer> traineesId) ;
 
-    Trainee deleteTrainerInTrainee(Trainee trainer, int traineeId) ;
-
-    Map<String, Object> getTrainer(Trainer trainer);
-
-    Map<String, Object> getTrainee(Trainee trainee);
+    Trainee deleteTrainerInTrainee(Trainee trainer, List<Integer> trainersId) ;
 
 }

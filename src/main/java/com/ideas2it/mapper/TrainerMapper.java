@@ -1,6 +1,7 @@
 package com.ideas2it.mapper;
 
 import com.ideas2it.Dto.TraineeDto;
+import com.ideas2it.Dto.TrainerDto;
 import com.ideas2it.Dto.TrainerRequestDto;
 import com.ideas2it.Dto.TrainerResponseDto;
 import com.ideas2it.model.Trainee;
@@ -22,7 +23,7 @@ public class TrainerMapper {
                 .build();
     }*/
 
-    public Trainer TrainerRequestDtoToTrainer(TrainerRequestDto trainerRequestDto) {
+    public Trainer trainerRequestDtoToTrainer(TrainerRequestDto trainerRequestDto) {
         Trainer trainer = new Trainer();
         trainer.setUuid(trainerRequestDto.getUuid());
         trainer.setEmployeeName(trainerRequestDto.getEmployeeName());
@@ -33,13 +34,11 @@ public class TrainerMapper {
         trainer.setCurrentAddress(trainerRequestDto.getCurrentAddress());
         trainer.setAadhaarCardNumber(trainerRequestDto.getAadhaarCardNumber());
         trainer.setPanCardNumber(trainerRequestDto.getPanCardNumber());
-        trainer.setIsActive(trainerRequestDto.isActive());
         trainer.setTrainerId(trainerRequestDto.getTrainerId());
-        trainer.setTrainees(trainerRequestDto.getTrainees());
         return trainer;
     }
 
-    public TrainerResponseDto TrainerToTrainerResponseDto(Trainer trainer) {
+    public TrainerResponseDto trainerToTrainerResponseDto(Trainer trainer) {
         TrainerResponseDto trainerResponseDto = new TrainerResponseDto();
         trainerResponseDto.setEmployeeName(trainer.getEmployeeName());
         trainerResponseDto.setEmployeeDesignation(trainer.getEmployeeDesignation());
@@ -47,25 +46,26 @@ public class TrainerMapper {
         trainerResponseDto.setEmployeeMobileNumber(trainer.getEmployeeMobileNumber());
         trainerResponseDto.setCurrentAddress(trainer.getCurrentAddress());
         trainerResponseDto.setTrainerId(trainer.getTrainerId());
-        trainerResponseDto.setTrainees(TraineeToTraineeDto(trainer.getTrainees()));
+        trainerResponseDto.setTrainees(traineeToTraineeDto(trainer.getTrainees()));
         return trainerResponseDto;
     }
 
-    public Set<TraineeDto> TraineeToTraineeDto(Set<Trainee> trainee) {
+    public Set<TraineeDto> traineeToTraineeDto(Set<Trainee> trainee) {
         Set<TraineeDto> traineeDtoList = new HashSet<>();
-        for(Trainee trainee1 : trainee) {
-            TraineeDto traineeDto = new TraineeDto();
-            traineeDto.setEmployeeName(trainee1.getEmployeeName());
-            traineeDto.setTraineeId(trainee1.getTraineeId());
+        if (null != trainee) {
+            for (Trainee trainee1 : trainee) {
+                TraineeDto traineeDto = new TraineeDto();
+                traineeDto.setEmployeeName(trainee1.getEmployeeName());
+                traineeDto.setTraineeId(trainee1.getTraineeId());
+                traineeDtoList.add(traineeDto);
+            }
+            return traineeDtoList;
+        } else {
+            return null;
         }
-        return traineeDtoList;
     }
 
-    /*public TrainerRequestDto TrainerToTrainerDto(Trainer trainer) {
+    public TrainerRequestDto trainerToTrainerRequestDto(Trainer trainer) {
         return modelMapper.map(trainer, TrainerRequestDto.class);
     }
-
-    public Trainer TrainerDtoToTrainer(TrainerRequestDto trainerDto) {
-        return modelMapper.map(trainerDto,Trainer.class);
-    }*/
 }

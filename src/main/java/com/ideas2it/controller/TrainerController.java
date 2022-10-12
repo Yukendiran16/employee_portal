@@ -1,11 +1,12 @@
 package com.ideas2it.controller;
 
 import com.google.gson.Gson;
+import com.ideas2it.Dto.TrainerAssociationDto;
 import com.ideas2it.Dto.TrainerRequestDto;
+import com.ideas2it.Dto.TrainerResponseDto;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.mapper.TrainerMapper;
 import com.ideas2it.model.Trainer;
-//import com.ideas2it.security.AppBasicAuthenticationEntryPoint;
 import com.ideas2it.service.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <h2> TrainerController </h2>
@@ -47,9 +48,6 @@ public class TrainerController {
     @Autowired
     EmployeeService employeeService;
 
-    //@Autowired
-    //private AppBasicAuthenticationEntryPoint logoutHandler;
-
     @Autowired
     TrainerMapper trainerMapper;
 
@@ -57,35 +55,38 @@ public class TrainerController {
 
     @PostMapping(path = "/trainer",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Trainer> addTrainer(@RequestBody @Valid TrainerRequestDto trainerDto)  {
+    public ResponseEntity<TrainerResponseDto> addTrainer(@RequestBody @Valid TrainerRequestDto trainerDto)
+            throws SQLIntegrityConstraintViolationException {
         logger.info("trainer object send to database");
+        employeeService.findExistingTrainer(trainerDto.getEmployeeMail(), trainerDto.getAadhaarCardNumber(),
+                trainerDto.getEmployeeMobileNumber(), trainerDto.getPanCardNumber());
         return new ResponseEntity<>(employeeService.addTrainer(trainerDto), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/trainers",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Map<String, Object>>> getTrainers() {
+    public ResponseEntity<List<TrainerResponseDto>> getTrainers() {
         logger.info("requested URL is correct. This URL is returns all trainer details");
         List<Trainer> trainers = employeeService.getTrainersData();
         if (null == trainers) throw new EmployeeNotFoundException("empty list ");
         logger.info("details successfully shown");
-        List<Map<String, Object>> trainerList = new ArrayList<>();
+        List<TrainerResponseDto> trainerList = new ArrayList<>();
         trainers.forEach(trainer -> {
-            Map<String, Object> trainer1 = employeeService.getTrainer(trainer);
-            trainerList.add(trainer1);
+            TrainerResponseDto trainerResponseDto = trainerMapper.trainerToTrainerResponseDto(trainer);
+            trainerList.add(trainerResponseDto);
         });
         return new ResponseEntity<>(trainerList, HttpStatus.OK);
     }
 
     @GetMapping(path = "/trainer/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Map<String, Object>> displayTrainer(@PathVariable("id") int trainerId) {
+    public ResponseEntity<TrainerResponseDto> displayTrainer(@PathVariable("id") int trainerId) {
         logger.info("requested URL is correct. This URL is returns all trainer details");
         Trainer trainer = employeeService.searchTrainerData(trainerId);
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active ");
-        Map<String, Object> trainer1 = employeeService.getTrainer(trainer);
+        TrainerResponseDto trainerResponseDto = trainerMapper.trainerToTrainerResponseDto(trainer);
         logger.info("searching successful");
-        return new ResponseEntity<>(trainer1, HttpStatus.OK);
+        return new ResponseEntity<>(trainerResponseDto, HttpStatus.OK);
     }
 
     @GetMapping(path = "/trainerDetails/{id}",
@@ -94,22 +95,22 @@ public class TrainerController {
         logger.info("requested URL is correct. This URL is returns all trainer details");
         Trainer trainer = employeeService.searchTrainerData(trainerId);
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
-        TrainerRequestDto trainerDto = trainerMapper.TrainerToTrainerDto(trainer);
+        TrainerRequestDto trainerDto = trainerMapper.trainerToTrainerRequestDto(trainer);
         logger.info("searching successful");
         return new ResponseEntity<>(trainerDto, HttpStatus.OK);
     }
 
     @PutMapping(value = "/trainer",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Trainer> updateTrainer(@RequestBody TrainerRequestDto trainerDto) {
+    public ResponseEntity<TrainerResponseDto> updateTrainer(@RequestBody TrainerRequestDto trainerDto) {
         logger.info("requested URL is correct. This URl is update the exists employee profile");
+        logger.info(String.valueOf(trainerDto.getTrainerId()));
         Trainer trainer = employeeService.searchTrainerData(trainerDto.getTrainerId());
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
-        trainer = trainerMapper.TrainerDtoToTrainer(trainerDto);
-        //Map<String, Object> trainer1 = employeeService.getTrainer(
-                //employeeService.updateTrainerData(trainer.getTrainerId(), trainer));
-        return new ResponseEntity<>(employeeService.
-                updateTrainerData(trainer.getTrainerId(), trainer), HttpStatus.OK);
+        trainer = trainerMapper.trainerRequestDtoToTrainer(trainerDto);
+        Trainer trainer1 = employeeService.updateTrainerData(trainer);
+        TrainerResponseDto trainerResponseDto = trainerMapper.trainerToTrainerResponseDto(trainer1);
+        return new ResponseEntity<>(trainerResponseDto, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/trainer/{id}",
@@ -125,16 +126,16 @@ public class TrainerController {
 
     @PutMapping(value = "/assign_trainee",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> assignTrainee(@RequestBody Map<String, Integer> assign) {
+    public ResponseEntity<String> assignTrainee(@RequestBody TrainerAssociationDto assign) {
         logger.info("requested URL is correct. This URl create association between trainer to trainees");
         logger.info("trainer id searching...in database");
-        Trainer trainer = employeeService.searchTrainerData(assign.get("trainerId"));
+        Trainer trainer = employeeService.searchTrainerData(assign.getTrainerId());
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active ");
-        logger.info("trainer Id present...");
-        logger.info("trainee Id list :" + "[" + assign.get("traineeId") + "]");
+        logger.info("trainer Id " + assign.getTrainerId() + "present...");
+        logger.info("trainee Id list :" + assign.getTraineesList());
         try {
-            employeeService.updateTrainerData(trainer.getTrainerId(),
-                    employeeService.updateTraineeListInTrainer(trainer,assign.get("traineeId")));
+            employeeService.updateTrainerData(
+                    employeeService.updateTraineeListInTrainer(trainer,assign.getTraineesList()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -144,16 +145,16 @@ public class TrainerController {
 
     @DeleteMapping(value = "/un_assign_trainee",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> un_assignTrainee(@RequestBody Map<String, Integer> un_assign)
+    public ResponseEntity<String> un_assignTrainee(@RequestBody TrainerAssociationDto un_assign)
     {
         logger.info("requested URL is correct. This URl create association between trainer to trainees");
         logger.info("trainer id searching...in database");
-        Trainer trainer = employeeService.searchTrainerData(un_assign.get("trainerId"));
+        Trainer trainer = employeeService.searchTrainerData(un_assign.getTrainerId());
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
-        logger.info("trainer Id " + un_assign.get("trainerId") + "present...");
-        logger.info("trainee Id list :" + un_assign.get("traineeId"));
-        employeeService.updateTrainerData(trainer.getTrainerId(),
-                employeeService.deleteTraineeInTrainer(trainer, un_assign.get("traineeId")));
+        logger.info("trainer Id " + un_assign.getTrainerId() + "present...");
+        logger.info("trainee Id list :" + un_assign.getTraineesList());
+        employeeService.updateTrainerData(
+                employeeService.deleteTraineeInTrainer(trainer, un_assign.getTraineesList()));
         logger.info("Un association successful");
         return new ResponseEntity<>(new Gson().toJson("message : " + " Un association successful"), HttpStatus.OK);
     }

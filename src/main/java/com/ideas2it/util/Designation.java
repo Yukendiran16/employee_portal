@@ -20,7 +20,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = DesignationValidator.class)
 public @interface Designation {
 
-    String message() default "{invalid designation : must be" + "\n" + ROLE_1 + "\n" + ROLE_2 +  ROLE_3 + " }";
+    String message() default "invalid designation : must be 1 : "  + ROLE_1 + ", 2 : " + ROLE_2 + ", 3 : " + ROLE_3 ;
 
     Class<?>[] groups() default {};
 

@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TraineeRepository extends JpaRepository<Trainee,Integer> {
-    List<Trainee> findByIsActive(boolean isActive);
+public interface TraineeRepository extends JpaRepository<Trainee,Integer>, EmployeeRepository {
+
+    List<Trainee> findByIsActive(boolean IS_ACTIVE);
+    Trainee findTraineeByEmployeeMail(String mail);
+    Trainee findTraineeByEmployeeMobileNumber(String mobileNumber);
+    Trainee findTraineeByAadhaarCardNumber(String aadhaarNumber);
+    Trainee findTraineeByPanCardNumber(String panNumber);
 }

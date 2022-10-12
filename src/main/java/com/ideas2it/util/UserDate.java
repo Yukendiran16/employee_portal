@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Retention(RUNTIME)
 @Target({FIELD, ANNOTATION_TYPE, TYPE_USE})
-@Constraint(validatedBy = DateValidator.class)
+@Constraint(validatedBy = LocalDateValidator.class)
 public @interface UserDate {
 
     String message() default "invalid date : DATE format must be \"yyyy-mm-dd\" and age must be between 18 to 50";

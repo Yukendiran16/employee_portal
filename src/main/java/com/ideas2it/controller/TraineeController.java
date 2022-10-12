@@ -1,12 +1,13 @@
 package com.ideas2it.controller;
 
 import com.google.gson.Gson;
+import com.ideas2it.Dto.TraineeAssociationDto;
+import com.ideas2it.Dto.TraineeDto;
 import com.ideas2it.Dto.TraineeRequestDto;
 import com.ideas2it.Dto.TraineeResponseDto;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.mapper.TraineeMapper;
 import com.ideas2it.model.Trainee;
-//import com.ideas2it.security.AppBasicAuthenticationEntryPoint;
 import com.ideas2it.service.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <h2> TraineeController </h2>
@@ -46,69 +47,70 @@ import java.util.Map;
 public class TraineeController {
 
     @Autowired
-    EmployeeService employeeService;
-
-    //@Autowired
-    //private AppBasicAuthenticationEntryPoint logoutHandler;
+    private EmployeeService employeeService;
 
     @Autowired
-    TraineeMapper traineeMapper;
+    private TraineeMapper traineeMapper;
     private static final Logger logger = LoggerFactory.getLogger(TraineeController.class);
 
     @PostMapping(path = "/trainee",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Trainee> addTrainee(@Valid @RequestBody TraineeRequestDto traineeDto) {
+    public ResponseEntity<TraineeResponseDto> addTrainee(@Valid @RequestBody TraineeRequestDto traineeDto)
+            throws SQLIntegrityConstraintViolationException {
         logger.info("trainee object send to database");
-        return new ResponseEntity<>(employeeService.addTrainee(traineeDto), HttpStatus.CREATED);
+        employeeService.findExistingTrainee(traineeDto.getEmployeeMail(), traineeDto.getAadhaarCardNumber(),
+                traineeDto.getEmployeeMobileNumber(), traineeDto.getPanCardNumber());
+        Trainee trainee = employeeService.addTrainee(traineeDto);
+        TraineeResponseDto traineeResponseDto = traineeMapper.traineeToTraineeResponseDto(trainee);
+        return new ResponseEntity<>(traineeResponseDto, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/trainees",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Map<String,Object>>> displayTrainees() {
+    public ResponseEntity<List<TraineeResponseDto>> displayTrainees() {
         logger.debug("requested URL is correct. This URL is returns all trainee details");
         List<Trainee> trainees = employeeService.getTraineesData();
         if (null == trainees) throw new EmployeeNotFoundException("list is empty ");
         logger.debug("details successfully shown");
-        List<Map<String, Object>> traineeList = new ArrayList<>();
+        List<TraineeResponseDto> traineeList = new ArrayList<>();
         trainees.forEach(trainee -> {
-            Map<String, Object> trainee1 = employeeService.getTrainee(trainee);
-            traineeList.add(trainee1);});
+            TraineeResponseDto traineeResponseDto = traineeMapper.traineeToTraineeResponseDto(trainee);
+            traineeList.add(traineeResponseDto);});
         return new ResponseEntity<>(traineeList, HttpStatus.OK);
     }
 
     @GetMapping(path = "/trainee/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Map<String, Object>> displayTrainee(@PathVariable("id") int traineeId) {
+    public ResponseEntity<TraineeResponseDto> displayTrainee(@PathVariable("id") int traineeId) {
         logger.debug("requested URL is correct. This URL is returns all trainee details");
         Trainee trainee = employeeService.searchTraineeData(traineeId);
         if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active ");
-        Map<String, Object> trainee1 = employeeService.getTrainee(trainee);
+        TraineeResponseDto traineeResponseDto = traineeMapper.traineeToTraineeResponseDto(trainee);
         logger.info("searching successful");
-        return new ResponseEntity<>(trainee1, HttpStatus.OK);
+        return new ResponseEntity<>(traineeResponseDto, HttpStatus.OK);
     }
 
     @GetMapping(path = "/traineeDetails/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TraineeResponseDto> showFullTraineeDetails(@PathVariable("id") int traineeId) {
+    public ResponseEntity<TraineeDto> showFullTraineeDetails(@PathVariable("id") int traineeId) {
         logger.debug("requested URL is correct. This URL is returns all trainee details");
         Trainee trainee = employeeService.searchTraineeData(traineeId);
         if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active ");
-        TraineeResponseDto traineeDto = traineeMapper.TraineeToTraineeResponseDto(trainee);
+        TraineeDto traineeDto = traineeMapper.traineeToTraineeDto(trainee);
         logger.info("searching successful");
         return new ResponseEntity<>(traineeDto, HttpStatus.OK);
     }
 
     @PutMapping(value = "/trainee",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Trainee> updateTrainee(@RequestBody TraineeRequestDto traineeDto) {
+    public ResponseEntity<TraineeResponseDto> updateTrainee(@RequestBody TraineeRequestDto traineeDto) {
         logger.debug("requested URL is correct. This URl is update the exists employee profile");
         Trainee trainee = employeeService.searchTraineeData(traineeDto.getTraineeId());
         if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active ");
-        trainee = traineeMapper.TraineeRequestDtoToTrainee(traineeDto);
-        //Map<String, Object> trainee1 = employeeService.getTrainee(
-                //employeeService.updateTraineeData(trainee.getTraineeId(), trainee));
-        return new ResponseEntity<>(employeeService.
-                updateTraineeData(trainee.getTraineeId(), trainee), HttpStatus.OK);
+        trainee = traineeMapper.traineeRequestDtoToTrainee(traineeDto);
+        Trainee trainee1 = employeeService.updateTraineeData(trainee);
+        TraineeResponseDto traineeResponseDto = traineeMapper.traineeToTraineeResponseDto(trainee1);
+        return new ResponseEntity<>(traineeResponseDto, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/trainee/{id}",
@@ -125,29 +127,30 @@ public class TraineeController {
 
     @PutMapping(value = "/assign_trainer",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> assignTrainee(@RequestBody Map<String,Integer> assign) {
+    public ResponseEntity<String> assignTrainee(@RequestBody TraineeAssociationDto assign) {
         logger.debug("requested URL is correct. This URl create association between trainee to trainees");
         logger.info("trainee id searching...in database");
-        Trainee trainee = employeeService.searchTraineeData(assign.get("traineeId"));
+        Trainee trainee = employeeService.searchTraineeData(assign.getTraineeId());
         if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active ");
-        logger.info("trainee Id present...");
-        logger.info("trainee Id list :" + "[" + assign.get("trainerId") + "]");
-        employeeService.updateTraineeData(trainee.getTraineeId(),
-                employeeService.updateTrainerListInTrainee(trainee, assign.get("trainerId")));
+        logger.info("trainee Id" + assign.getTraineeId() + "present...");
+        logger.info("trainee Id list :" + "[" + assign.getTrainersList() + "]");
+        employeeService.updateTraineeData(
+                employeeService.updateTrainerListInTrainee(trainee, assign.getTrainersList()));
         logger.debug("association successful");
         return new ResponseEntity<>(new Gson().toJson("message : " + " association successful"), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/un_assign_trainer",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> un_assignTrainee(@RequestBody Map<String,Integer> un_assign) {
+    public ResponseEntity<String> un_assignTrainee(@RequestBody TraineeAssociationDto un_assign) {
         logger.debug("requested URL is correct. This URl create association between trainee to trainees");
         logger.info("trainee id searching...in database");
-        Trainee trainee = employeeService.searchTraineeData(un_assign.get("traineeId"));
+        Trainee trainee = employeeService.searchTraineeData(un_assign.getTraineeId());
         if (trainee.getIsActive()) throw new EmployeeNotFoundException("trainee is not active ");
-        logger.info("trainee Id " + un_assign.get("traineeId") + "present...");
-        employeeService.updateTraineeData(trainee.getTraineeId(),
-                employeeService.deleteTrainerInTrainee(trainee, un_assign.get("trainerId")));
+        logger.info("trainee Id " + un_assign.getTraineeId() + "present...");
+        logger.info("trainee Id list :" + "[" + un_assign.getTrainersList() + "]");
+        employeeService.updateTraineeData(
+                employeeService.deleteTrainerInTrainee(trainee, un_assign.getTrainersList()));
         logger.debug("Un association successful");
         return new ResponseEntity<>(new Gson().toJson("message : " + " Un association successful"), HttpStatus.OK);
     }
