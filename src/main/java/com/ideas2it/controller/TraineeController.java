@@ -48,7 +48,6 @@ public class TraineeController {
 
     @Autowired
     private EmployeeService employeeService;
-
     @Autowired
     private TraineeMapper traineeMapper;
     private static final Logger logger = LoggerFactory.getLogger(TraineeController.class);
@@ -122,7 +121,7 @@ public class TraineeController {
         logger.info("searching successful");
         employeeService.deleteTraineeData(trainee, traineeId);
         logger.debug("Successfully deleted traineeId : " + traineeId);
-        return new ResponseEntity<>(new Gson().toJson("message : Successfully deleted ," + "traineeId : " + traineeId), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson("{ \"message\" : \"Successfully deleted \" ," + "\" traineeId\" : " + traineeId +"}"), HttpStatus.OK);
     }
 
     @PutMapping(value = "/assign_trainer",
@@ -137,7 +136,7 @@ public class TraineeController {
         employeeService.updateTraineeData(
                 employeeService.updateTrainerListInTrainee(trainee, assign.getTrainersList()));
         logger.debug("association successful");
-        return new ResponseEntity<>(new Gson().toJson("message : " + " association successful"), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson("{ \"message\"  : \"association successful\" }"), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/un_assign_trainer",
@@ -152,6 +151,6 @@ public class TraineeController {
         employeeService.updateTraineeData(
                 employeeService.deleteTrainerInTrainee(trainee, un_assign.getTrainersList()));
         logger.debug("Un association successful");
-        return new ResponseEntity<>(new Gson().toJson("message : " + " Un association successful"), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson("{ \"message\" : \"Un association successful\" }"), HttpStatus.OK);
     }
 }

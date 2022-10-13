@@ -89,7 +89,7 @@ public class TrainerController {
         return new ResponseEntity<>(trainerResponseDto, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/trainerDetails/{id}",
+    @GetMapping(path = "/trainer_details/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TrainerRequestDto> ShowFullTrainerDetails(@PathVariable("id") int trainerId) {
         logger.info("requested URL is correct. This URL is returns all trainer details");
@@ -121,7 +121,7 @@ public class TrainerController {
         logger.info("searching successful");
         employeeService.deleteTrainerData(trainer, trainerId);
         logger.info("successfully deleted trainerId : " + trainerId);
-        return new ResponseEntity<>(new Gson().toJson("message : successfully deleted ," + "trainerId : " + trainerId), HttpStatus.OK);
+        return new ResponseEntity<>(new Gson().toJson("{ \"message\" : \"Successfully deleted \" ," + "\" trainerId\" : " + trainerId +"}"), HttpStatus.OK);
     }
 
     @PutMapping(value = "/assign_trainee",

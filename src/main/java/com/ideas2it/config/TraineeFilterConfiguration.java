@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class TraineeFilterConfiguration {
+
     @Bean
     public FilterRegistrationBean<TraineeFilter> traineeRegistrationBean() {
         FilterRegistrationBean<TraineeFilter> traineeFilterRegistrationBean = new FilterRegistrationBean<TraineeFilter>();
