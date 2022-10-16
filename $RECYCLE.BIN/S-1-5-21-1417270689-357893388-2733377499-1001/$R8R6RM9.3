@@ -1,0 +1,799 @@
+17:44:19,330 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainer_details), mappingColumn=trainees_KEY, insertable=true, updatable=true, unique=false}
+17:44:19,330 DEBUG Ejb3Column:227 - Binding column: Ejb3JoinColumn{logicalColumnName='trainees_KEY', referencedColumn='null', mappedBy='null'}
+17:44:19,331 DEBUG Ejb3Column:227 - Binding column: Ejb3JoinColumn{logicalColumnName='trainer_id', referencedColumn='', mappedBy=''}
+17:44:19,331 DEBUG Ejb3Column:227 - Binding column: Ejb3JoinColumn{logicalColumnName='trainee_id', referencedColumn='', mappedBy=''}
+17:44:19,331 DEBUG CollectionBinder:451 - Collection role: com.ideas2it.model.Trainer.trainees
+17:44:19,332 DEBUG PropertyBinder:266 - Building property trainees
+17:44:19,345 DEBUG AnnotationBinder:547 - Binding entity from annotated class: com.ideas2it.model.Trainee
+17:44:19,345 DEBUG Ejb3Column:227 - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
+17:44:19,345 DEBUG EntityBinder:431 - Import with entity name Trainee
+17:44:19,345 DEBUG EntityBinder:874 - Bind entity com.ideas2it.model.Trainee on table trainee_details
+17:44:19,346 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=id, insertable=true, updatable=true, unique=false}
+17:44:19,346 DEBUG ClassLoaderAccessImpl:60 - Not known whether passed class name [com.ideas2it.model.Trainee] is safe
+17:44:19,346 DEBUG ClassLoaderAccessImpl:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.ideas2it.model.Trainee
+17:44:19,346 DEBUG PropertyBinder:175 - MetadataSourceProcessor property traineeId with lazy=false
+17:44:19,347 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:traineeId]
+17:44:19,347 DEBUG SimpleValueBinder:410 - building SimpleValue for traineeId
+17:44:19,347 DEBUG PropertyBinder:266 - Building property traineeId
+17:44:19,347 DEBUG BinderHelper:514 - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(id)]), traineeId, identity, , ...)
+17:44:19,347 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=aadhar_card_number, insertable=true, updatable=true, unique=false}
+17:44:19,347 DEBUG PropertyBinder:175 - MetadataSourceProcessor property aadharCardNumber with lazy=false
+17:44:19,347 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:aadharCardNumber]
+17:44:19,347 DEBUG SimpleValueBinder:410 - building SimpleValue for aadharCardNumber
+17:44:19,347 DEBUG PropertyBinder:266 - Building property aadharCardNumber
+17:44:19,348 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=company_name, insertable=true, updatable=true, unique=false}
+17:44:19,348 DEBUG PropertyBinder:175 - MetadataSourceProcessor property companyName with lazy=false
+17:44:19,348 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:companyName]
+17:44:19,348 DEBUG SimpleValueBinder:410 - building SimpleValue for companyName
+17:44:19,348 DEBUG PropertyBinder:266 - Building property companyName
+17:44:19,348 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=address, insertable=true, updatable=true, unique=false}
+17:44:19,348 DEBUG PropertyBinder:175 - MetadataSourceProcessor property currentAddress with lazy=false
+17:44:19,348 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:currentAddress]
+17:44:19,348 DEBUG SimpleValueBinder:410 - building SimpleValue for currentAddress
+17:44:19,348 DEBUG PropertyBinder:266 - Building property currentAddress
+17:44:19,348 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=date_of_birth, insertable=true, updatable=true, unique=false}
+17:44:19,349 DEBUG PropertyBinder:175 - MetadataSourceProcessor property employeeDateOfBirth with lazy=false
+17:44:19,349 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:employeeDateOfBirth]
+17:44:19,349 DEBUG SimpleValueBinder:410 - building SimpleValue for employeeDateOfBirth
+17:44:19,349 DEBUG PropertyBinder:266 - Building property employeeDateOfBirth
+17:44:19,349 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=designation, insertable=true, updatable=true, unique=false}
+17:44:19,349 DEBUG PropertyBinder:175 - MetadataSourceProcessor property employeeDesignation with lazy=false
+17:44:19,349 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:employeeDesignation]
+17:44:19,349 DEBUG SimpleValueBinder:410 - building SimpleValue for employeeDesignation
+17:44:19,349 DEBUG PropertyBinder:266 - Building property employeeDesignation
+17:44:19,349 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=mail, insertable=true, updatable=true, unique=false}
+17:44:19,350 DEBUG PropertyBinder:175 - MetadataSourceProcessor property employeeMail with lazy=false
+17:44:19,350 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:employeeMail]
+17:44:19,350 DEBUG SimpleValueBinder:410 - building SimpleValue for employeeMail
+17:44:19,350 DEBUG PropertyBinder:266 - Building property employeeMail
+17:44:19,350 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=mobile_number, insertable=true, updatable=true, unique=false}
+17:44:19,350 DEBUG PropertyBinder:175 - MetadataSourceProcessor property employeeMobileNumber with lazy=false
+17:44:19,350 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:employeeMobileNumber]
+17:44:19,350 DEBUG SimpleValueBinder:410 - building SimpleValue for employeeMobileNumber
+17:44:19,350 DEBUG PropertyBinder:266 - Building property employeeMobileNumber
+17:44:19,351 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=name, insertable=true, updatable=true, unique=false}
+17:44:19,351 DEBUG PropertyBinder:175 - MetadataSourceProcessor property employeeName with lazy=false
+17:44:19,351 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:employeeName]
+17:44:19,351 DEBUG SimpleValueBinder:410 - building SimpleValue for employeeName
+17:44:19,351 DEBUG PropertyBinder:266 - Building property employeeName
+17:44:19,351 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=employee_status, insertable=true, updatable=true, unique=false}
+17:44:19,351 DEBUG PropertyBinder:175 - MetadataSourceProcessor property isActive with lazy=false
+17:44:19,351 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:isActive]
+17:44:19,352 DEBUG SimpleValueBinder:410 - building SimpleValue for isActive
+17:44:19,352 DEBUG PropertyBinder:266 - Building property isActive
+17:44:19,352 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=pan_card_number, insertable=true, updatable=true, unique=false}
+17:44:19,352 DEBUG PropertyBinder:175 - MetadataSourceProcessor property panCardNumber with lazy=false
+17:44:19,352 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:panCardNumber]
+17:44:19,352 DEBUG SimpleValueBinder:410 - building SimpleValue for panCardNumber
+17:44:19,352 DEBUG PropertyBinder:266 - Building property panCardNumber
+17:44:19,352 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=uuid, insertable=true, updatable=true, unique=false}
+17:44:19,352 DEBUG PropertyBinder:175 - MetadataSourceProcessor property uuid with lazy=false
+17:44:19,353 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:uuid]
+17:44:19,353 DEBUG SimpleValueBinder:410 - building SimpleValue for uuid
+17:44:19,353 DEBUG PropertyBinder:266 - Building property uuid
+17:44:19,353 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=current_task, insertable=true, updatable=true, unique=false}
+17:44:19,353 DEBUG PropertyBinder:175 - MetadataSourceProcessor property currentTask with lazy=false
+17:44:19,353 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:currentTask]
+17:44:19,353 DEBUG SimpleValueBinder:410 - building SimpleValue for currentTask
+17:44:19,353 DEBUG PropertyBinder:266 - Building property currentTask
+17:44:19,353 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=current_techknowledge, insertable=true, updatable=true, unique=false}
+17:44:19,353 DEBUG PropertyBinder:175 - MetadataSourceProcessor property currentTechknowledge with lazy=false
+17:44:19,353 DEBUG AbstractPropertyHolder:94 - Attempting to locate auto-apply AttributeConverter for property [com.ideas2it.model.Trainee:currentTechknowledge]
+17:44:19,354 DEBUG SimpleValueBinder:410 - building SimpleValue for currentTechknowledge
+17:44:19,354 DEBUG PropertyBinder:266 - Building property currentTechknowledge
+17:44:19,354 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=null, insertable=true, updatable=true, unique=false}
+17:44:19,354 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=element, insertable=true, updatable=true, unique=false}
+17:44:19,354 DEBUG Ejb3Column:227 - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(trainee_details), mappingColumn=trainers_KEY, insertable=true, updatable=true, unique=false}
+17:44:19,354 DEBUG Ejb3Column:227 - Binding column: Ejb3JoinColumn{logicalColumnName='trainers_KEY', referencedColumn='null', mappedBy='null'}
+17:44:19,354 DEBUG Ejb3Column:227 - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='trainees'}
+17:44:19,354 DEBUG Ejb3Column:227 - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='trainees'}
+17:44:19,354 DEBUG CollectionBinder:451 - Collection role: com.ideas2it.model.Trainee.trainers
+17:44:19,355 DEBUG PropertyBinder:266 - Building property trainers
+17:44:19,356 DEBUG ClassLoaderServiceImpl:271 - HHH000194: Package not found or wo package-info.java: com.ideas2it.model
+17:44:19,357 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for trainerId
+17:44:19,357 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for aadharCardNumber
+17:44:19,357 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for companyName
+17:44:19,357 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for currentAddress
+17:44:19,357 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeDateOfBirth
+17:44:19,357 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeDesignation
+17:44:19,357 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeMail
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeMobileNumber
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeName
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for isActive
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for panCardNumber
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for uuid
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for achievement
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for currentProject
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for traineeId
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for aadharCardNumber
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for companyName
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for currentAddress
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeDateOfBirth
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeDesignation
+17:44:19,358 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeMail
+17:44:19,359 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeMobileNumber
+17:44:19,359 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for employeeName
+17:44:19,359 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for isActive
+17:44:19,359 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for panCardNumber
+17:44:19,359 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for uuid
+17:44:19,359 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for currentTask
+17:44:19,359 DEBUG SimpleValueBinder:455 - Starting fillSimpleValue for currentTechknowledge
+17:44:19,359 DEBUG PrimaryKey:36 - Forcing column [id] to be non-null as it is part of the primary key for table [trainer_details]
+17:44:19,359 DEBUG PrimaryKey:36 - Forcing column [id] to be non-null as it is part of the primary key for table [trainee_details]
+17:44:19,359 DEBUG CollectionSecondPass:51 - Second pass for collection: com.ideas2it.model.Trainer.trainees
+17:44:19,359 DEBUG CollectionBinder:1365 - Binding as ManyToMany: com.ideas2it.model.Trainer.trainees
+17:44:19,360 DEBUG PrimaryKey:36 - Forcing column [trainer_id] to be non-null as it is part of the primary key for table [trainer_id_trainee_id]
+17:44:19,360 DEBUG PrimaryKey:36 - Forcing column [trainee_id] to be non-null as it is part of the primary key for table [trainer_id_trainee_id]
+17:44:19,360 DEBUG CollectionSecondPass:68 - Mapped collection key: trainer_id, element: trainee_id
+17:44:19,360 DEBUG CollectionSecondPass:51 - Second pass for collection: com.ideas2it.model.Trainee.trainers
+17:44:19,360 DEBUG CollectionBinder:1365 - Binding as ManyToMany: com.ideas2it.model.Trainee.trainers
+17:44:19,360 DEBUG TableBinder:554 - Retrieving property com.ideas2it.model.Trainer.trainees
+17:44:19,360 DEBUG CollectionSecondPass:68 - Mapped collection key: trainee_id, element: trainer_id
+17:44:19,360 DEBUG InFlightMetadataCollectorImpl:1796 - Resolving reference to class: com.ideas2it.model.Trainee
+17:44:19,360 DEBUG InFlightMetadataCollectorImpl:1796 - Resolving reference to class: com.ideas2it.model.Trainer
+17:44:19,361 DEBUG InFlightMetadataCollectorImpl:1796 - Resolving reference to class: com.ideas2it.model.Trainee
+17:44:19,362 DEBUG InFlightMetadataCollectorImpl:1796 - Resolving reference to class: com.ideas2it.model.Trainer
+17:44:19,363 DEBUG SessionFactoryImpl:208 - Building session factory
+17:44:19,363 DEBUG Settings:68 - SessionFactory name : null
+17:44:19,363 DEBUG Settings:69 - Automatic flush during beforeCompletion(): enabled
+17:44:19,363 DEBUG Settings:70 - Automatic session close at end of transaction: disabled
+17:44:19,363 DEBUG Settings:72 - Statistics: disabled
+17:44:19,363 DEBUG Settings:74 - Deleted entity synthetic identifier rollback: disabled
+17:44:19,363 DEBUG Settings:75 - Default entity-mode: pojo
+17:44:19,363 DEBUG Settings:76 - Check Nullability in Core (should be disabled when Bean Validation is on): enabled
+17:44:19,363 DEBUG Settings:77 - Allow initialization of lazy state outside session : disabled
+17:44:19,363 DEBUG Settings:79 - Using BatchFetchStyle : LEGACY
+17:44:19,363 DEBUG Settings:80 - Default batch fetch size: -1
+17:44:19,363 DEBUG Settings:81 - Maximum outer join fetch depth: 2
+17:44:19,364 DEBUG Settings:82 - Default null ordering: NONE
+17:44:19,364 DEBUG Settings:83 - Order SQL updates by primary key: disabled
+17:44:19,364 DEBUG Settings:84 - Order SQL inserts for batching: disabled
+17:44:19,364 DEBUG Settings:86 - multi-tenancy strategy : NONE
+17:44:19,364 DEBUG Settings:88 - JTA Track by Thread: enabled
+17:44:19,364 DEBUG Settings:90 - Query language substitutions: {}
+17:44:19,364 DEBUG Settings:91 - Named query checking : enabled
+17:44:19,364 DEBUG Settings:93 - Second-level cache: disabled
+17:44:19,364 DEBUG Settings:94 - Second-level query cache: disabled
+17:44:19,364 DEBUG Settings:95 - Second-level query cache factory: null
+17:44:19,364 DEBUG Settings:96 - Second-level cache region prefix: null
+17:44:19,364 DEBUG Settings:97 - Optimize second-level cache for minimal puts: disabled
+17:44:19,364 DEBUG Settings:98 - Structured second-level cache entries: disabled
+17:44:19,364 DEBUG Settings:99 - Second-level cache direct-reference entries: disabled
+17:44:19,364 DEBUG Settings:100 - Automatic eviction of collection cache: disabled
+17:44:19,364 DEBUG Settings:102 - JDBC batch size: 15
+17:44:19,364 DEBUG Settings:103 - JDBC batch updates for versioned data: enabled
+17:44:19,365 DEBUG Settings:104 - Scrollable result sets: enabled
+17:44:19,365 DEBUG Settings:105 - Wrap result sets: disabled
+17:44:19,365 DEBUG Settings:106 - JDBC3 getGeneratedKeys(): enabled
+17:44:19,365 DEBUG Settings:107 - JDBC result set fetch size: null
+17:44:19,365 DEBUG Settings:108 - Connection release mode: AFTER_TRANSACTION
+17:44:19,365 DEBUG Settings:109 - Generate SQL with comments: disabled
+17:44:19,365 DEBUG Settings:111 - JPA compliance - query : disabled
+17:44:19,365 DEBUG Settings:112 - JPA compliance - closed-handling : disabled
+17:44:19,365 DEBUG Settings:113 - JPA compliance - lists : disabled
+17:44:19,365 DEBUG Settings:114 - JPA compliance - transactions : disabled
+17:44:19,367 DEBUG SessionFactoryServiceRegistryImpl:92 - EventListenerRegistry access via ServiceRegistry is deprecated.  Use `sessionFactory.getEventEngine().getListenerRegistry()` instead
+17:44:19,367 DEBUG SessionFactoryServiceRegistryImpl:92 - EventListenerRegistry access via ServiceRegistry is deprecated.  Use `sessionFactory.getEventEngine().getListenerRegistry()` instead
+17:44:19,368 DEBUG SessionFactoryImpl:276 - Session factory constructed with filter configurations : {}
+17:44:19,368 DEBUG SessionFactoryImpl:277 - Instantiating session factory with properties: {sun.desktop=windows, awt.toolkit=sun.awt.windows.WToolkit, file.encoding.pkg=sun.io, java.specification.version=1.8, sun.cpu.isalist=amd64, sun.jnu.encoding=Cp1252, hibernate.dialect=org.hibernate.dialect.MySQL8Dialect, java.class.path=C:\Program Files\apache-tomcat-8.5.82\apache-tomcat-8.5.82\bin\bootstrap.jar;C:\Program Files\apache-tomcat-8.5.82\apache-tomcat-8.5.82\bin\tomcat-juli.jar;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.2.2\lib\idea_rt.jar, java.vm.vendor=Oracle Corporation, sun.arch.data.model=64, user.variant=, catalina.useNaming=true, java.vendor.url=http://java.oracle.com/, user.timezone=Asia/Calcutta, os.name=Windows 10, java.vm.specification.version=1.8, hibernate.connection.requireSSL=false, hibernate.transation.factory_class=org.hibernate.transaction.JDBCTransactionFactory, sun.java.launcher=SUN_STANDARD, user.country=US, sun.boot.library.path=C:\Program Files\Java\jdk1.8.0_202\jre\bin, sun.java.command=org.apache.catalina.startup.Bootstrap start, sun.cpu.endian=little, user.home=C:\Users\lenovo, user.language=en, java.specification.vendor=Oracle Corporation, java.naming.factory.url.pkgs=org.apache.naming, java.home=C:\Program Files\Java\jdk1.8.0_202\jre, file.separator=\, line.separator=
+, java.vm.specification.vendor=Oracle Corporation, java.specification.name=Java Platform API Specification, java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment, package.access=sun.,org.apache.catalina.,org.apache.coyote.,org.apache.jasper.,org.apache.tomcat., package.definition=sun.,java.,org.apache.catalina.,org.apache.coyote.,org.apache.jasper.,org.apache.naming.,org.apache.tomcat., sun.boot.class.path=C:\Program Files\Java\jdk1.8.0_202\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_202\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_202\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_202\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_202\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_202\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_202\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_202\jre\classes, user.script=, server.loader=, java.util.logging.config.file=C:\Users\lenovo\.SmartTomcat\servlet\servlet\conf\logging.properties, connection.password=Yuki@2001, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, java.runtime.version=1.8.0_202-b08, java.naming.factory.initial=org.apache.naming.java.javaURLContextFactory, user.name=lenovo, path.separator=;, hibernate.connection.username=****, common.loader="C:\Users\lenovo\.SmartTomcat\servlet\servlet/lib","C:\Users\lenovo\.SmartTomcat\servlet\servlet/lib/*.jar","C:\Program Files\apache-tomcat-8.5.82\apache-tomcat-8.5.82/lib","C:\Program Files\apache-tomcat-8.5.82\apache-tomcat-8.5.82/lib/*.jar", os.version=10.0, java.endorsed.dirs=C:\Program Files\Java\jdk1.8.0_202\jre\lib\endorsed, java.runtime.name=Java(TM) SE Runtime Environment, hibernate.connection.url=jdbc:mysql://localhost:3306/hibernate_many_to_many, file.encoding=UTF-8, java.vm.name=Java HotSpot(TM) 64-Bit Server VM, hibernate.connection.driver_class=com.mysql.cj.jdbc.Driver, java.vendor.url.bug=http://bugreport.sun.com/bugreport/, java.io.tmpdir=C:\Users\lenovo\.SmartTomcat\servlet\servlet\temp, tomcat.util.scan.StandardJarScanFilter.jarsToScan=log4j-taglib*.jar,log4j-web*.jar,log4javascript*.jar,slf4j-taglib*.jar, catalina.home=C:\Program Files\apache-tomcat-8.5.82\apache-tomcat-8.5.82, java.version=1.8.0_202, java.util.concurrent.ForkJoinPool.common.threadFactory=org.apache.catalina.startup.SafeForkJoinWorkerThreadFactory, tomcat.util.scan.StandardJarScanFilter.jarsToSkip=annotations-api.jar,ant-junit*.jar,ant-launcher.jar,ant.jar,asm-*.jar,aspectj*.jar,bootstrap.jar,catalina-ant.jar,catalina-ha.jar,catalina-jmx-remote.jar,catalina-storeconfig.jar,catalina-tribes.jar,catalina-ws.jar,catalina.jar,cglib-*.jar,cobertura-*.jar,commons-beanutils*.jar,commons-codec*.jar,commons-collections*.jar,commons-daemon.jar,commons-dbcp*.jar,commons-digester*.jar,commons-fileupload*.jar,commons-httpclient*.jar,commons-io*.jar,commons-lang*.jar,commons-logging*.jar,commons-math*.jar,commons-pool*.jar,derby-*.jar,dom4j-*.jar,easymock-*.jar,ecj-*.jar,el-api.jar,geronimo-spec-jaxrpc*.jar,h2*.jar,ha-api-*.jar,hamcrest-*.jar,hibernate*.jar,httpclient*.jar,icu4j-*.jar,jasper-el.jar,jasper.jar,jaspic-api.jar,jaxb-*.jar,jaxen-*.jar,jaxws-rt-*.jar,jdom-*.jar,jetty-*.jar,jmx-tools.jar,jmx.jar,jsp-api.jar,jstl.jar,jta*.jar,junit-*.jar,junit.jar,log4j*.jar,mail*.jar,objenesis-*.jar,oraclepki.jar,oro-*.jar,servlet-api-*.jar,servlet-api.jar,slf4j*.jar,taglibs-standard-spec-*.jar,tagsoup-*.jar,tomcat-api.jar,tomcat-coyote.jar,tomcat-dbcp.jar,tomcat-i18n-*.jar,tomcat-jdbc.jar,tomcat-jni.jar,tomcat-juli-adapters.jar,tomcat-juli.jar,tomcat-util-scan.jar,tomcat-util.jar,tomcat-websocket.jar,tools.jar,websocket-api.jar,wsdl4j*.jar,xercesImpl.jar,xml-apis.jar,xmlParserAPIs-*.jar,xmlParserAPIs.jar,xom-*.jar, user.dir=C:\Users\lenovo\.SmartTomcat\servlet\servlet, os.arch=amd64, connection.username=root, java.vm.specification.name=Java Virtual Machine Specification, hibernate.default_schema=facingissuesonitdb, hibernate.connection.password=****, java.awt.printerjob=sun.awt.windows.WPrinterJob, sun.os.patch.level=, catalina.base=C:\Users\lenovo\.SmartTomcat\servlet\servlet, shared.loader=, hibernate.boot.CfgXmlAccessService.key=org.hibernate.boot.cfgxml.spi.LoadedConfig@65d68d44, java.util.logging.manager=org.apache.juli.ClassLoaderLogManager, java.library.path=C:\Program Files\Java\jdk1.8.0_202\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\MySQL\MySQL Server 8.0\bin\;C:\Program Files\Java\jdk1.8.0_202\bin;C:\Program Files\Git\cmd;C:\apache-maven-3.8.6\bin;E:\employee_portal\src\main\resources;E:\Tomcat 10.0;C:\Users\lenovo\.m2;C:\Users\lenovo\.m2\repository;C:\Users\lenovo\AppData\Local\Microsoft\WindowsApps;;C:\Users\lenovo\AppData\Local\JetBrains\IntelliJ IDEA Community Edition 2020.3.4\bin;;C:\Program Files\JetBrains\IntelliJ IDEA 2022.2.2\bin;;., java.vendor=Oracle Corporation, java.vm.info=mixed mode, java.vm.version=25.202-b08, hibernate.bytecode.use_reflection_optimizer=false, sun.io.unicode.encoding=UnicodeLittle, java.ext.dirs=C:\Program Files\Java\jdk1.8.0_202\jre\lib\ext;C:\Windows\Sun\Java\lib\ext, tomcat.util.buf.StringCache.byte.enabled=true, java.class.version=52.0, transation.factory_class=org.hibernate.transaction.JDBCTransactionFactory}
+17:44:19,369 DEBUG DefaultTraversableResolver:103 - Found javax.persistence.Persistence on classpath containing 'getPersistenceUtil'. Assuming JPA 2 environment. Trying to instantiate JPA aware TraversableResolver
+17:44:19,369 DEBUG DefaultTraversableResolver:114 - Instantiated JPA aware TraversableResolver of type org.hibernate.validator.internal.engine.resolver.JPATraversableResolver.
+17:44:19,369 DEBUG ValidationXmlParser:103 - Trying to load META-INF/validation.xml for XML based Validator configuration.
+17:44:19,369 DEBUG ResourceLoaderHelper:58 - Trying to load META-INF/validation.xml via TCCL
+17:44:19,370 DEBUG ResourceLoaderHelper:64 - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+17:44:19,370 DEBUG ValidationXmlParser:110 - No META-INF/validation.xml found. Using annotation based configuration only.
+17:44:19,374 DEBUG ClassLoaderAccessImpl:60 - Not known whether passed class name [com.ideas2it.model.Trainee] is safe
+17:44:19,374 DEBUG ClassLoaderAccessImpl:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.ideas2it.model.Trainee
+17:44:19,378 DEBUG ClassLoaderAccessImpl:60 - Not known whether passed class name [com.ideas2it.model.Trainer] is safe
+17:44:19,378 DEBUG ClassLoaderAccessImpl:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.ideas2it.model.Trainer
+17:44:19,381 DEBUG SessionFactoryServiceRegistryImpl:92 - EventListenerRegistry access via ServiceRegistry is deprecated.  Use `sessionFactory.getEventEngine().getListenerRegistry()` instead
+17:44:19,381 DEBUG JaccIntegrator:84 - Skipping JACC integration as it was not enabled
+17:44:19,381 DEBUG SessionFactoryImpl:316 - Instantiated session factory
+17:44:19,381 DEBUG TypeConfiguration$Scope:154 - Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@292cf274] to SessionFactoryImpl [org.hibernate.internal.SessionFactoryImpl@7773723e]
+17:44:19,382 DEBUG ClassLoaderAccessImpl:60 - Not known whether passed class name [com.ideas2it.model.Trainee] is safe
+17:44:19,382 DEBUG ClassLoaderAccessImpl:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.ideas2it.model.Trainee
+17:44:19,400 DEBUG ClassLoaderAccessImpl:60 - Not known whether passed class name [com.ideas2it.model.Trainer] is safe
+17:44:19,400 DEBUG ClassLoaderAccessImpl:62 - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.ideas2it.model.Trainer
+17:44:19,416 DEBUG AbstractCollectionPersister:687 - Static SQL for collection: com.ideas2it.model.Trainer.trainees
+17:44:19,416 DEBUG AbstractCollectionPersister:689 -  Row insert: insert into trainer_id_trainee_id (trainer_id, trainee_id) values (?, ?)
+17:44:19,417 DEBUG AbstractCollectionPersister:692 -  Row update: update trainer_id_trainee_id set trainee_id=? where trainer_id=? and trainee_id=?
+17:44:19,417 DEBUG AbstractCollectionPersister:695 -  Row delete: delete from trainer_id_trainee_id where trainer_id=? and trainee_id=?
+17:44:19,417 DEBUG AbstractCollectionPersister:698 -  One-shot delete: delete from trainer_id_trainee_id where trainer_id=?
+17:44:19,417 DEBUG AbstractCollectionPersister:687 - Static SQL for collection: com.ideas2it.model.Trainee.trainers
+17:44:19,417 DEBUG AbstractCollectionPersister:689 -  Row insert: insert into trainer_id_trainee_id (trainee_id, trainer_id) values (?, ?)
+17:44:19,417 DEBUG AbstractCollectionPersister:692 -  Row update: update trainer_id_trainee_id set trainer_id=? where trainee_id=? and trainer_id=?
+17:44:19,417 DEBUG AbstractCollectionPersister:695 -  Row delete: delete from trainer_id_trainee_id where trainee_id=? and trainer_id=?
+17:44:19,417 DEBUG AbstractCollectionPersister:698 -  One-shot delete: delete from trainer_id_trainee_id where trainee_id=?
+17:44:19,417 DEBUG AbstractEntityPersister:4002 - Static SQL for entity: com.ideas2it.model.Trainee
+17:44:19,418 DEBUG AbstractEntityPersister:4007 -  Version select: select id from trainee_details where id =?
+17:44:19,418 DEBUG AbstractEntityPersister:4010 -  Snapshot select: select trainee_.id, trainee_.aadhar_card_number as aadhar_c2_0_, trainee_.company_name as company_3_0_, trainee_.address as address4_0_, trainee_.date_of_birth as date_of_5_0_, trainee_.designation as designat6_0_, trainee_.mail as mail7_0_, trainee_.mobile_number as mobile_n8_0_, trainee_.name as name9_0_, trainee_.employee_status as employe10_0_, trainee_.pan_card_number as pan_car11_0_, trainee_.uuid as uuid12_0_, trainee_.current_task as current13_0_, trainee_.current_techknowledge as current14_0_ from trainee_details trainee_ where trainee_.id=?
+17:44:19,418 DEBUG AbstractEntityPersister:394 -  Insert 0: insert into trainee_details (aadhar_card_number, company_name, address, date_of_birth, designation, mail, mobile_number, name, employee_status, pan_card_number, uuid, current_task, current_techknowledge, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+17:44:19,418 DEBUG AbstractEntityPersister:394 -  Update 0: update trainee_details set aadhar_card_number=?, company_name=?, address=?, date_of_birth=?, designation=?, mail=?, mobile_number=?, name=?, employee_status=?, pan_card_number=?, uuid=?, current_task=?, current_techknowledge=? where id=?
+17:44:19,418 DEBUG AbstractEntityPersister:394 -  Delete 0: delete from trainee_details where id=?
+17:44:19,418 DEBUG AbstractEntityPersister:4018 -  Identity insert: insert into trainee_details (aadhar_card_number, company_name, address, date_of_birth, designation, mail, mobile_number, name, employee_status, pan_card_number, uuid, current_task, current_techknowledge) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+17:44:19,418 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@1458273f]
+17:44:19,418 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : aadharCardNumber
+17:44:19,418 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : companyName
+17:44:19,418 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentAddress
+17:44:19,418 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeDateOfBirth
+17:44:19,419 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeDesignation
+17:44:19,419 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeMail
+17:44:19,419 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeMobileNumber
+17:44:19,419 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeName
+17:44:19,419 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : isActive
+17:44:19,420 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : panCardNumber
+17:44:19,420 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : uuid
+17:44:19,420 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentTask
+17:44:19,420 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentTechknowledge
+17:44:19,420 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : trainers
+17:44:19,420 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@63359fbb]
+17:44:19,420 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@30b27a95]
+17:44:19,421 DEBUG FetchStyleLoadPlanBuildingAssociationVisitationStrategy:160 - Building LoadPlan...
+17:44:19,421 DEBUG LoadQueryJoinAndFetchProcessor:102 - processing queryspace <gen:0>
+17:44:19,421 DEBUG LoadPlanTreePrinter:55 - LoadPlan(entity=com.ideas2it.model.Trainee)
+    - Returns
+       - EntityReturnImpl(entity=com.ideas2it.model.Trainee, querySpaceUid=<gen:0>, path=com.ideas2it.model.Trainee)
+          - CollectionAttributeFetchImpl(collection=com.ideas2it.model.Trainee.trainers, querySpaceUid=<gen:1>, path=com.ideas2it.model.Trainee.trainers)
+             - (collection element) CollectionFetchableElementEntityGraph(entity=com.ideas2it.model.Trainer, querySpaceUid=<gen:2>, path=com.ideas2it.model.Trainee.trainers.<elements>)
+    - QuerySpaces
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.ideas2it.model.Trainee)
+          - SQL table alias mapping - trainee0_
+          - alias suffix - 0_
+          - suffixed key columns - {id1_0_0_}
+
+17:44:19,421 DEBUG EntityLoader:129 - Static select for entity com.ideas2it.model.Trainee [NONE]: select trainee0_.id as id1_0_0_, trainee0_.aadhar_card_number as aadhar_c2_0_0_, trainee0_.company_name as company_3_0_0_, trainee0_.address as address4_0_0_, trainee0_.date_of_birth as date_of_5_0_0_, trainee0_.designation as designat6_0_0_, trainee0_.mail as mail7_0_0_, trainee0_.mobile_number as mobile_n8_0_0_, trainee0_.name as name9_0_0_, trainee0_.employee_status as employe10_0_0_, trainee0_.pan_card_number as pan_car11_0_0_, trainee0_.uuid as uuid12_0_0_, trainee0_.current_task as current13_0_0_, trainee0_.current_techknowledge as current14_0_0_ from trainee_details trainee0_ where trainee0_.id=?
+17:44:19,421 DEBUG AbstractEntityPersister:4002 - Static SQL for entity: com.ideas2it.model.Trainer
+17:44:19,421 DEBUG AbstractEntityPersister:4007 -  Version select: select id from trainer_details where id =?
+17:44:19,422 DEBUG AbstractEntityPersister:4010 -  Snapshot select: select trainer_.id, trainer_.aadhar_card_number as aadhar_c2_1_, trainer_.company_name as company_3_1_, trainer_.address as address4_1_, trainer_.date_of_birth as date_of_5_1_, trainer_.designation as designat6_1_, trainer_.mail as mail7_1_, trainer_.mobile_number as mobile_n8_1_, trainer_.name as name9_1_, trainer_.employee_status as employe10_1_, trainer_.pan_card_number as pan_car11_1_, trainer_.uuid as uuid12_1_, trainer_.achievement as achieve13_1_, trainer_.current_project as current14_1_ from trainer_details trainer_ where trainer_.id=?
+17:44:19,422 DEBUG AbstractEntityPersister:394 -  Insert 0: insert into trainer_details (aadhar_card_number, company_name, address, date_of_birth, designation, mail, mobile_number, name, employee_status, pan_card_number, uuid, achievement, current_project, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+17:44:19,422 DEBUG AbstractEntityPersister:394 -  Update 0: update trainer_details set aadhar_card_number=?, company_name=?, address=?, date_of_birth=?, designation=?, mail=?, mobile_number=?, name=?, employee_status=?, pan_card_number=?, uuid=?, achievement=?, current_project=? where id=?
+17:44:19,422 DEBUG AbstractEntityPersister:394 -  Delete 0: delete from trainer_details where id=?
+17:44:19,422 DEBUG AbstractEntityPersister:4018 -  Identity insert: insert into trainer_details (aadhar_card_number, company_name, address, date_of_birth, designation, mail, mobile_number, name, employee_status, pan_card_number, uuid, achievement, current_project) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+17:44:19,422 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@6586d263]
+17:44:19,422 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : aadharCardNumber
+17:44:19,422 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : companyName
+17:44:19,422 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentAddress
+17:44:19,422 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeDateOfBirth
+17:44:19,422 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeDesignation
+17:44:19,423 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeMail
+17:44:19,423 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeMobileNumber
+17:44:19,423 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeName
+17:44:19,423 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : isActive
+17:44:19,423 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : panCardNumber
+17:44:19,423 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : uuid
+17:44:19,423 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : achievement
+17:44:19,423 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentProject
+17:44:19,423 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : trainees
+17:44:19,423 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@69348a65]
+17:44:19,423 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@4a713304]
+17:44:19,424 DEBUG FetchStyleLoadPlanBuildingAssociationVisitationStrategy:160 - Building LoadPlan...
+17:44:19,424 DEBUG LoadQueryJoinAndFetchProcessor:102 - processing queryspace <gen:0>
+17:44:19,424 DEBUG LoadPlanTreePrinter:55 - LoadPlan(entity=com.ideas2it.model.Trainer)
+    - Returns
+       - EntityReturnImpl(entity=com.ideas2it.model.Trainer, querySpaceUid=<gen:0>, path=com.ideas2it.model.Trainer)
+          - CollectionAttributeFetchImpl(collection=com.ideas2it.model.Trainer.trainees, querySpaceUid=<gen:1>, path=com.ideas2it.model.Trainer.trainees)
+             - (collection element) CollectionFetchableElementEntityGraph(entity=com.ideas2it.model.Trainee, querySpaceUid=<gen:2>, path=com.ideas2it.model.Trainer.trainees.<elements>)
+    - QuerySpaces
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.ideas2it.model.Trainer)
+          - SQL table alias mapping - trainer0_
+          - alias suffix - 0_
+          - suffixed key columns - {id1_1_0_}
+
+17:44:19,424 DEBUG EntityLoader:129 - Static select for entity com.ideas2it.model.Trainer [NONE]: select trainer0_.id as id1_1_0_, trainer0_.aadhar_card_number as aadhar_c2_1_0_, trainer0_.company_name as company_3_1_0_, trainer0_.address as address4_1_0_, trainer0_.date_of_birth as date_of_5_1_0_, trainer0_.designation as designat6_1_0_, trainer0_.mail as mail7_1_0_, trainer0_.mobile_number as mobile_n8_1_0_, trainer0_.name as name9_1_0_, trainer0_.employee_status as employe10_1_0_, trainer0_.pan_card_number as pan_car11_1_0_, trainer0_.uuid as uuid12_1_0_, trainer0_.achievement as achieve13_1_0_, trainer0_.current_project as current14_1_0_ from trainer_details trainer0_ where trainer0_.id=?
+17:44:19,424 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@19b7e5e3]
+17:44:19,424 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@2730a663]
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : aadharCardNumber
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : companyName
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentAddress
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeDateOfBirth
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeDesignation
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeMail
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeMobileNumber
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeName
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : isActive
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : panCardNumber
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : uuid
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentTask
+17:44:19,425 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentTechknowledge
+17:44:19,426 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : trainers
+17:44:19,426 DEBUG MetamodelGraphWalker:154 - Property path deemed to be circular : trainers
+17:44:19,426 DEBUG FetchStyleLoadPlanBuildingAssociationVisitationStrategy:160 - Building LoadPlan...
+17:44:19,426 DEBUG LoadQueryJoinAndFetchProcessor:102 - processing queryspace <gen:0>
+17:44:19,426 DEBUG LoadPlanTreePrinter:55 - LoadPlan(collection=com.ideas2it.model.Trainer.trainees)
+    - Returns
+       - CollectionReturnImpl(collection=com.ideas2it.model.Trainer.trainees, querySpaceUid=<gen:0>, path=[com.ideas2it.model.Trainer.trainees])
+          - (collection element) CollectionFetchableElementEntityGraph(entity=com.ideas2it.model.Trainee, querySpaceUid=<gen:1>, path=[com.ideas2it.model.Trainer.trainees].<elements>)
+    - QuerySpaces
+       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=com.ideas2it.model.Trainer.trainees)
+          - SQL table alias mapping - trainees0_
+          - alias suffix - 0_
+          - suffixed key columns - {trainer_1_2_0_}
+          - entity-element alias suffix - 1_
+          - 1_entity-element suffixed key columns - id1_0_1_
+          - JOIN (JoinDefinedByMetadata(elements)) : <gen:0> -> <gen:1>
+             - EntityQuerySpaceImpl(uid=<gen:1>, entity=com.ideas2it.model.Trainee)
+                - SQL table alias mapping - trainee1_
+                - alias suffix - 1_
+                - suffixed key columns - {id1_0_1_}
+
+17:44:19,426 DEBUG CollectionLoader:83 - Static select for collection com.ideas2it.model.Trainer.trainees: select trainees0_.trainer_id as trainer_1_2_0_, trainees0_.trainee_id as trainee_2_2_0_, trainee1_.id as id1_0_1_, trainee1_.aadhar_card_number as aadhar_c2_0_1_, trainee1_.company_name as company_3_0_1_, trainee1_.address as address4_0_1_, trainee1_.date_of_birth as date_of_5_0_1_, trainee1_.designation as designat6_0_1_, trainee1_.mail as mail7_0_1_, trainee1_.mobile_number as mobile_n8_0_1_, trainee1_.name as name9_0_1_, trainee1_.employee_status as employe10_0_1_, trainee1_.pan_card_number as pan_car11_0_1_, trainee1_.uuid as uuid12_0_1_, trainee1_.current_task as current13_0_1_, trainee1_.current_techknowledge as current14_0_1_ from trainer_id_trainee_id trainees0_ inner join trainee_details trainee1_ on trainees0_.trainee_id=trainee1_.id where trainees0_.trainer_id=?
+17:44:19,426 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@f0ef02e]
+17:44:19,427 DEBUG QuerySpacesImpl:174 - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@2d2f5c12]
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : aadharCardNumber
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : companyName
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentAddress
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeDateOfBirth
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeDesignation
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeMail
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeMobileNumber
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : employeeName
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : isActive
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : panCardNumber
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : uuid
+17:44:19,427 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : achievement
+17:44:19,428 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : currentProject
+17:44:19,428 DEBUG MetamodelGraphWalker:146 - Visiting attribute path : trainees
+17:44:19,428 DEBUG MetamodelGraphWalker:154 - Property path deemed to be circular : trainees
+17:44:19,428 DEBUG FetchStyleLoadPlanBuildingAssociationVisitationStrategy:160 - Building LoadPlan...
+17:44:19,428 DEBUG LoadQueryJoinAndFetchProcessor:102 - processing queryspace <gen:0>
+17:44:19,428 DEBUG LoadPlanTreePrinter:55 - LoadPlan(collection=com.ideas2it.model.Trainee.trainers)
+    - Returns
+       - CollectionReturnImpl(collection=com.ideas2it.model.Trainee.trainers, querySpaceUid=<gen:0>, path=[com.ideas2it.model.Trainee.trainers])
+          - (collection element) CollectionFetchableElementEntityGraph(entity=com.ideas2it.model.Trainer, querySpaceUid=<gen:1>, path=[com.ideas2it.model.Trainee.trainers].<elements>)
+    - QuerySpaces
+       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=com.ideas2it.model.Trainee.trainers)
+          - SQL table alias mapping - trainers0_
+          - alias suffix - 0_
+          - suffixed key columns - {trainee_2_2_0_}
+          - entity-element alias suffix - 1_
+          - 1_entity-element suffixed key columns - id1_1_1_
+          - JOIN (JoinDefinedByMetadata(elements)) : <gen:0> -> <gen:1>
+             - EntityQuerySpaceImpl(uid=<gen:1>, entity=com.ideas2it.model.Trainer)
+                - SQL table alias mapping - trainer1_
+                - alias suffix - 1_
+                - suffixed key columns - {id1_1_1_}
+
+17:44:19,428 DEBUG CollectionLoader:83 - Static select for collection com.ideas2it.model.Trainee.trainers: select trainers0_.trainee_id as trainee_2_2_0_, trainers0_.trainer_id as trainer_1_2_0_, trainer1_.id as id1_1_1_, trainer1_.aadhar_card_number as aadhar_c2_1_1_, trainer1_.company_name as company_3_1_1_, trainer1_.address as address4_1_1_, trainer1_.date_of_birth as date_of_5_1_1_, trainer1_.designation as designat6_1_1_, trainer1_.mail as mail7_1_1_, trainer1_.mobile_number as mobile_n8_1_1_, trainer1_.name as name9_1_1_, trainer1_.employee_status as employe10_1_1_, trainer1_.pan_card_number as pan_car11_1_1_, trainer1_.uuid as uuid12_1_1_, trainer1_.achievement as achieve13_1_1_, trainer1_.current_project as current14_1_1_ from trainer_id_trainee_id trainers0_ inner join trainer_details trainer1_ on trainers0_.trainer_id=trainer1_.id where trainers0_.trainee_id=?
+17:44:19,429  WARN MetadataContext:526 - HHH015011: Unable to locate static metamodel field : com.ideas2it.model.Employee_#isActive; this may or may not indicate a problem with the static metamodel
+17:44:19,429  WARN MetadataContext:526 - HHH015011: Unable to locate static metamodel field : com.ideas2it.model.Trainee_#trainers; this may or may not indicate a problem with the static metamodel
+17:44:19,429 ERROR MetadataContext:517 - HHH015007: Illegal argument on static metamodel field injection : com.ideas2it.model.Trainer_#trainees; expected type :  org.hibernate.metamodel.model.domain.internal.SetAttributeImpl; encountered type : javax.persistence.metamodel.ListAttribute
+17:44:19,429 DEBUG SchemaManagementToolCoordinator:556 - No schema actions specified
+17:44:19,429 DEBUG SchemaManagementToolCoordinator:69 - No actions specified; doing nothing
+17:44:19,430 DEBUG JtaPlatformInitiator:43 - No JtaPlatform was specified, checking resolver
+17:44:19,430 DEBUG JtaPlatformResolverInitiator:33 - No JtaPlatformResolver was specified, using default [org.hibernate.engine.transaction.jta.platform.internal.StandardJtaPlatformResolver]
+17:44:19,440 DEBUG StandardJtaPlatformResolver:137 - Could not resolve JtaPlatform, using default [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:44:19,440  INFO JtaPlatformInitiator:52 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:44:19,440 DEBUG NamedQueryRepository:171 - Checking 0 named HQL queries
+17:44:19,440 DEBUG NamedQueryRepository:185 - Checking 0 named SQL queries
+17:44:19,440 DEBUG SessionFactoryServiceRegistryImpl:92 - EventListenerRegistry access via ServiceRegistry is deprecated.  Use `sessionFactory.getEventEngine().getListenerRegistry()` instead
+17:44:19,440 DEBUG SessionFactoryRegistry:73 - Registering SessionFactory: 6ae57758-45ff-4bc2-ab1f-877ec2f6339e (<unnamed>)
+17:44:19,440 DEBUG SessionFactoryRegistry:80 - Not binding SessionFactory to JNDI, no JNDI name configured
+17:44:19,440 DEBUG StatisticsInitiator:101 - Statistics initialized [enabled=false]
+17:44:19,441 DEBUG TransactionImpl:53 - On TransactionImpl creation, JpaCompliance#isJpaTransactionComplianceEnabled == false
+17:44:19,441 DEBUG TransactionImpl:81 - begin
+17:44:19,442  WARN deprecation:1837 - HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+17:44:19,442 DEBUG SQL:144 - select this_.id as id1_1_0_, this_.aadhar_card_number as aadhar_c2_1_0_, this_.company_name as company_3_1_0_, this_.address as address4_1_0_, this_.date_of_birth as date_of_5_1_0_, this_.designation as designat6_1_0_, this_.mail as mail7_1_0_, this_.mobile_number as mobile_n8_1_0_, this_.name as name9_1_0_, this_.employee_status as employe10_1_0_, this_.pan_card_number as pan_car11_1_0_, this_.uuid as uuid12_1_0_, this_.achievement as achieve13_1_0_, this_.current_project as current14_1_0_ from trainer_details this_ where this_.employee_status=?
+17:44:19,444 DEBUG Loader:384 - Result set row: 0
+17:44:19,445 DEBUG Loader:1595 - Result row: EntityKey[com.ideas2it.model.Trainer#1]
+17:44:19,445 DEBUG Loader:384 - Result set row: 1
+17:44:19,446 DEBUG Loader:1595 - Result row: EntityKey[com.ideas2it.model.Trainer#2]
+17:44:19,446 DEBUG Loader:384 - Result set row: 2
+17:44:19,446 DEBUG Loader:1595 - Result row: EntityKey[com.ideas2it.model.Trainer#3]
+17:44:19,446 DEBUG Loader:384 - Result set row: 3
+17:44:19,446 DEBUG Loader:1595 - Result row: EntityKey[com.ideas2it.model.Trainer#4]
+17:44:19,447 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainer#1]
+17:44:19,447 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 676325457566
+17:44:19,447 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,447 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+17:44:19,447 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+17:44:19,447 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx, yyyy, zzzz - 776543
+17:44:19,447 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+17:44:19,448 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 1980-12-12
+17:44:19,448 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+17:44:19,448 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+17:44:19,448 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+17:44:19,448 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = vasanth@gmail.com
+17:44:19,448 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+17:44:19,448 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 9876431723
+17:44:19,448 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+17:44:19,448 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = vasanth
+17:44:19,449 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+17:44:19,449 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+17:44:19,449 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+17:44:19,449 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 4535EDERTE
+17:44:19,449 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,449 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = 0a3660dc8d20
+17:44:19,449 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+17:44:19,450 DEBUG TwoPhaseLoad:184 - Processing attribute `achievement` : value = yyyy
+17:44:19,450 DEBUG TwoPhaseLoad:215 - Attribute (`achievement`)  - enhanced for lazy-loading? - false
+17:44:19,450 DEBUG TwoPhaseLoad:184 - Processing attribute `currentProject` : value = xxxx
+17:44:19,450 DEBUG TwoPhaseLoad:215 - Attribute (`currentProject`)  - enhanced for lazy-loading? - false
+17:44:19,450 DEBUG TwoPhaseLoad:184 - Processing attribute `trainees` : value = NOT NULL COLLECTION
+17:44:19,450 DEBUG TwoPhaseLoad:215 - Attribute (`trainees`)  - enhanced for lazy-loading? - false
+17:44:19,450 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainer#1]
+17:44:19,450 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainer#2]
+17:44:19,450 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 876545987654
+17:44:19,450 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,450 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+17:44:19,450 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+17:44:19,451 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = something
+17:44:19,451 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+17:44:19,451 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 1981-12-12
+17:44:19,451 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+17:44:19,451 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+17:44:19,451 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+17:44:19,451 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = vignesh@gmail.com
+17:44:19,451 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+17:44:19,451 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 9876543456
+17:44:19,451 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+17:44:19,451 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = vignesh
+17:44:19,452 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+17:44:19,452 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+17:44:19,452 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+17:44:19,452 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = IUYT98765U
+17:44:19,452 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,452 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = 2436a9699dab
+17:44:19,452 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+17:44:19,452 DEBUG TwoPhaseLoad:184 - Processing attribute `achievement` : value = yyyy
+17:44:19,452 DEBUG TwoPhaseLoad:215 - Attribute (`achievement`)  - enhanced for lazy-loading? - false
+17:44:19,452 DEBUG TwoPhaseLoad:184 - Processing attribute `currentProject` : value = xxx
+17:44:19,452 DEBUG TwoPhaseLoad:215 - Attribute (`currentProject`)  - enhanced for lazy-loading? - false
+17:44:19,453 DEBUG TwoPhaseLoad:184 - Processing attribute `trainees` : value = NOT NULL COLLECTION
+17:44:19,453 DEBUG TwoPhaseLoad:215 - Attribute (`trainees`)  - enhanced for lazy-loading? - false
+17:44:19,453 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainer#2]
+17:44:19,453 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainer#3]
+17:44:19,453 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 676325457
+17:44:19,453 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,453 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+17:44:19,453 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+17:44:19,453 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx, yyyy, zzzz - 776543
+17:44:19,453 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+17:44:19,453 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 1980-12-12
+17:44:19,453 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+17:44:19,454 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+17:44:19,454 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+17:44:19,454 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = vasanth@gmail.com
+17:44:19,454 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+17:44:19,454 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 9876431723
+17:44:19,454 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+17:44:19,454 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = vasanth
+17:44:19,454 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+17:44:19,454 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+17:44:19,454 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+17:44:19,454 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 4535EDERTE
+17:44:19,454 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,454 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = 0a3660dc8d20
+17:44:19,454 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+17:44:19,454 DEBUG TwoPhaseLoad:184 - Processing attribute `achievement` : value = yyyy
+17:44:19,455 DEBUG TwoPhaseLoad:215 - Attribute (`achievement`)  - enhanced for lazy-loading? - false
+17:44:19,455 DEBUG TwoPhaseLoad:184 - Processing attribute `currentProject` : value = zzzz
+17:44:19,455 DEBUG TwoPhaseLoad:215 - Attribute (`currentProject`)  - enhanced for lazy-loading? - false
+17:44:19,455 DEBUG TwoPhaseLoad:184 - Processing attribute `trainees` : value = NOT NULL COLLECTION
+17:44:19,455 DEBUG TwoPhaseLoad:215 - Attribute (`trainees`)  - enhanced for lazy-loading? - false
+17:44:19,455 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainer#3]
+17:44:19,455 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainer#4]
+17:44:19,455 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 865432876542
+17:44:19,455 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,455 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+17:44:19,456 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+17:44:19,456 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx
+17:44:19,456 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+17:44:19,456 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 1981-12-12
+17:44:19,456 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+17:44:19,456 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+17:44:19,456 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+17:44:19,456 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = viknesh@mail.com
+17:44:19,456 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+17:44:19,456 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 8765432762
+17:44:19,456 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+17:44:19,456 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = viknesh
+17:44:19,457 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+17:44:19,457 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+17:44:19,457 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+17:44:19,457 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 865IUYTR52
+17:44:19,457 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,457 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = 54e03482bb94
+17:44:19,457 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+17:44:19,457 DEBUG TwoPhaseLoad:184 - Processing attribute `achievement` : value = zzzz
+17:44:19,457 DEBUG TwoPhaseLoad:215 - Attribute (`achievement`)  - enhanced for lazy-loading? - false
+17:44:19,457 DEBUG TwoPhaseLoad:184 - Processing attribute `currentProject` : value = yyyy
+17:44:19,457 DEBUG TwoPhaseLoad:215 - Attribute (`currentProject`)  - enhanced for lazy-loading? - false
+17:44:19,458 DEBUG TwoPhaseLoad:184 - Processing attribute `trainees` : value = NOT NULL COLLECTION
+17:44:19,458 DEBUG TwoPhaseLoad:215 - Attribute (`trainees`)  - enhanced for lazy-loading? - false
+17:44:19,458 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainer#4]
+17:44:19,458 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainer.trainees#4]
+17:44:19,458 DEBUG SQL:144 - select trainees0_.trainer_id as trainer_1_2_0_, trainees0_.trainee_id as trainee_2_2_0_, trainee1_.id as id1_0_1_, trainee1_.aadhar_card_number as aadhar_c2_0_1_, trainee1_.company_name as company_3_0_1_, trainee1_.address as address4_0_1_, trainee1_.date_of_birth as date_of_5_0_1_, trainee1_.designation as designat6_0_1_, trainee1_.mail as mail7_0_1_, trainee1_.mobile_number as mobile_n8_0_1_, trainee1_.name as name9_0_1_, trainee1_.employee_status as employe10_0_1_, trainee1_.pan_card_number as pan_car11_0_1_, trainee1_.uuid as uuid12_0_1_, trainee1_.current_task as current13_0_1_, trainee1_.current_techknowledge as current14_0_1_ from trainer_id_trainee_id trainees0_ inner join trainee_details trainee1_ on trainees0_.trainee_id=trainee1_.id where trainees0_.trainer_id=?
+17:44:19,460 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainer.trainees#4]
+17:44:19,460 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainer.trainees
+17:44:19,460 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainer.trainees#4]
+17:44:19,460 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainer.trainees
+17:44:19,460 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+17:44:19,460 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainer.trainees#3]
+17:44:19,461 DEBUG SQL:144 - select trainees0_.trainer_id as trainer_1_2_0_, trainees0_.trainee_id as trainee_2_2_0_, trainee1_.id as id1_0_1_, trainee1_.aadhar_card_number as aadhar_c2_0_1_, trainee1_.company_name as company_3_0_1_, trainee1_.address as address4_0_1_, trainee1_.date_of_birth as date_of_5_0_1_, trainee1_.designation as designat6_0_1_, trainee1_.mail as mail7_0_1_, trainee1_.mobile_number as mobile_n8_0_1_, trainee1_.name as name9_0_1_, trainee1_.employee_status as employe10_0_1_, trainee1_.pan_card_number as pan_car11_0_1_, trainee1_.uuid as uuid12_0_1_, trainee1_.current_task as current13_0_1_, trainee1_.current_techknowledge as current14_0_1_ from trainer_id_trainee_id trainees0_ inner join trainee_details trainee1_ on trainees0_.trainee_id=trainee1_.id where trainees0_.trainer_id=?
+17:44:19,462 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainer.trainees#3]
+17:44:19,462 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainer.trainees
+17:44:19,462 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainer.trainees#3]
+17:44:19,462 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainer.trainees
+17:44:19,462 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+17:44:19,463 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainer.trainees#2]
+17:44:19,463 DEBUG SQL:144 - select trainees0_.trainer_id as trainer_1_2_0_, trainees0_.trainee_id as trainee_2_2_0_, trainee1_.id as id1_0_1_, trainee1_.aadhar_card_number as aadhar_c2_0_1_, trainee1_.company_name as company_3_0_1_, trainee1_.address as address4_0_1_, trainee1_.date_of_birth as date_of_5_0_1_, trainee1_.designation as designat6_0_1_, trainee1_.mail as mail7_0_1_, trainee1_.mobile_number as mobile_n8_0_1_, trainee1_.name as name9_0_1_, trainee1_.employee_status as employe10_0_1_, trainee1_.pan_card_number as pan_car11_0_1_, trainee1_.uuid as uuid12_0_1_, trainee1_.current_task as current13_0_1_, trainee1_.current_techknowledge as current14_0_1_ from trainer_id_trainee_id trainees0_ inner join trainee_details trainee1_ on trainees0_.trainee_id=trainee1_.id where trainees0_.trainer_id=?
+17:44:19,464 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainer.trainees#2]
+17:44:19,464 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainer.trainees
+17:44:19,464 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainer.trainees#2]
+17:44:19,464 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainer.trainees
+17:44:19,464 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+17:44:19,465 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,465 DEBUG SQL:144 - select trainees0_.trainer_id as trainer_1_2_0_, trainees0_.trainee_id as trainee_2_2_0_, trainee1_.id as id1_0_1_, trainee1_.aadhar_card_number as aadhar_c2_0_1_, trainee1_.company_name as company_3_0_1_, trainee1_.address as address4_0_1_, trainee1_.date_of_birth as date_of_5_0_1_, trainee1_.designation as designat6_0_1_, trainee1_.mail as mail7_0_1_, trainee1_.mobile_number as mobile_n8_0_1_, trainee1_.name as name9_0_1_, trainee1_.employee_status as employe10_0_1_, trainee1_.pan_card_number as pan_car11_0_1_, trainee1_.uuid as uuid12_0_1_, trainee1_.current_task as current13_0_1_, trainee1_.current_techknowledge as current14_0_1_ from trainer_id_trainee_id trainees0_ inner join trainee_details trainee1_ on trainees0_.trainee_id=trainee1_.id where trainees0_.trainer_id=?
+17:44:19,466 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,466 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,467 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,467 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,468 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,468 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,468 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,469 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,469 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,469 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainee#2]
+17:44:19,469 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 764735385384
+17:44:19,469 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,469 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+17:44:19,469 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+17:44:19,469 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx
+17:44:19,469 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+17:44:19,470 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 2000-12-12
+17:44:19,470 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+17:44:19,470 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+17:44:19,470 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+17:44:19,470 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = gowtham@gmail.com
+17:44:19,470 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+17:44:19,470 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 9486736437
+17:44:19,470 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+17:44:19,470 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = gowtham 
+17:44:19,470 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+17:44:19,470 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+17:44:19,470 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+17:44:19,471 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 934783IYUI
+17:44:19,471 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,471 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = 00a3fdc48615
+17:44:19,471 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+17:44:19,471 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTask` : value = yyyy
+17:44:19,471 DEBUG TwoPhaseLoad:215 - Attribute (`currentTask`)  - enhanced for lazy-loading? - false
+17:44:19,471 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTechknowledge` : value = zzzz
+17:44:19,471 DEBUG TwoPhaseLoad:215 - Attribute (`currentTechknowledge`)  - enhanced for lazy-loading? - false
+17:44:19,471 DEBUG TwoPhaseLoad:184 - Processing attribute `trainers` : value = NOT NULL COLLECTION
+17:44:19,471 DEBUG TwoPhaseLoad:215 - Attribute (`trainers`)  - enhanced for lazy-loading? - false
+17:44:19,472 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainee#2]
+17:44:19,472 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainee#4]
+17:44:19,472 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 936752427752
+17:44:19,472 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,472 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+17:44:19,472 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+17:44:19,472 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx
+17:44:19,472 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+17:44:19,472 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 2000-12-11
+17:44:19,472 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+17:44:19,473 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+17:44:19,473 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+17:44:19,473 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = naren@gmail.com
+17:44:19,473 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+17:44:19,473 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 8424726426
+17:44:19,473 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+17:44:19,473 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = naren
+17:44:19,473 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+17:44:19,473 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+17:44:19,473 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+17:44:19,473 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 837468UYTF
+17:44:19,474 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,474 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = 49e4ac5b8fe3
+17:44:19,474 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+17:44:19,474 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTask` : value = yyyy
+17:44:19,474 DEBUG TwoPhaseLoad:215 - Attribute (`currentTask`)  - enhanced for lazy-loading? - false
+17:44:19,474 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTechknowledge` : value = zzzz
+17:44:19,474 DEBUG TwoPhaseLoad:215 - Attribute (`currentTechknowledge`)  - enhanced for lazy-loading? - false
+17:44:19,474 DEBUG TwoPhaseLoad:184 - Processing attribute `trainers` : value = NOT NULL COLLECTION
+17:44:19,474 DEBUG TwoPhaseLoad:215 - Attribute (`trainers`)  - enhanced for lazy-loading? - false
+17:44:19,475 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainee#4]
+17:44:19,475 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainee#1]
+17:44:19,475 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 948633567653
+17:44:19,475 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,475 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+17:44:19,475 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+17:44:19,475 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx
+17:44:19,475 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+17:44:19,475 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 2001-12-12
+17:44:19,475 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+17:44:19,475 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+17:44:19,476 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+17:44:19,476 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = yuki@gmail.com
+17:44:19,476 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+17:44:19,476 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 8643676573
+17:44:19,476 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+17:44:19,476 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = yuki
+17:44:19,477 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+17:44:19,477 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+17:44:19,477 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+17:44:19,477 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 876765IUYT
+17:44:19,477 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,477 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = c4fe6892a276
+17:44:19,477 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+17:44:19,478 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTask` : value = yyyy
+17:44:19,478 DEBUG TwoPhaseLoad:215 - Attribute (`currentTask`)  - enhanced for lazy-loading? - false
+17:44:19,478 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTechknowledge` : value = zzzz
+17:44:19,478 DEBUG TwoPhaseLoad:215 - Attribute (`currentTechknowledge`)  - enhanced for lazy-loading? - false
+17:44:19,478 DEBUG TwoPhaseLoad:184 - Processing attribute `trainers` : value = NOT NULL COLLECTION
+17:44:19,478 DEBUG TwoPhaseLoad:215 - Attribute (`trainers`)  - enhanced for lazy-loading? - false
+17:44:19,478 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainee#1]
+17:44:19,478 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainee#3]
+17:44:19,478 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 975487534286
+17:44:19,478 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,479 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+17:44:19,479 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+17:44:19,479 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx
+17:44:19,479 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+17:44:19,479 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 1998-12-12
+17:44:19,479 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+17:44:19,479 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+17:44:19,479 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+17:44:19,479 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = jagan@gmail.com
+17:44:19,479 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+17:44:19,479 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 9472492323
+17:44:19,480 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+17:44:19,480 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = jagan
+17:44:19,480 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+17:44:19,480 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+17:44:19,480 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+17:44:19,480 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 947682IYYY
+17:44:19,480 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+17:44:19,480 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = f275fe549dc6
+17:44:19,480 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+17:44:19,480 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTask` : value = yyyy
+17:44:19,480 DEBUG TwoPhaseLoad:215 - Attribute (`currentTask`)  - enhanced for lazy-loading? - false
+17:44:19,480 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTechknowledge` : value = zzzz
+17:44:19,481 DEBUG TwoPhaseLoad:215 - Attribute (`currentTechknowledge`)  - enhanced for lazy-loading? - false
+17:44:19,481 DEBUG TwoPhaseLoad:184 - Processing attribute `trainers` : value = NOT NULL COLLECTION
+17:44:19,481 DEBUG TwoPhaseLoad:215 - Attribute (`trainers`)  - enhanced for lazy-loading? - false
+17:44:19,481 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainee#3]
+17:44:19,481 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainer.trainees
+17:44:19,481 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainer.trainees#1]
+17:44:19,481 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainer.trainees
+17:44:19,481 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+17:44:19,482 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainee.trainers#3]
+17:44:19,482 DEBUG SQL:144 - select trainers0_.trainee_id as trainee_2_2_0_, trainers0_.trainer_id as trainer_1_2_0_, trainer1_.id as id1_1_1_, trainer1_.aadhar_card_number as aadhar_c2_1_1_, trainer1_.company_name as company_3_1_1_, trainer1_.address as address4_1_1_, trainer1_.date_of_birth as date_of_5_1_1_, trainer1_.designation as designat6_1_1_, trainer1_.mail as mail7_1_1_, trainer1_.mobile_number as mobile_n8_1_1_, trainer1_.name as name9_1_1_, trainer1_.employee_status as employe10_1_1_, trainer1_.pan_card_number as pan_car11_1_1_, trainer1_.uuid as uuid12_1_1_, trainer1_.achievement as achieve13_1_1_, trainer1_.current_project as current14_1_1_ from trainer_id_trainee_id trainers0_ inner join trainer_details trainer1_ on trainers0_.trainer_id=trainer1_.id where trainers0_.trainee_id=?
+17:44:19,483 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainee.trainers#3]
+17:44:19,484 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#3]
+17:44:19,484 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#3]
+17:44:19,484 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainee.trainers
+17:44:19,484 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainee.trainers#3]
+17:44:19,484 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainee.trainers
+17:44:19,484 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+17:44:19,484 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainee.trainers#1]
+17:44:19,485 DEBUG SQL:144 - select trainers0_.trainee_id as trainee_2_2_0_, trainers0_.trainer_id as trainer_1_2_0_, trainer1_.id as id1_1_1_, trainer1_.aadhar_card_number as aadhar_c2_1_1_, trainer1_.company_name as company_3_1_1_, trainer1_.address as address4_1_1_, trainer1_.date_of_birth as date_of_5_1_1_, trainer1_.designation as designat6_1_1_, trainer1_.mail as mail7_1_1_, trainer1_.mobile_number as mobile_n8_1_1_, trainer1_.name as name9_1_1_, trainer1_.employee_status as employe10_1_1_, trainer1_.pan_card_number as pan_car11_1_1_, trainer1_.uuid as uuid12_1_1_, trainer1_.achievement as achieve13_1_1_, trainer1_.current_project as current14_1_1_ from trainer_id_trainee_id trainers0_ inner join trainer_details trainer1_ on trainers0_.trainer_id=trainer1_.id where trainers0_.trainee_id=?
+17:44:19,486 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainee.trainers#1]
+17:44:19,486 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#1]
+17:44:19,486 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#1]
+17:44:19,487 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainee.trainers
+17:44:19,487 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainee.trainers#1]
+17:44:19,487 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainee.trainers
+17:44:19,487 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+17:44:19,487 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainee.trainers#4]
+17:44:19,487 DEBUG SQL:144 - select trainers0_.trainee_id as trainee_2_2_0_, trainers0_.trainer_id as trainer_1_2_0_, trainer1_.id as id1_1_1_, trainer1_.aadhar_card_number as aadhar_c2_1_1_, trainer1_.company_name as company_3_1_1_, trainer1_.address as address4_1_1_, trainer1_.date_of_birth as date_of_5_1_1_, trainer1_.designation as designat6_1_1_, trainer1_.mail as mail7_1_1_, trainer1_.mobile_number as mobile_n8_1_1_, trainer1_.name as name9_1_1_, trainer1_.employee_status as employe10_1_1_, trainer1_.pan_card_number as pan_car11_1_1_, trainer1_.uuid as uuid12_1_1_, trainer1_.achievement as achieve13_1_1_, trainer1_.current_project as current14_1_1_ from trainer_id_trainee_id trainers0_ inner join trainer_details trainer1_ on trainers0_.trainer_id=trainer1_.id where trainers0_.trainee_id=?
+17:44:19,488 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainee.trainers#4]
+17:44:19,489 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#4]
+17:44:19,489 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#4]
+17:44:19,489 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainee.trainers
+17:44:19,489 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainee.trainers#4]
+17:44:19,489 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainee.trainers
+17:44:19,490 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+17:44:19,490 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainee.trainers#2]
+17:44:19,490 DEBUG SQL:144 - select trainers0_.trainee_id as trainee_2_2_0_, trainers0_.trainer_id as trainer_1_2_0_, trainer1_.id as id1_1_1_, trainer1_.aadhar_card_number as aadhar_c2_1_1_, trainer1_.company_name as company_3_1_1_, trainer1_.address as address4_1_1_, trainer1_.date_of_birth as date_of_5_1_1_, trainer1_.designation as designat6_1_1_, trainer1_.mail as mail7_1_1_, trainer1_.mobile_number as mobile_n8_1_1_, trainer1_.name as name9_1_1_, trainer1_.employee_status as employe10_1_1_, trainer1_.pan_card_number as pan_car11_1_1_, trainer1_.uuid as uuid12_1_1_, trainer1_.achievement as achieve13_1_1_, trainer1_.current_project as current14_1_1_ from trainer_id_trainee_id trainers0_ inner join trainer_details trainer1_ on trainers0_.trainer_id=trainer1_.id where trainers0_.trainee_id=?
+17:44:19,491 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainee.trainers#2]
+17:44:19,491 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#2]
+17:44:19,492 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#2]
+17:44:19,492 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainee.trainers
+17:44:19,492 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainee.trainers#2]
+17:44:19,492 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainee.trainers
+17:44:19,492 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+17:44:19,493 DEBUG DistinctResultTransformer:389 - Transformed: 4 rows to: 4 distinct results
+17:44:38,167 DEBUG logging:28 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+17:44:38,181 DEBUG IntegratorServiceImpl:46 - Adding Integrator [org.hibernate.cfg.beanvalidation.BeanValidationIntegrator].
+17:44:38,185 DEBUG IntegratorServiceImpl:46 - Adding Integrator [org.hibernate.secure.spi.JaccIntegrator].
+17:44:38,192 DEBUG IntegratorServiceImpl:46 - Adding Integrator [org.hibernate.cache.internal.CollectionCacheInvalidator].
+17:44:38,231  INFO Version:44 - HHH000412: Hibernate ORM core version 5.6.11.Final
+17:44:38,233 DEBUG Environment:199 - HHH000206: hibernate.properties not found
+17:44:38,535 DEBUG LocalXmlResourceResolver:63 - Interpreting public/system identifier : [-//Hibernate/Hibernate Configuration DTD 3.0//EN] - [http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd]
+17:44:38,535 DEBUG LocalXmlResourceResolver:87 - Recognized hibernate-configuration identifier; attempting to resolve on classpath under org/hibernate/
+17:44:38,540 DEBUG JaxbCfgProcessor:117 - cfg.xml document did not define namespaces; wrapping in custom event reader to introduce namespace information
+17:44:38,832 DEBUG Configuration:742 - Building session factory using internal StandardServiceRegistryBuilder
+17:44:38,841 DEBUG ServiceBinding:68 - Overriding existing service binding [org.hibernate.secure.spi.JaccService]
+17:44:38,841 DEBUG Configuration:672 - Building session factory using provided StandardServiceRegistry
+17:44:38,862 DEBUG RegionFactoryInitiator:118 - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+17:44:38,864 DEBUG RegionFactoryInitiator:49 - Cache region factory : org.hibernate.cache.internal.NoCachingRegionFactory
+17:44:38,896  INFO Version:56 - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+17:44:38,957 DEBUG BasicTypeRegistry:157 - Adding type registration boolean -> org.hibernate.type.BooleanType@1779e970
+17:44:38,957 DEBUG BasicTypeRegistry:157 - Adding type registration boolean -> org.hibernate.type.BooleanType@1779e970
+17:44:38,958 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.Boolean -> org.hibernate.type.BooleanType@1779e970
+17:44:38,958 DEBUG BasicTypeRegistry:157 - Adding type registration numeric_boolean -> org.hibernate.type.NumericBooleanType@715834bb
+17:44:38,959 DEBUG BasicTypeRegistry:157 - Adding type registration true_false -> org.hibernate.type.TrueFalseType@50f1e2ee
+17:44:38,960 DEBUG BasicTypeRegistry:157 - Adding type registration yes_no -> org.hibernate.type.YesNoType@40f57500
+17:44:38,962 DEBUG BasicTypeRegistry:157 - Adding type registration byte -> org.hibernate.type.ByteType@7d3172af
+17:44:38,962 DEBUG BasicTypeRegistry:157 - Adding type registration byte -> org.hibernate.type.ByteType@7d3172af
+17:44:38,962 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.Byte -> org.hibernate.type.ByteType@7d3172af
+17:44:38,963 DEBUG BasicTypeRegistry:157 - Adding type registration character -> org.hibernate.type.CharacterType@223f6fc6
+17:44:38,963 DEBUG BasicTypeRegistry:157 - Adding type registration char -> org.hibernate.type.CharacterType@223f6fc6
+17:44:38,964 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.Character -> org.hibernate.type.CharacterType@223f6fc6
+17:44:38,965 DEBUG BasicTypeRegistry:157 - Adding type registration short -> org.hibernate.type.ShortType@5d0e2b7
+17:44:38,965 DEBUG BasicTypeRegistry:157 - Adding type registration short -> org.hibernate.type.ShortType@5d0e2b7
+17:44:38,965 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.Short -> org.hibernate.type.ShortType@5d0e2b7
+17:44:38,967 DEBUG BasicTypeRegistry:157 - Adding type registration integer -> org.hibernate.type.IntegerType@205eba0f
+17:44:38,967 DEBUG BasicTypeRegistry:157 - Adding type registration int -> org.hibernate.type.IntegerType@205eba0f
+17:44:38,967 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.Integer -> org.hibernate.type.IntegerType@205eba0f
+17:44:38,968 DEBUG BasicTypeRegistry:157 - Adding type registration long -> org.hibernate.type.LongType@6a43c396
+17:44:38,969 DEBUG BasicTypeRegistry:157 - Adding type registration long -> org.hibernate.type.LongType@6a43c396
+17:44:38,970 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.Long -> org.hibernate.type.LongType@6a43c396
+17:44:38,970 DEBUG BasicTypeRegistry:157 - Adding type registration float -> org.hibernate.type.FloatType@91d9e61
+17:44:38,970 DEBUG BasicTypeRegistry:157 - Adding type registration float -> org.hibernate.type.FloatType@91d9e61
+17:44:38,971 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.Float -> org.hibernate.type.FloatType@91d9e61
+17:44:38,972 DEBUG BasicTypeRegistry:157 - Adding type registration double -> org.hibernate.type.DoubleType@18546897
+17:44:38,972 DEBUG BasicTypeRegistry:157 - Adding type registration double -> org.hibernate.type.DoubleType@18546897
+17:44:38,972 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.Double -> org.hibernate.type.DoubleType@18546897
+17:44:38,974 DEBUG BasicTypeRegistry:157 - Adding type registration big_decimal -> org.hibernate.type.BigDecimalType@2fd6b3fc
+17:44:38,974 DEBUG BasicTypeRegistry:157 - Adding type registration java.math.BigDecimal -> org.hibernate.type.BigDecimalType@2fd6b3fc
+17:44:38,976 DEBUG BasicTypeRegistry:157 - Adding type registration big_integer -> org.hibernate.type.BigIntegerType@e6ee98a
+17:44:38,976 DEBUG BasicTypeRegistry:157 - Adding type registration java.math.BigInteger -> org.hibernate.type.BigIntegerType@e6ee98a
+17:44:38,977 DEBUG BasicTypeRegistry:157 - Adding type registration string -> org.hibernate.type.StringType@64914622
+17:44:38,978 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.String -> org.hibernate.type.StringType@64914622
+17:44:38,978 DEBUG BasicTypeRegistry:157 - Adding type registration nstring -> org.hibernate.type.StringNVarcharType@6ff3aa19
+17:44:38,979 DEBUG BasicTypeRegistry:157 - Adding type registration ncharacter -> org.hibernate.type.CharacterNCharType@15283e00
+17:44:38,980 DEBUG BasicTypeRegistry:157 - Adding type registration url -> org.hibernate.type.UrlType@4cd84241
+17:44:38,980 DEBUG BasicTypeRegistry:157 - Adding type registration java.net.URL -> org.hibernate.type.UrlType@4cd84241
+17:44:38,982 DEBUG BasicTypeRegistry:157 - Adding type registration Duration -> org.hibernate.type.DurationType@3a324ade
+17:44:38,982 DEBUG BasicTypeRegistry:157 - Adding type registration java.time.Duration -> org.hibernate.type.DurationType@3a324ade
+17:44:38,993 DEBUG BasicTypeRegistry:157 - Adding type registration Instant -> org.hibernate.type.InstantType@7047e844
+17:44:38,993 DEBUG BasicTypeRegistry:157 - Adding type registration java.time.Instant -> org.hibernate.type.InstantType@7047e844
+17:44:38,995 DEBUG BasicTypeRegistry:157 - Adding type registration LocalDateTime -> org.hibernate.type.LocalDateTimeType@3375bfca
+17:44:38,996 DEBUG BasicTypeRegistry:157 - Adding type registration java.time.LocalDateTime -> org.hibernate.type.LocalDateTimeType@3375bfca
+17:44:38,997 DEBUG BasicTypeRegistry:157 - Adding type registration LocalDate -> org.hibernate.type.LocalDateType@3d9be718
+17:44:38,998 DEBUG BasicTypeRegistry:157 - Adding type registration java.time.LocalDate -> org.hibernate.type.LocalDateType@3d9be718
+17:44:38,999 DEBUG BasicTypeRegistry:157 - Adding type registration LocalTime -> org.hibernate.type.LocalTimeType@6ca73339
+17:44:38,999 DEBUG BasicTypeRegistry:157 - Adding type registration java.time.LocalTime -> org.hibernate.type.LocalTimeType@6ca73339
+17:44:39,001 DEBUG BasicTypeRegistry:157 - Adding type registration OffsetDateTime -> org.hibernate.type.OffsetDateTimeType@48fcdd8d
+17:44:39,001 DEBUG BasicTypeRegistry:157 - Adding type registration java.time.OffsetDateTime -> org.hibernate.type.OffsetDateTimeType@48fcdd8d
+17:44:39,003 DEBUG BasicTypeRegistry:157 - Adding type registration OffsetTime -> org.hibernate.type.OffsetTimeType@5583269
+17:44:39,003 DEBUG BasicTypeRegistry:157 - Adding type registration java.time.OffsetTime -> org.hibernate.type.OffsetTimeType@5583269
+17:44:39,006 DEBUG BasicTypeRegistry:157 - Adding type registration ZonedDateTime -> org.hibernate.type.ZonedDateTimeType@73c87f2a
+17:44:39,006 DEBUG BasicTypeRegistry:157 - Adding type registration java.time.ZonedDateTime -> org.hibernate.type.ZonedDateTimeType@73c87f2a
+17:44:39,008 DEBUG BasicTypeRegistry:157 - Adding type registration date -> org.hibernate.type.DateType@40965b3d
+17:44:39,009 DEBUG BasicTypeRegistry:157 - Adding type registration java.sql.Date -> org.hibernate.type.DateType@40965b3d
+17:44:39,010 DEBUG BasicTypeRegistry:157 - Adding type registration time -> org.hibernate.type.TimeType@622e733e
+17:44:39,010 DEBUG BasicTypeRegistry:157 - Adding type registration java.sql.Time -> org.hibernate.type.TimeType@622e733e
+17:44:39,012 DEBUG BasicTypeRegistry:157 - Adding type registration timestamp -> org.hibernate.type.TimestampType@68fc2646
+17:44:39,012 DEBUG BasicTypeRegistry:157 - Adding type registration java.sql.Timestamp -> org.hibernate.type.TimestampType@68fc2646
+17:44:39,012 DEBUG BasicTypeRegistry:157 - Adding type registration java.util.Date -> org.hibernate.type.TimestampType@68fc2646
+17:44:39,014 DEBUG BasicTypeRegistry:157 - Adding type registration dbtimestamp -> org.hibernate.type.DbTimestampType@7f5fdb4b
+17:44:39,016 DEBUG BasicTypeRegistry:157 - Adding type registration calendar -> org.hibernate.type.CalendarType@6ed02fb4
+17:44:39,016 DEBUG BasicTypeRegistry:157 - Adding type registration java.util.Calendar -> org.hibernate.type.CalendarType@6ed02fb4
+17:44:39,017 DEBUG BasicTypeRegistry:157 - Adding type registration java.util.GregorianCalendar -> org.hibernate.type.CalendarType@6ed02fb4
+17:44:39,018 DEBUG BasicTypeRegistry:157 - Adding type registration calendar_date -> org.hibernate.type.CalendarDateType@236538f9
+17:44:39,019 DEBUG BasicTypeRegistry:157 - Adding type registration calendar_time -> org.hibernate.type.CalendarTimeType@590c4e39
+17:44:39,020 DEBUG BasicTypeRegistry:157 - Adding type registration locale -> org.hibernate.type.LocaleType@368956ea
+17:44:39,020 DEBUG BasicTypeRegistry:157 - Adding type registration java.util.Locale -> org.hibernate.type.LocaleType@368956ea
+17:44:39,021 DEBUG BasicTypeRegistry:157 - Adding type registration currency -> org.hibernate.type.CurrencyType@fe81cb9
+17:44:39,021 DEBUG BasicTypeRegistry:157 - Adding type registration java.util.Currency -> org.hibernate.type.CurrencyType@fe81cb9
+17:44:39,023 DEBUG BasicTypeRegistry:157 - Adding type registration timezone -> org.hibernate.type.TimeZoneType@793eb622
+17:44:39,023 DEBUG BasicTypeRegistry:157 - Adding type registration java.util.TimeZone -> org.hibernate.type.TimeZoneType@793eb622
+17:44:39,024 DEBUG BasicTypeRegistry:157 - Adding type registration class -> org.hibernate.type.ClassType@550a6e3
+17:44:39,024 DEBUG BasicTypeRegistry:157 - Adding type registration java.lang.Class -> org.hibernate.type.ClassType@550a6e3
+17:44:39,025 DEBUG BasicTypeRegistry:157 - Adding type registration uuid-binary -> org.hibernate.type.UUIDBinaryType@698ad14
+17:44:39,025 DEBUG BasicTypeRegistry:157 - Adding type registration java.util.UUID -> org.hibernate.type.UUIDBinaryType@698ad14
+17:44:39,026 DEBUG BasicTypeRegistry:157 - Adding type registration uuid-char -> org.hibernate.type.UUIDCharType@1924457
+17:44:39,028 DEBUG BasicTypeRegistry:157 - Adding type registration binary -> org.hibernate.type.BinaryType@1349c59d
+17:44:39,028 DEBUG BasicTypeRegistry:157 - Adding type registration byte[] -> org.hibernate.type.BinaryType@1349c59d
+17:44:39,028 DEBUG BasicTypeRegistry:157 - Adding type registration [B -> org.hibernate.type.BinaryType@1349c59d
+17:44:39,029 DEBUG BasicTypeRegistry:157 - Adding type registration wrapper-binary -> org.hibernate.type.WrapperBinaryType@7abd8889
+17:44:39,030 DEBUG BasicTypeRegistry:157 - Adding type registration Byte[] -> org.hibernate.type.WrapperBinaryType@7abd8889
+17:44:39,030 DEBUG BasicTypeRegistry:157 - Adding type registration [Ljava.lang.Byte; -> org.hibernate.type.WrapperBinaryType@7abd8889
+17:44:39,031 DEBUG BasicTypeRegistry:157 - Adding type registration row_version -> org.hibernate.type.RowVersionType@45f02e38
+17:44:39,032 DEBUG BasicTypeRegistry:157 - Adding type registration image -> org.hibernate.type.ImageType@3b248ffc
+17:44:39,033 DEBUG BasicTypeRegistry:157 - Adding type registration characters -> org.hibernate.type.CharArrayType@64664c28
+17:44:39,033 DEBUG BasicTypeRegistry:157 - Adding type registration char[] -> org.hibernate.type.CharArrayType@64664c28

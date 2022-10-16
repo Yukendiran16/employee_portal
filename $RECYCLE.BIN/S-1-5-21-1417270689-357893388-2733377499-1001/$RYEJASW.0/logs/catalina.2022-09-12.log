@@ -1,0 +1,7 @@
+12-Sep-2022 10:06:50.764 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/demo]
+12-Sep-2022 10:07:30.809 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.reload Reloading context []
+12-Sep-2022 10:07:30.810 INFO [Catalina-utility-2] org.apache.catalina.core.StandardContext.reload Reloading Context with name [] has started
+12-Sep-2022 10:07:30.875 INFO [Catalina-utility-2] org.apache.catalina.core.StandardContext.reload Reloading Context with name [] is completed
+12-Sep-2022 10:09:00.960 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.reload Reloading context []
+12-Sep-2022 10:09:00.960 INFO [Catalina-utility-1] org.apache.catalina.core.StandardContext.reload Reloading Context with name [] has started
+12-Sep-2022 10:09:00.988 INFO [Catalina-utility-1] org.apache.catalina.core.StandardContext.reload Reloading Context with name [] is completed

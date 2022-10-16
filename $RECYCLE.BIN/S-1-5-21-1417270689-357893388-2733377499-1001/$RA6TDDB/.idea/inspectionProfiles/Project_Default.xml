@@ -1,0 +1,56 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="21">
+            <item index="0" class="java.lang.String" itemvalue="th:href" />
+            <item index="1" class="java.lang.String" itemvalue="th:action" />
+            <item index="2" class="java.lang.String" itemvalue="th:if" />
+            <item index="3" class="java.lang.String" itemvalue="sec:authorize" />
+            <item index="4" class="java.lang.String" itemvalue="th:each" />
+            <item index="5" class="java.lang.String" itemvalue="th:text" />
+            <item index="6" class="java.lang.String" itemvalue="th:unless" />
+            <item index="7" class="java.lang.String" itemvalue="each" />
+            <item index="8" class="java.lang.String" itemvalue="text" />
+            <item index="9" class="java.lang.String" itemvalue="th:object" />
+            <item index="10" class="java.lang.String" itemvalue="th:field" />
+            <item index="11" class="java.lang.String" itemvalue="object" />
+            <item index="12" class="java.lang.String" itemvalue="field" />
+            <item index="13" class="java.lang.String" itemvalue="th:foreach" />
+            <item index="14" class="java.lang.String" itemvalue="var" />
+            <item index="15" class="java.lang.String" itemvalue="items" />
+            <item index="16" class="java.lang.String" itemvalue="foreach" />
+            <item index="17" class="java.lang.String" itemvalue="c:each" />
+            <item index="18" class="java.lang.String" itemvalue="c:foreach" />
+            <item index="19" class="java.lang.String" itemvalue="c:out" />
+            <item index="20" class="java.lang.String" itemvalue="value" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="12">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="h1" />
+            <item index="7" class="java.lang.String" itemvalue="td" />
+            <item index="8" class="java.lang.String" itemvalue="thead" />
+            <item index="9" class="java.lang.String" itemvalue="tbody" />
+            <item index="10" class="java.lang.String" itemvalue="c:foreach" />
+            <item index="11" class="java.lang.String" itemvalue="tr" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+  </profile>
+</component>

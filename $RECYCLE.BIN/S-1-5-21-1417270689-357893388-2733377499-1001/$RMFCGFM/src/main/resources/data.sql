@@ -1,0 +1,1 @@
+INSERT INTO user (username, email, password, role) VALUES ('dinesh', 'admin@doj.com', '$2y$12$P0X49xgIeOmmDHdK/j4zCu05k8C0nQrzzE9QOFMy5psQBfdlrL60O', 'ADMIN');

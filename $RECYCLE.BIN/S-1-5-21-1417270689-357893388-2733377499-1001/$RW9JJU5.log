@@ -1,0 +1,176 @@
+18:02:49,889 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainer.trainees#2]
+18:02:49,889 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainer.trainees
+18:02:49,889 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+18:02:49,890 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,890 DEBUG SQL:144 - select trainees0_.trainer_id as trainer_1_2_0_, trainees0_.trainee_id as trainee_2_2_0_, trainee1_.id as id1_0_1_, trainee1_.aadhar_card_number as aadhar_c2_0_1_, trainee1_.company_name as company_3_0_1_, trainee1_.address as address4_0_1_, trainee1_.date_of_birth as date_of_5_0_1_, trainee1_.designation as designat6_0_1_, trainee1_.mail as mail7_0_1_, trainee1_.mobile_number as mobile_n8_0_1_, trainee1_.name as name9_0_1_, trainee1_.employee_status as employe10_0_1_, trainee1_.pan_card_number as pan_car11_0_1_, trainee1_.uuid as uuid12_0_1_, trainee1_.current_task as current13_0_1_, trainee1_.current_techknowledge as current14_0_1_ from trainer_id_trainee_id trainees0_ inner join trainee_details trainee1_ on trainees0_.trainee_id=trainee1_.id where trainees0_.trainer_id=?
+18:02:49,905 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,907 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,913 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,914 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,915 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,915 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,915 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,915 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,915 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,916 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainee#2]
+18:02:49,916 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 764735385384
+18:02:49,916 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+18:02:49,916 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+18:02:49,916 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+18:02:49,916 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx
+18:02:49,916 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+18:02:49,916 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 2000-12-12
+18:02:49,916 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+18:02:49,916 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+18:02:49,916 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+18:02:49,916 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = gowtham@gmail.com
+18:02:49,917 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+18:02:49,917 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 9486736437
+18:02:49,917 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+18:02:49,917 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = gowtham 
+18:02:49,917 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+18:02:49,917 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+18:02:49,917 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+18:02:49,917 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 934783IYUI
+18:02:49,917 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+18:02:49,917 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = 00a3fdc48615
+18:02:49,917 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+18:02:49,918 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTask` : value = yyyy
+18:02:49,918 DEBUG TwoPhaseLoad:215 - Attribute (`currentTask`)  - enhanced for lazy-loading? - false
+18:02:49,918 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTechknowledge` : value = zzzz
+18:02:49,918 DEBUG TwoPhaseLoad:215 - Attribute (`currentTechknowledge`)  - enhanced for lazy-loading? - false
+18:02:49,918 DEBUG TwoPhaseLoad:184 - Processing attribute `trainers` : value = NOT NULL COLLECTION
+18:02:49,918 DEBUG TwoPhaseLoad:215 - Attribute (`trainers`)  - enhanced for lazy-loading? - false
+18:02:49,918 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainee#2]
+18:02:49,918 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainee#4]
+18:02:49,918 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 936752427752
+18:02:49,918 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+18:02:49,918 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+18:02:49,919 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+18:02:49,919 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx
+18:02:49,919 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+18:02:49,919 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 2000-12-11
+18:02:49,919 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+18:02:49,919 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+18:02:49,919 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+18:02:49,919 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = naren@gmail.com
+18:02:49,919 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+18:02:49,919 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 8424726426
+18:02:49,919 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+18:02:49,919 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = naren
+18:02:49,920 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+18:02:49,920 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+18:02:49,920 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+18:02:49,920 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 837468UYTF
+18:02:49,920 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+18:02:49,920 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = 49e4ac5b8fe3
+18:02:49,920 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+18:02:49,920 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTask` : value = yyyy
+18:02:49,920 DEBUG TwoPhaseLoad:215 - Attribute (`currentTask`)  - enhanced for lazy-loading? - false
+18:02:49,920 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTechknowledge` : value = zzzz
+18:02:49,920 DEBUG TwoPhaseLoad:215 - Attribute (`currentTechknowledge`)  - enhanced for lazy-loading? - false
+18:02:49,921 DEBUG TwoPhaseLoad:184 - Processing attribute `trainers` : value = NOT NULL COLLECTION
+18:02:49,921 DEBUG TwoPhaseLoad:215 - Attribute (`trainers`)  - enhanced for lazy-loading? - false
+18:02:49,921 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainee#4]
+18:02:49,921 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainee#1]
+18:02:49,921 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 948633567653
+18:02:49,921 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+18:02:49,921 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+18:02:49,921 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+18:02:49,921 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx
+18:02:49,921 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+18:02:49,921 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 2001-12-12
+18:02:49,922 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+18:02:49,922 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+18:02:49,922 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+18:02:49,922 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = yuki@gmail.com
+18:02:49,922 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+18:02:49,922 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 8643676573
+18:02:49,922 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+18:02:49,922 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = yuki
+18:02:49,922 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+18:02:49,922 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+18:02:49,922 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+18:02:49,922 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 876765IUYT
+18:02:49,923 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+18:02:49,923 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = c4fe6892a276
+18:02:49,923 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+18:02:49,923 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTask` : value = yyyy
+18:02:49,923 DEBUG TwoPhaseLoad:215 - Attribute (`currentTask`)  - enhanced for lazy-loading? - false
+18:02:49,923 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTechknowledge` : value = zzzz
+18:02:49,923 DEBUG TwoPhaseLoad:215 - Attribute (`currentTechknowledge`)  - enhanced for lazy-loading? - false
+18:02:49,923 DEBUG TwoPhaseLoad:184 - Processing attribute `trainers` : value = NOT NULL COLLECTION
+18:02:49,923 DEBUG TwoPhaseLoad:215 - Attribute (`trainers`)  - enhanced for lazy-loading? - false
+18:02:49,923 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainee#1]
+18:02:49,923 DEBUG TwoPhaseLoad:171 - Resolving attributes for [com.ideas2it.model.Trainee#3]
+18:02:49,924 DEBUG TwoPhaseLoad:184 - Processing attribute `aadharCardNumber` : value = 975487534286
+18:02:49,924 DEBUG TwoPhaseLoad:215 - Attribute (`aadharCardNumber`)  - enhanced for lazy-loading? - false
+18:02:49,924 DEBUG TwoPhaseLoad:184 - Processing attribute `companyName` : value = ideas2IT
+18:02:49,924 DEBUG TwoPhaseLoad:215 - Attribute (`companyName`)  - enhanced for lazy-loading? - false
+18:02:49,924 DEBUG TwoPhaseLoad:184 - Processing attribute `currentAddress` : value = xxxx
+18:02:49,924 DEBUG TwoPhaseLoad:215 - Attribute (`currentAddress`)  - enhanced for lazy-loading? - false
+18:02:49,924 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDateOfBirth` : value = 1998-12-12
+18:02:49,924 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDateOfBirth`)  - enhanced for lazy-loading? - false
+18:02:49,924 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeDesignation` : value = SDE
+18:02:49,924 DEBUG TwoPhaseLoad:215 - Attribute (`employeeDesignation`)  - enhanced for lazy-loading? - false
+18:02:49,924 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMail` : value = jagan@gmail.com
+18:02:49,924 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMail`)  - enhanced for lazy-loading? - false
+18:02:49,925 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeMobileNumber` : value = 9472492323
+18:02:49,925 DEBUG TwoPhaseLoad:215 - Attribute (`employeeMobileNumber`)  - enhanced for lazy-loading? - false
+18:02:49,925 DEBUG TwoPhaseLoad:184 - Processing attribute `employeeName` : value = jagan
+18:02:49,925 DEBUG TwoPhaseLoad:215 - Attribute (`employeeName`)  - enhanced for lazy-loading? - false
+18:02:49,925 DEBUG TwoPhaseLoad:184 - Processing attribute `isActive` : value = false
+18:02:49,925 DEBUG TwoPhaseLoad:215 - Attribute (`isActive`)  - enhanced for lazy-loading? - false
+18:02:49,925 DEBUG TwoPhaseLoad:184 - Processing attribute `panCardNumber` : value = 947682IYYY
+18:02:49,925 DEBUG TwoPhaseLoad:215 - Attribute (`panCardNumber`)  - enhanced for lazy-loading? - false
+18:02:49,925 DEBUG TwoPhaseLoad:184 - Processing attribute `uuid` : value = f275fe549dc6
+18:02:49,925 DEBUG TwoPhaseLoad:215 - Attribute (`uuid`)  - enhanced for lazy-loading? - false
+18:02:49,925 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTask` : value = yyyy
+18:02:49,926 DEBUG TwoPhaseLoad:215 - Attribute (`currentTask`)  - enhanced for lazy-loading? - false
+18:02:49,926 DEBUG TwoPhaseLoad:184 - Processing attribute `currentTechknowledge` : value = zzzz
+18:02:49,926 DEBUG TwoPhaseLoad:215 - Attribute (`currentTechknowledge`)  - enhanced for lazy-loading? - false
+18:02:49,926 DEBUG TwoPhaseLoad:184 - Processing attribute `trainers` : value = NOT NULL COLLECTION
+18:02:49,926 DEBUG TwoPhaseLoad:215 - Attribute (`trainers`)  - enhanced for lazy-loading? - false
+18:02:49,926 DEBUG TwoPhaseLoad:352 - Done materializing entity [com.ideas2it.model.Trainee#3]
+18:02:49,926 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainer.trainees
+18:02:49,926 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainer.trainees#1]
+18:02:49,926 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainer.trainees
+18:02:49,927 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+18:02:49,927 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainee.trainers#3]
+18:02:49,927 DEBUG SQL:144 - select trainers0_.trainee_id as trainee_2_2_0_, trainers0_.trainer_id as trainer_1_2_0_, trainer1_.id as id1_1_1_, trainer1_.aadhar_card_number as aadhar_c2_1_1_, trainer1_.company_name as company_3_1_1_, trainer1_.address as address4_1_1_, trainer1_.date_of_birth as date_of_5_1_1_, trainer1_.designation as designat6_1_1_, trainer1_.mail as mail7_1_1_, trainer1_.mobile_number as mobile_n8_1_1_, trainer1_.name as name9_1_1_, trainer1_.employee_status as employe10_1_1_, trainer1_.pan_card_number as pan_car11_1_1_, trainer1_.uuid as uuid12_1_1_, trainer1_.achievement as achieve13_1_1_, trainer1_.current_project as current14_1_1_ from trainer_id_trainee_id trainers0_ inner join trainer_details trainer1_ on trainers0_.trainer_id=trainer1_.id where trainers0_.trainee_id=?
+18:02:49,928 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainee.trainers#3]
+18:02:49,929 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#3]
+18:02:49,929 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#3]
+18:02:49,929 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainee.trainers
+18:02:49,929 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainee.trainers#3]
+18:02:49,929 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainee.trainers
+18:02:49,930 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+18:02:49,930 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainee.trainers#1]
+18:02:49,930 DEBUG SQL:144 - select trainers0_.trainee_id as trainee_2_2_0_, trainers0_.trainer_id as trainer_1_2_0_, trainer1_.id as id1_1_1_, trainer1_.aadhar_card_number as aadhar_c2_1_1_, trainer1_.company_name as company_3_1_1_, trainer1_.address as address4_1_1_, trainer1_.date_of_birth as date_of_5_1_1_, trainer1_.designation as designat6_1_1_, trainer1_.mail as mail7_1_1_, trainer1_.mobile_number as mobile_n8_1_1_, trainer1_.name as name9_1_1_, trainer1_.employee_status as employe10_1_1_, trainer1_.pan_card_number as pan_car11_1_1_, trainer1_.uuid as uuid12_1_1_, trainer1_.achievement as achieve13_1_1_, trainer1_.current_project as current14_1_1_ from trainer_id_trainee_id trainers0_ inner join trainer_details trainer1_ on trainers0_.trainer_id=trainer1_.id where trainers0_.trainee_id=?
+18:02:49,931 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainee.trainers#1]
+18:02:49,932 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#1]
+18:02:49,932 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#1]
+18:02:49,933 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainee.trainers
+18:02:49,933 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainee.trainers#1]
+18:02:49,933 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainee.trainers
+18:02:49,933 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+18:02:49,933 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainee.trainers#4]
+18:02:49,933 DEBUG SQL:144 - select trainers0_.trainee_id as trainee_2_2_0_, trainers0_.trainer_id as trainer_1_2_0_, trainer1_.id as id1_1_1_, trainer1_.aadhar_card_number as aadhar_c2_1_1_, trainer1_.company_name as company_3_1_1_, trainer1_.address as address4_1_1_, trainer1_.date_of_birth as date_of_5_1_1_, trainer1_.designation as designat6_1_1_, trainer1_.mail as mail7_1_1_, trainer1_.mobile_number as mobile_n8_1_1_, trainer1_.name as name9_1_1_, trainer1_.employee_status as employe10_1_1_, trainer1_.pan_card_number as pan_car11_1_1_, trainer1_.uuid as uuid12_1_1_, trainer1_.achievement as achieve13_1_1_, trainer1_.current_project as current14_1_1_ from trainer_id_trainee_id trainers0_ inner join trainer_details trainer1_ on trainers0_.trainer_id=trainer1_.id where trainers0_.trainee_id=?
+18:02:49,936 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainee.trainers#4]
+18:02:49,936 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#4]
+18:02:49,936 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#4]
+18:02:49,937 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainee.trainers
+18:02:49,937 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainee.trainers#4]
+18:02:49,937 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainee.trainers
+18:02:49,937 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+18:02:49,937 DEBUG AbstractLoadPlanBasedCollectionInitializer:73 - Loading collection: [com.ideas2it.model.Trainee.trainers#2]
+18:02:49,937 DEBUG SQL:144 - select trainers0_.trainee_id as trainee_2_2_0_, trainers0_.trainer_id as trainer_1_2_0_, trainer1_.id as id1_1_1_, trainer1_.aadhar_card_number as aadhar_c2_1_1_, trainer1_.company_name as company_3_1_1_, trainer1_.address as address4_1_1_, trainer1_.date_of_birth as date_of_5_1_1_, trainer1_.designation as designat6_1_1_, trainer1_.mail as mail7_1_1_, trainer1_.mobile_number as mobile_n8_1_1_, trainer1_.name as name9_1_1_, trainer1_.employee_status as employe10_1_1_, trainer1_.pan_card_number as pan_car11_1_1_, trainer1_.uuid as uuid12_1_1_, trainer1_.achievement as achieve13_1_1_, trainer1_.current_project as current14_1_1_ from trainer_id_trainee_id trainers0_ inner join trainer_details trainer1_ on trainers0_.trainer_id=trainer1_.id where trainers0_.trainee_id=?
+18:02:49,938 DEBUG ResultSetProcessorImpl:193 - Preparing collection initializer : [com.ideas2it.model.Trainee.trainers#2]
+18:02:49,939 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#2]
+18:02:49,939 DEBUG CollectionReferenceInitializerImpl:59 - Found row of collection: [com.ideas2it.model.Trainee.trainers#2]
+18:02:49,939 DEBUG CollectionLoadContext:394 - 1 collections were found in result set for role: com.ideas2it.model.Trainee.trainers
+18:02:49,940 DEBUG CollectionLoadContext:303 - Collection fully initialized: [com.ideas2it.model.Trainee.trainers#2]
+18:02:49,940 DEBUG CollectionLoadContext:394 - 1 collections initialized for role: com.ideas2it.model.Trainee.trainers
+18:02:49,940 DEBUG AbstractLoadPlanBasedCollectionInitializer:105 - Done loading collection
+18:02:49,943 DEBUG DistinctResultTransformer:389 - Transformed: 4 rows to: 4 distinct results
+18:03:18,308 DEBUG DriverManagerConnectionProviderImpl:332 - Connection pool now considered primed; min-size will be maintained
