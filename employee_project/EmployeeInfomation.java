@@ -9,8 +9,9 @@ import com.ideas2it.model.Trainee;
 import com.ideas2it.service.impl.EmployeeServiceImpl;
 import com.ideas2it.service.EmployeeService;
 import com.ideas2it.util.EmployeeUtil;
-
 import com.ideas2it.exception.EmailMismatchException;
+
+import java.sql.SQLException;
 
 /**
 *
@@ -31,188 +32,185 @@ import com.ideas2it.exception.EmailMismatchException;
 class EmployeeInformation {
 
     private static Logger logger = LoggerFactory.getLogger(EmployeeInformation.class);
+    private static EmployeeService employeeService = new EmployeeServiceImpl();
 
     /**
      * method used to get trainer details from user for create profile
-     * @param {@link Scanner} scanner
-     * @param {@link boolean} isContinue
-     * @param {@link boolean} isValid 
+     * @param {@link Scanner} scanner 
      * @return {@link Trainer} returns trainer
      */ 
-    public Trainer getInformationFromTrainer(Scanner scanner, boolean isContinue, boolean isValid) {
+    public Trainer getInformationFromTrainer(String uuidIsKey, Scanner scanner) throws SQLException {
 
         EmployeeUtil util = new EmployeeUtil();
         Trainer trainer = new Trainer();
+        boolean isValid = true;
+       
+        trainer.setUuidIskey(uuidIsKey);
 
-     	String employeeId = util.createAndGetEmployeeId();
-        trainer.setEmployeeId(employeeId);  
+        int trId = employeeService.getLastTrainerId();
+     	String employeeId = util.createAndGetTrainerId(trId);
+        trainer.setEmployeeId(employeeId); 
 
         scanner.nextLine();
 	logger.info("Enter Employee Name : ");
         String name = scanner.nextLine();
-        if (!name.isEmpty()) {
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",name);
+        if (!name.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidName = true;
+            while (isValidName) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",name);
                 if (isValid) {
-                    name = name;
-                    isContinue = false;
+                    trainer.setEmployeeName(name);
+                    isValidName = false;
                 } else {
                    logger.info("not valid");
                    name = scanner.nextLine();
                 }
-            }            
-	    trainer.setEmployeeName(name);
+            }            	    
         }
 
 	logger.info("Enter Employee DateOfBirth MM/DD/YYYY:");
         String employeeDateOfBirth = scanner.nextLine();
-        if (!employeeDateOfBirth.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!employeeDateOfBirth.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidDOB = true;
+            while (isValidDOB) {
                 isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
                 if (isValid) {
-                    employeeDateOfBirth = employeeDateOfBirth;
-                    isContinue = false;
+                    String[] date = employeeDateOfBirth.split("/");
+                    employeeDateOfBirth = date[2]+"-"+date[0]+"-"+date[1];
+                    trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
+                    isValidDOB = false;
                 } else {
                    logger.info("not valid");
                    employeeDateOfBirth = scanner.nextLine();
                 }
             }
-            trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
         }
 
 	logger.info("Enter Employee Designation : ");
         String designation = scanner.nextLine();
-        if (!designation.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",designation);
+        if (!designation.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidDesignation = true;
+            while (isValidDesignation) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",designation);
                 if (isValid) {
-                    designation = designation;
-                    isContinue = false;
+                    trainer.setEmployeeDesignation(designation);
+                    isValidDesignation = false;
                 } else {
                    logger.info("not valid");
                    designation = scanner.nextLine();
                 }
-            }
-	    trainer.setEmployeeDesignation(designation);
+            }	    
         }
 
         logger.info("Enter Employee Mail : ");
-        isContinue = true;
-        while (isContinue) {
+        boolean isValidMail = true;
+        while (isValidMail) {
             String mail = scanner.nextLine();
-            try {
-                isValid = util.validationOfMail(mail);
-                trainer.setEmployeeMail(mail);
-                logger.info("coming");
-                isContinue = false;                 
-            } catch (EmailMismatchException e) {
-                logger.error("Exception occured :" + e);
-
+            if (!mail.isEmpty() && !name.equals("exitprogram")) {
+                try {
+                    isValid = util.validationOfMail(mail);
+                    trainer.setEmployeeMail(mail);
+                    isValidMail = false;                 
+                } catch (EmailMismatchException e) {
+                    logger.error("Exception occured :" + e);
+                }
             }	             
         } 
      
 	logger.info("Enter Employee MobileNumber : ");
         String mobileNumber = scanner.nextLine();
-        if (!mobileNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!mobileNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidMobileNumber = true;
+            while (isValidMobileNumber) {
                 isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
                 if (isValid) {
-                    mobileNumber = mobileNumber;
-                    isContinue = false;
+                    trainer.setEmployeeMobileNumber(mobileNumber);
+                    isValidMobileNumber = false;
                 } else {
                    logger.info("not valid");
                    mobileNumber = scanner.nextLine();
                 }
-            }
-	    trainer.setEmployeeMobileNumber(mobileNumber);
+            }	    
         }
 	
         logger.info("Enter Employee CurrentAddress : ");
         String currentAddress = scanner.nextLine();
-        if (!currentAddress.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!currentAddress.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidAddress = true;
+            while (isValidAddress) {
                 isValid = util.matchRegex("^(([0-9\sa-zA-Z,.-]{3,150})*)$",currentAddress);
                 if (isValid) {
-                    currentAddress = currentAddress;
-                    isContinue = false;
+                    trainer.setCurrentAddress(currentAddress);
+                    isValidAddress = false;
                 } else {
                    logger.info("not valid");
                    currentAddress = scanner.nextLine();
                 }
-            }
-	    trainer.setCurrentAddress(currentAddress);
+            }	    
         }
 
 	logger.info("Enter Employee AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
-        if (!aadharNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!aadharNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidAadharCardNumber = true;
+            while (isValidAadharCardNumber) {
                 isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
                 if (isValid) {
-                    aadharNumber = aadharNumber;
-                    isContinue = false;
+                    trainer.setAadharCardNumber(aadharNumber);
+                    isValidAadharCardNumber = false;
                 } else {
                    logger.info("not valid");
                    aadharNumber = scanner.nextLine();
                 }
-            }
-	    trainer.setAadharCardNumber(aadharNumber);
+            }	    
         }
 
 	logger.info("Enter Employee PanCardNumber : ");            
         String panNumber = scanner.nextLine();
-        if (!panNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!panNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidPanCardNumber = true;
+            while (isValidPanCardNumber) {
                 isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
                 if (isValid) {
-                    panNumber = panNumber;
-                    isContinue = false;
+                    trainer.setPanCardNumber(panNumber);
+                    isValidPanCardNumber = false;
                 } else {
                    logger.info("not valid");
                    panNumber = scanner.nextLine();
                 }
-            }
-	    trainer.setPanCardNumber(panNumber);
+            }	    
         }
 
 	logger.info("Enter your currentProject : ");            
         String currentProject = scanner.nextLine();
-        if (!currentProject.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",currentProject);
+        if (!currentProject.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidCurrentProject = true;
+            while (isValidCurrentProject) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",currentProject);
                 if (isValid) {
-                    currentProject = currentProject;
-                    isContinue = false;
+                    trainer.setCurrentProject(currentProject);
+                    isValidCurrentProject = false;
                 } else {
                    logger.info("not valid");
                    currentProject = scanner.nextLine();
                 }
-            }
-	    trainer.setCurrentProject(currentProject);
+            }	    
         }
 
 	logger.info("Enter your achievements : ");            
         String achievement = scanner.nextLine();
-        if (!achievement.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",achievement);
+        if (!achievement.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidAchievement = true;
+            while (isValidAchievement) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",achievement);
                 if (isValid) {
-                    achievement = achievement;
-                    isContinue = false;
+                    trainer.setAchievement(achievement);
+                    isValidAchievement = false;
                 } else {
                    logger.info("not valid");
                    achievement = scanner.nextLine();
                 }
-            }
-	    trainer.setAchievement(achievement);
+            }	    
         } 
         return trainer;
     }
@@ -220,551 +218,527 @@ class EmployeeInformation {
     /**
      * method used to get trainee details from user for create profile
      * @param {@link Scanner} scanner
-     * @param {@link boolean} isContinue
-     * @param {@link boolean} isValid 
      * @return {@link Trainee} returns trainee
      */ 
-    public Trainee getInformationFromTrainee(Scanner scanner, boolean isContinue, boolean isValid) {
+    public Trainee getInformationFromTrainee(String uuidIsKey, Scanner scanner) throws SQLException {
 
         EmployeeUtil util = new EmployeeUtil();
         Trainee trainee = new Trainee();
+        boolean isValid = true;
 
-     	String employeeId = util.createAndGetEmployeeId();
-        trainee.setEmployeeId(employeeId);
+        trainee.setUuidIsKey(uuidIsKey);
+
+        int teId = employeeService.getLastTraineeId();
+     	String employeeId = util.createAndGetTraineeId(teId);
+        trainee.setEmployeeId(employeeId);  
 
         scanner.nextLine();     
 	logger.info("Enter Employee Name : ");
         String name = scanner.nextLine();
-        if (!name.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",name);
+        if (!name.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidName = true;
+            while (isValidName) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",name);
                 if (isValid) {
-                    name = name;
-                    isContinue = false;
+                    trainee.setEmployeeName(name);
+                    isValidName = false;
                 } else {
                    logger.info("not valid");
                    name = scanner.nextLine();
                 }
-            }
- 	    trainee.setEmployeeName(name);
+            } 	    
         }
 
 	logger.info("Enter Employee DateOfBirth MM/DD/YYYY:");
         String employeeDateOfBirth = scanner.nextLine();
-        if (!employeeDateOfBirth.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!employeeDateOfBirth.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidDOB = true;
+            while (isValidDOB) {
                 isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
                 if (isValid) {
-                    employeeDateOfBirth = employeeDateOfBirth;
-                    isContinue = false;
+                    trainee.setEmployeeDateOfBirth(employeeDateOfBirth);
+                    isValidDOB = false;
                 } else {
                    logger.info("not valid");
                    employeeDateOfBirth = scanner.nextLine();
                 }
             }
-            trainee.setEmployeeDateOfBirth(employeeDateOfBirth);
         }
        
 	logger.info("Enter Employee Designation : ");
         String designation = scanner.nextLine();
-        if (!designation.isEmpty()) {
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",designation);
+        if (!designation.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidDesignation = true;
+            while (isValidDesignation) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",designation);
                 if (isValid) {
-                    designation = designation;
-                    isContinue = false;
+                    trainee.setEmployeeDesignation(designation);
+                    isValidDesignation = false;
                 } else {
                    logger.info("not valid");
                    designation = scanner.nextLine();
                 }
-            }
-	    trainee.setEmployeeDesignation(designation);
+            }	    
         }
 
         logger.info("Enter Employee Mail : ");
-        isContinue = true;
-        while (isContinue) {
+        boolean isValidMail = true;
+        while (isValidMail) {
             String mail = scanner.nextLine();
-            try {                
-                isValid = util.validationOfMail(mail);
-            } catch (EmailMismatchException e) {
-                logger.error("Exception occured :" + e);
-            }
-            if (isValid) {
-                trainee.setEmployeeMail(mail);       
-                isContinue = false;
-            } 	             
-        }
+            if (!mail.isEmpty() && !name.equals("exitprogram")) {
+                try {
+                    isValid = util.validationOfMail(mail);
+                    trainee.setEmployeeMail(mail);
+                    isValidMail = false;                 
+                } catch (EmailMismatchException e) {
+                    logger.error("Exception occured :" + e);
+                }
+            }	             
+        } 
       
 	logger.info("Enter Employee MobileNumber : ");
         String mobileNumber = scanner.nextLine();
-        if (!mobileNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!mobileNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidMobileNumber = true;
+            while (isValidMobileNumber) {
                 isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
                 if (isValid) {
-                    mobileNumber = mobileNumber;
-                    isContinue = false;
+                    trainee.setEmployeeMobileNumber(mobileNumber);
+                    isValidMobileNumber = false;
                 } else {
                    logger.info("not valid");
                    mobileNumber = scanner.nextLine();
                 }
-            }
-	    trainee.setEmployeeMobileNumber(mobileNumber);
+            }	    
         }
 
         logger.info("Enter Employee CurrentAddress : ");
         String currentAddress = scanner.nextLine();
-        if (!currentAddress.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!currentAddress.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidCurrentAddress = true;
+            while (isValidCurrentAddress) {
                 isValid = util.matchRegex("^(([0-9\sa-zA-Z,.-]{3,150})*)$",currentAddress);
                 if (isValid) {
-                    currentAddress = currentAddress;
-                    isContinue = false;
+                    trainee.setCurrentAddress(currentAddress);
+                    isValidCurrentAddress = false;
                 } else {
                    logger.info("not valid");
                    currentAddress = scanner.nextLine();
                 }
-            }
-	    trainee.setCurrentAddress(currentAddress);
+            }	    
         }
 
 	logger.info("Enter Employee AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
-        if (!aadharNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!aadharNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidAadharCardNumber = true;
+            while (isValidAadharCardNumber) {
                 isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
                 if (isValid) {
-                    aadharNumber = aadharNumber;
-                    isContinue = false;
+                    trainee.setAadharCardNumber(aadharNumber);
+                    isValidAadharCardNumber = false;
                 } else {
                    logger.info("not valid");
                    aadharNumber = scanner.nextLine();
                 }
-            }
-	    trainee.setAadharCardNumber(aadharNumber);
+            }	    
         }
 
 	logger.info("Enter Employee PanCardNumber : ");            
         String panNumber = scanner.nextLine();
-        if (!panNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!panNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidPanCardNumber = true;
+            while (isValidPanCardNumber) {
                 isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
                 if (isValid) {
-                    panNumber = panNumber;
-                    isContinue = false;
+                    trainee.setPanCardNumber(panNumber);
+                    isValidPanCardNumber = false;
                 } else {
                    logger.info("not valid");
                    panNumber = scanner.nextLine();
                 }
-            }
-	    trainee.setPanCardNumber(panNumber);
+            }	    
         }
 
 	logger.info("Enter your currentTask : ");            
         String currentTask = scanner.nextLine();
-        if (!currentTask.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",currentTask);
+        if (!currentTask.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidCurrentTask = true;
+            while (isValidCurrentTask) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",currentTask);
                 if (isValid) {
-                    currentTask = currentTask;
-                    isContinue = false;
+                    trainee.setCurrentTask(currentTask);
+                    isValidCurrentTask = false;
                 } else {
                    logger.info("not valid");
                    currentTask = scanner.nextLine();
                 }
-            }
-	    trainee.setCurrentTask(currentTask);
+            }	    
         }
 
 	logger.info("Enter your currentTechknowledge : ");            
         String currentTechknowledge = scanner.nextLine();
-        if (!currentTechknowledge.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",currentTechknowledge);
+        if (!currentTechknowledge.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidCurrentTechknowledge = true;
+            while (isValidCurrentTechknowledge) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",currentTechknowledge);
                 if (isValid) {
-                    currentTechknowledge = currentTechknowledge;
-                    isContinue = false;
+                    trainee.setCurrentTechknowledge(currentTechknowledge);
+                    isValidCurrentTechknowledge = false;
                 } else {
                    logger.info("not valid");
                    currentTechknowledge = scanner.nextLine();
                 }
-            }
-	    trainee.setCurrentTechknowledge(currentTechknowledge);
+            }	    
         }
         return trainee; 
-
     }
     
     /**
      * method used to get trainer details from user for update
      * @param {@link Scanner} scanner
-     * @param {@link boolean} isContinue
-     * @param {@link boolean} isValid 
      * @param {@link Trainee} trainee
      * @return {@link void} returns nothing
      */ 
-    public void getInformationForUpdateTrainer(Scanner scanner, boolean isContinue, boolean isValid, Trainer trainer) {
+    public void getInformationForUpdateTrainer(Scanner scanner, Trainer trainer) {
     
-        EmployeeUtil util = new EmployeeUtil();  
+        EmployeeUtil util = new EmployeeUtil();
+        boolean isValid = true; 
 
         scanner.nextLine();
 	logger.info("Enter Employee Name : ");
         String name = scanner.nextLine();
-        if (!name.isEmpty()) {
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",name);
+        if (!name.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidName = true;
+            while (isValidName) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",name);
                 if (isValid) {
-                    name = name;
-                    isContinue = false;
+                    trainer.setEmployeeName(name);
+                    isValidName = false;
                 } else {
                    logger.info("not valid");
                    name = scanner.nextLine();
                 }
-            }            
-	    trainer.setEmployeeName(name);
+            }            	    
         }
 
 	logger.info("Enter Employee DateOfBirth MM/DD/YYYY:");
         String employeeDateOfBirth = scanner.nextLine();
-        if (!employeeDateOfBirth.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!employeeDateOfBirth.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidDOB = true;
+            while (isValidDOB) {
                 isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
                 if (isValid) {
-                    employeeDateOfBirth = employeeDateOfBirth;
-                    isContinue = false;
+                    trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
+                    isValidDOB = false;
                 } else {
                    logger.info("not valid");
                    employeeDateOfBirth = scanner.nextLine();
                 }
             }
-            trainer.setEmployeeDateOfBirth(employeeDateOfBirth);
         }
 
 	logger.info("Enter Employee Designation : ");
         String designation = scanner.nextLine();
-        if (!designation.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",designation);
+        if (!designation.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidDesignation = true;
+            while (isValidDesignation) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",designation);
                 if (isValid) {
-                    designation = designation;
-                    isContinue = false;
+                    trainer.setEmployeeDesignation(designation);
+                    isValidDesignation = false;
                 } else {
                    logger.info("not valid");
                    designation = scanner.nextLine();
                 }
-            }
-	    trainer.setEmployeeDesignation(designation);
+            }	    
         }
 
-        logger.info("Enter Employee Mail : ");        
-        isContinue = true;
-        while (isContinue) {
+        logger.info("Enter Employee Mail : ");
+        boolean isValidMail = true;
+        while (isValidMail) {
             String mail = scanner.nextLine();
-            if (!mail.isEmpty()) {
+            if (!mail.isEmpty() && !name.equals("exitprogram")) {
                 try {
                     isValid = util.validationOfMail(mail);
+                    trainer.setEmployeeMail(mail);
+                    isValidMail = false;                 
                 } catch (EmailMismatchException e) {
                     logger.error("Exception occured :" + e);
                 }
-                if (isValid) {
-                    trainer.setEmployeeMail(mail);
-                    isContinue = false;
-                }
-            }
-        }
+            } else {
+            	isValidMail = false;
+            }             
+        }  
       	
-       
-     
-	logger.info("Enter Employee MobileNumber : ");
+   	logger.info("Enter Employee MobileNumber : ");
         String mobileNumber = scanner.nextLine();
-        if (!mobileNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!mobileNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidMobileNumber = true;
+            while (isValidMobileNumber) {
                 isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
                 if (isValid) {
-                    mobileNumber = mobileNumber;
-                    isContinue = false;
+                    trainer.setEmployeeMobileNumber(mobileNumber);
+                    isValidMobileNumber = false;
                 } else {
                    logger.info("not valid");
                    mobileNumber = scanner.nextLine();
                 }
-            }
-	    trainer.setEmployeeMobileNumber(mobileNumber);
+            }	    
         }
 	
         logger.info("Enter Employee CurrentAddress : ");
         String currentAddress = scanner.nextLine();
-        if (!currentAddress.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!currentAddress.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidCurrentAddress = true;
+            while (isValidCurrentAddress) {
                 isValid = util.matchRegex("^(([0-9\sa-zA-Z,.-]{3,150})*)$",currentAddress);
                 if (isValid) {
-                    currentAddress = currentAddress;
-                    isContinue = false;
+                    trainer.setCurrentAddress(currentAddress);
+                    isValidCurrentAddress = false;
                 } else {
                    logger.info("not valid");
                    currentAddress = scanner.nextLine();
                 }
-            }
-	    trainer.setCurrentAddress(currentAddress);
+            }	    
         }
 
 	logger.info("Enter Employee AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
-        if (!aadharNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!aadharNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidAadharCardNumber = true;
+            while (isValidAadharCardNumber) {
                 isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
                 if (isValid) {
-                    aadharNumber = aadharNumber;
-                    isContinue = false;
+             	    trainer.setAadharCardNumber(aadharNumber);
+                    isValidAadharCardNumber = false;
                 } else {
                    logger.info("not valid");
                    aadharNumber = scanner.nextLine();
                 }
             }
-	    trainer.setAadharCardNumber(aadharNumber);
         }
 
 	logger.info("Enter Employee PanCardNumber : ");            
         String panNumber = scanner.nextLine();
-        if (!panNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!panNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidPanCardNumber = true;
+            while (isValidPanCardNumber) {
                 isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
                 if (isValid) {
-                    panNumber = panNumber;
-                    isContinue = false;
+                    trainer.setPanCardNumber(panNumber);
+                    isValidPanCardNumber = false;
                 } else {
                    logger.info("not valid");
                    panNumber = scanner.nextLine();
                 }
             }
-	    trainer.setPanCardNumber(panNumber);
         }
 
 	logger.info("Enter your currentProject : ");            
         String currentProject = scanner.nextLine();
-        if (!currentProject.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",currentProject);
+        if (!currentProject.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidCurrentProject = true;
+            while (isValidCurrentProject) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",currentProject);
                 if (isValid) {
-                    currentProject = currentProject;
-                    isContinue = false;
+                    trainer.setCurrentProject(currentProject);
+                    isValidCurrentProject = false;
                 } else {
                    logger.info("not valid");
                    currentProject = scanner.nextLine();
                 }
             }
-	    trainer.setCurrentProject(currentProject);
         }
 
 	logger.info("Enter your achievements : ");            
         String achievement = scanner.nextLine();
-        if (!achievement.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",achievement);
+        if (!achievement.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidAchievement = true;
+            while (isValidAchievement) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",achievement);
                 if (isValid) {
-                    achievement = achievement;
-                    isContinue = false;
+                    trainer.setAchievement(achievement);
+                    isValidAchievement = false;
                 } else {
                    logger.info("not valid");
                    achievement = scanner.nextLine();
                 }
             }
-	    trainer.setAchievement(achievement);
         } 
     }
 
     /**
      * method used to get trainer details from user for update
      * @param {@link Scanner} scanner
-     * @param {@link boolean} isContinue
-     * @param {@link boolean} isValid
      * @param {@link Trainer} trainer
      * @return {@link void} returns nothing
      */ 
-    public void getInformationForUpdateTrainee(Scanner scanner, boolean isContinue, boolean isValid,Trainee trainee) {
+    public void getInformationForUpdateTrainee(Scanner scanner, Trainee trainee) {
 
-        EmployeeUtil util = new EmployeeUtil();  
+        EmployeeUtil util = new EmployeeUtil(); 
+        boolean isValid = true; 
 
         scanner.nextLine();     
 	logger.info("Enter Employee Name : ");
         String name = scanner.nextLine();
-        if (!name.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",name);
+        if (!name.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidName = true;
+            while (isValidName) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",name);
                 if (isValid) {
-                    name = name;
-                    isContinue = false;
+ 	            trainee.setEmployeeName(name);
+                    isValidName = false;
                 } else {
                    logger.info("not valid");
                    name = scanner.nextLine();
                 }
             }
- 	    trainee.setEmployeeName(name);
         }
 
 	logger.info("Enter Employee DateOfBirth MM/DD/YYYY:");
         String employeeDateOfBirth = scanner.nextLine();
-        if (!employeeDateOfBirth.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!employeeDateOfBirth.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidDOB = true;
+            while (isValidDOB) {
                 isValid = util.validationOfDateOfBirth(employeeDateOfBirth);
                 if (isValid) {
-                    employeeDateOfBirth = employeeDateOfBirth;
-                    isContinue = false;
+                    trainee.setEmployeeDateOfBirth(employeeDateOfBirth);
+                    isValidDOB = false;
                 } else {
                    logger.info("not valid");
                    employeeDateOfBirth = scanner.nextLine();
                 }
             }
-            trainee.setEmployeeDateOfBirth(employeeDateOfBirth);
         }
        
 	logger.info("Enter Employee Designation : ");
         String designation = scanner.nextLine();
-        if (!designation.isEmpty()) {
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",designation);
+        if (!designation.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidDesignation = true;
+            while (isValidDesignation) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",designation);
                 if (isValid) {
-                    designation = designation;
-                    isContinue = false;
+                    trainee.setEmployeeDesignation(designation);
+                    isValidDesignation = false;
                 } else {
                    logger.info("not valid");
                    designation = scanner.nextLine();
                 }
             }
-	    trainee.setEmployeeDesignation(designation);
         }
 
-        logger.info("Enter Employee Mail : ");        
-        isContinue = true;
-        while (isContinue) {
+        logger.info("Enter Employee Mail : ");
+        boolean isValidMail = true;
+        while (isValidMail) {
             String mail = scanner.nextLine();
-            if (!mail.isEmpty()) {
+            if (!mail.isEmpty() && !name.equals("exitprogram")) {
                 try {
                     isValid = util.validationOfMail(mail);
+                    trainee.setEmployeeMail(mail);
+                    isValidMail = false;                 
                 } catch (EmailMismatchException e) {
                     logger.error("Exception occured :" + e);
                 }
-                if (isValid) {
-                    trainee.setEmployeeMail(mail);
-                    isContinue = false;
-                }
-            }
-        }
+            } else {
+            	isValidMail = false;
+            }             
+        }  
       
 	logger.info("Enter Employee MobileNumber : ");
         String mobileNumber = scanner.nextLine();
-        if (!mobileNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!mobileNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidMobileNumber = true;
+            while (isValidMobileNumber) {
                 isValid = util.matchRegex("^(([6-9]{1}[0-9]{9})*)$",mobileNumber);
                 if (isValid) {
-                    mobileNumber = mobileNumber;
-                    isContinue = false;
+                    trainee.setEmployeeMobileNumber(mobileNumber);
+                    isValidMobileNumber = false;
                 } else {
                    logger.info("not valid");
                    mobileNumber = scanner.nextLine();
                 }
             }
-	    trainee.setEmployeeMobileNumber(mobileNumber);
         }
 
         logger.info("Enter Employee CurrentAddress : ");
         String currentAddress = scanner.nextLine();
-        if (!currentAddress.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!currentAddress.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidCurrentAddress = true;
+            while (isValidCurrentAddress) {
                 isValid = util.matchRegex("^(([0-9\sa-zA-Z,.-]{3,150})*)$",currentAddress);
                 if (isValid) {
-                    currentAddress = currentAddress;
-                    isContinue = false;
+                    trainee.setCurrentAddress(currentAddress);
+                    isValidCurrentAddress = false;
                 } else {
                    logger.info("not valid");
                    currentAddress = scanner.nextLine();
                 }
             }
-	    trainee.setCurrentAddress(currentAddress);
         }
 
 	logger.info("Enter Employee AadharCardNumber : ");            
         String aadharNumber = scanner.nextLine();
-        if (!aadharNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!aadharNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidAadharCardNumber = true;
+            while (isValidAadharCardNumber) {
                 isValid = util.matchRegex("^(([1-9]{1}[0-9]{11})*)$",aadharNumber);
                 if (isValid) {
-                    aadharNumber = aadharNumber;
-                    isContinue = false;
+                    trainee.setAadharCardNumber(aadharNumber);
+                    isValidAadharCardNumber = false;
                 } else {
                    logger.info("not valid");
                    aadharNumber = scanner.nextLine();
                 }
             }
-	    trainee.setAadharCardNumber(aadharNumber);
         }
 
 	logger.info("Enter Employee PanCardNumber : ");            
         String panNumber = scanner.nextLine();
-        if (!panNumber.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
+        if (!panNumber.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidPanCardNumber = true;
+            while (isValidPanCardNumber) {
                 isValid = util.matchRegex("^(([A-Z0-9]{10})*)$",panNumber);
                 if (isValid) {
-                    isContinue = false;
+                    trainee.setPanCardNumber(panNumber);
+                    isValidPanCardNumber = false;
                 } else {
                    logger.info("not valid");
                    panNumber = scanner.nextLine();
                 }
             }
-	    trainee.setPanCardNumber(panNumber);
         }
 
 	logger.info("Enter your currentTask : ");            
         String currentTask = scanner.nextLine();
-        if (!currentTask.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",currentTask);
+        if (!currentTask.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidCurrentTask = true;
+            while (isValidCurrentTask) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",currentTask);
                 if (isValid) {
-                    isContinue = false;
+                    trainee.setCurrentTask(currentTask);
+                    isValidCurrentTask = false;
                 } else {
                    logger.info("not valid");
                    currentTask = scanner.nextLine();
                 }
             }
-	    trainee.setCurrentTask(currentTask);
         }
 
 	logger.info("Enter your currentTechknowledge : ");            
         String currentTechknowledge = scanner.nextLine();
-        if (!currentTechknowledge.isEmpty()) {
-            isContinue = true;
-            while (isContinue) {
-                isValid = util.matchRegex("^(([a-z\sA-Z_$]{3,50})*)$",currentTechknowledge);
+        if (!currentTechknowledge.isEmpty() && !name.equals("exitprogram")) {
+            boolean isValidCurrentTechknowledge = true;
+            while (isValidCurrentTechknowledge) {
+                isValid = util.matchRegex("^(([a-z\sA-Z_]{3,50})*)$",currentTechknowledge);
                 if (isValid) {
-                    isContinue = false;
+         	    trainee.setCurrentTechknowledge(currentTechknowledge);
+                    isValidCurrentTechknowledge = false;
                 } else {
                    logger.info("not valid");
                    currentTechknowledge = scanner.nextLine();
                 }
             }
-	    trainee.setCurrentTechknowledge(currentTechknowledge);
         } 
     }
 }

@@ -1,11 +1,22 @@
 package com.ideas2it.dao;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory; 
 
 import com.ideas2it.model.Employee;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
+import com.ideas2it.config.DataBaseConnection;
 
 /**
 *
@@ -25,74 +36,94 @@ import com.ideas2it.model.Trainer;
 public interface EmployeeDao {
 
     /**
-     * method used to get trainer details from trainer map
-     * @return {@link Map<String,Trainer>} returns trainersData 
-     */  
-    public Map<String, Trainer> getTrainersData(); 
-
-    /**
-     * method used to get trainer details from trainee map
-     * @return {@link Map<String,Trainee>} returns traineesData 
-     */ 
-    public Map<String, Trainee> getTraineesData();
-
-    /**
-     * method used to get trainer details from EmployeeService and insert details to trainermap
-     * @param {@link String} uuidIsKey
+     * method used to get trainer details from EmployeeService and insert details to trainer table
+     * @param {@link String} employeeId
      * @param {@link Trainer} trainer object
+     * @param {@link Logger} logger 
      * @return {@link void} returns nothing
      */ 
-    public void insertTrainer(String uuidIsKey, Trainer trainer);
+    void insertTrainer(String employeeId, Trainer trainer, Logger logger) throws SQLException;
 
     /**
-     * method used to get trainee details from EmployeeService and insert details to trainee map
-     * @param {@link String} uuidIsKey
+     * method used to get trainee details from EmployeeService and insert details to trainee table
+     * @param {@link String} employeeId
      * @param {@link Trainee} trainee object
+     * @param {@link Logger} logger 
      * @return {@link void} returns nothing
      */ 
-    public void insertTrainee(String uuidIsKey, Trainee trainee);
+    void insertTrainee(String employeeId, Trainee trainee, Logger logger) throws SQLException;
 
     /**
-     * method used to get trainer details by using uuidIsKey
-     * @param {@link String} uuidIsKey
-     * @return {@link Trainer} returns trainersData
+     * method used to get all trainer details in trainer table
+     * @param {@link Logger} logger 
+     * @return {@link List<Trainer>} returns trainers Data
      */ 
-    public Trainer retrieveTrainerData(String uuidIsKey);
+    List<Trainer> retrieveTrainers(Logger logger) throws SQLException;
 
     /**
-     * method used to retrieve trainee details by using uuidIsKey
-     * @param {@link String} uuidIsKey
-     * @return {@link Trainee} returns traineesData
+     * method used to get trainer details by using employeeId
+     * @param {@link String} employeeId
+     * @param {@link Logger} logger 
+     * @return {@link Trainer} returns trainer Data
+     */ 
+    Trainer retrieveTrainer(String employeeId, Logger logger) throws SQLException;
+
+    /**
+     * method used to retrieve trainee details by using employeeId
+     * @param {@link String} employeeId
+     * @return {@link List<Trainee>} returns trainees Data
      */
-    public Trainee retrieveTraineeData(String uuidIsKey);
+    List<Trainee> retrieveTrainees(Logger logger) throws SQLException;
 
     /**
-     * method used to update trainer details by using uuidIsKey
-     * @param {@link String} uuidIsKey
+     * method used to retrieve trainee details by using employeeId
+     * @param {@link String} employeeId
+     * @param {@link Logger} logger 
+     * @return {@link Trainee} returns trainee Data
+     */
+    Trainee retrieveTrainee(String employeeId, Logger logger) throws SQLException;
+
+    /**
+     * method used to update trainer details by using employeeId
+     * @param {@link String} employeeId
      * @param {@link Trainer} trainer object
+     * @param {@link Logger} logger 
      * @return {@link void} returns nothing
      */ 
-    public void updateTrainerData(String uuidIsKey, Trainer trainer);
+    void updateTrainer(String employeeId, Trainer trainer, Logger logger) throws SQLException;
 
     /**
      * method used to update trainee details by using emplpoyeeId
-     * @param {@link String} uuidIsKey
+     * @param {@link String} employeeId
      * @param {@link Trainee} trainee object
+     * @param {@link Logger} logger 
      * @return {@link void} returns nothing
      */ 
-    public void updateTraineeData(String uuidIsKey, Trainee trainee);
+    void updateTrainee(String employeeId, Trainee trainee, Logger logger) throws SQLException;
 
     /**
-     * method used to remove trainer details by using uuidIsKey
-     * @param {@link String} uuidIsKey
+     * method used to remove trainer details by using employeeId
+     * @param {@link String} employeeId
+     * @param {@link Logger} logger 
      * @return {@link void} returns nothing
      */
-    public void removeSingleTrainerData(String uuidIsKey);
+    void removeTrainer(String employeeId, Logger logger) throws SQLException;
 
     /**
-     * method used to remove trainee details by using uuidIsKey
-     * @param {@link String} uuidIsKey
+     * method used to remove trainee details by using employeeId
+     * @param {@link String} employeeId
+     * @param {@link Logger} logger 
      * @return {@link void} returns nothing
      */
-    public void removeSingleTraineeData(String uuidIsKey);
+    void removeTrainee(String employeeId, Logger logger) throws SQLException;
+
+    void createAssociation( List<String> trainerId, List<String> traineeId) throws SQLException;
+
+    List<Trainer> retrieveAssociatedTrainers(String employeeId) throws SQLException;
+
+    List<Trainee> retrieveAssociatedTrainees(String employeeId) throws SQLException;
+
+    int getLastTrainerId() throws SQLException;
+
+    int getLastTraineeId() throws SQLException;
 }

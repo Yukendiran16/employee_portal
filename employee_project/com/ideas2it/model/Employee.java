@@ -13,7 +13,9 @@
 package com.ideas2it.model;
 
 public class Employee {
-   
+
+    private static uuidIsKey; 
+    private static id;  
     public static String companyName = "ideas2IT";
     private String employeeId;
     private String employeeName;
@@ -24,6 +26,16 @@ public class Employee {
     private String currentAddress;
     private String aadharCardNumber;
     private String panCardNumber;
+
+    public void setUuidIsKey(String uuidIsKey) {
+
+	this.uuidIsKey = uuidIsKey;
+    }
+
+    public String getUuidIsKey() {
+
+	return uuidIsKey;
+    }
 
     public void setEmployeeId(String employeeId) {
 

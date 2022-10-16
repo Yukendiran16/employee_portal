@@ -1,12 +1,23 @@
 package com.ideas2it.service;
 
-import java.util.Map;
-import java.util.Scanner;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory; 
 
 import com.ideas2it.model.Employee;
 import com.ideas2it.model.Trainee;
 import com.ideas2it.model.Trainer;
 import com.ideas2it.dao.EmployeeDao;
+import com.ideas2it.dao.impl.EmployeeDaoImpl;
 
 /**
 *
@@ -26,74 +37,95 @@ import com.ideas2it.dao.EmployeeDao;
 public interface EmployeeService {
 
     /**
-     *method used to get trainer details from dao
-     *@return {@link Map<String,Trainer>} returns trainersData 
+     * method used to get trainer details from controller to pass the details to dao
+     * @param {@link String} employeeId
+     * @param {@link Trainer} trainer object
+     * @param {@link Logger} logger 
+     * @return {@link void} returns nothing
      */ 
-     Map<String, Trainer> getTrainersData();        
+    void addTrainer(String employeeId, Trainer trainer, Logger logger) throws SQLException;
 
     /**
-     *method used to get trainer details from dao
-     *@return {@link Map<String,Trainer>} returns trainersData 
-     */ 
-     Map<String, Trainee> getTraineesData();
-
-    /**
-     *method used to get trainer details from controller to pass the details to dao
-     *@param {@link String} uuidIsKey
-     *@param {@link Trainer} trainer object
-     *@return {@link void} returns nothing
-     */ 
-     void addTrainer(String uuidIsKey, Trainer trainer);
-
-    /**
-     *method used to get trainee details from controller to pass the details to dao
-     *@param {@link String} uuidIsKey
-     *@param {@link Trainee} trainee object
-     *@return {@link void} returns nothing
+     * method used to get trainee details from controller to pass the details to dao
+     * @param {@link String} employeeId
+     * @param {@link Trainee} trainee object
+     * @param {@link Logger} logger 
+     * @return {@link void} returns nothing
      */  
-     void addTrainee(String uuidIsKey, Trainee trainee);
+    void addTrainee(String employeeId, Trainee trainee, Logger logger) throws SQLException;
 
     /**
-     *method used to get uuidIsKey from controller to pass the uuidIsKey to dao
-     *@param {@link String} uuidIsKey
-     *@return {@link Trainer} returns trainersData
+     * method used to get employeeId from controller to pass the employeeId to dao
+     * @param {@link Logger} logger 
+     * @return {@link List<Trainee>} returns trainees Data
+     */              
+    List<Trainer> getTrainersData(Logger logger) throws SQLException;
+
+    /**
+     * method used to get employeeId from controller to pass the employeeId to dao
+     * @param {@link String} employeeId
+     * @param {@link Logger} logger 
+     * @return {@link Trainer} returns trainer Data
      */
-     Trainer searchTrainerData(String uuidIsKey);
+    Trainer searchTrainerData(String employeeId, Logger logger) throws SQLException;
 
     /**
-     *method used to get uuidIsKey from controller to pass the uuidIsKey to dao
-     *@param {@link String} uuidIsKey
-     *@return {@link Trainee} returns traineesData
+     * method used to get employeeId from controller to pass the employeeId to dao
+     * @param {@link Logger} logger 
+     * @return {@link List<Trainee>} returns trainees Data
+     */             
+    List<Trainee> getTraineesData(Logger logger) throws SQLException;
+
+    /**
+     * method used to get employeeId from controller to pass the employeeId to dao
+     * @param {@link String} employeeId
+     * @param {@link Logger} logger 
+     * @return {@link Trainee} returns trainee Data
      */
-     Trainee searchTraineeData(String uuidIsKey);
+    Trainee searchTraineeData(String employeeId, Logger logger) throws SQLException;
 
     /**
-     *method used to get updated trainer details from controller to pass the details to dao
-     *@param {@link String} uuidIsKey
-     *@param {@link Trainer} trainer object
-     *@return {@link void} returns nothing
+     * method used to get updated trainer details from controller to pass the details to dao
+     * @param {@link String} employeeId
+     * @param {@link Trainer} trainer object
+     * @param {@link Logger} logger 
+     * @return {@link void} returns nothing
      */ 
-     void updateTrainerData(String uuidIsKey, Trainer trainer);
+    void updateTrainerData(String employeeId, Trainer trainer, Logger logger) throws SQLException;
 
     /**
-     *method used to get updated trainee details from controller to pass the details to dao
-     *@param {@link String} uuidIsKey
-     *@param {@link Trainee} trainee object
-     *@return {@link void} returns nothing
+     * method used to get updated trainee details from controller to pass the details to dao
+     * @param {@link String} employeeId
+     * @param {@link Trainee} trainee object
+     * @param {@link Logger} logger 
+     * @return {@link void} returns nothing
      */
-     void updateTraineeData(String uuidIsKey, Trainee trainee);
+    void updateTraineeData(String employeeId, Trainee trainee, Logger logger) throws SQLException;
 
     /**
-     *method used to get uuidIsKey from controller to pass the uuidIsKey to dao
-     *@param {@link String} uuidIsKey
-     *@return {@link void} returns nothing
+     * method used to get employeeId from controller to pass the employeeId to dao
+     * @param {@link String} employeeId
+     * @param {@link Logger} logger 
+     * @return {@link void} returns nothing
      */
-     void deleteSingleTrainerData(String uuidIsKey);
+    void deleteTrainerData(String employeeId, Logger logger) throws SQLException;
 
     /**
-     *method used to get uuidIsKey from controller to pass the uuidIsKey to dao for deleting trainer details
-     *@param {@link String} uuidIsKey
-     *@return {@link void} returns nothing
+     * method used to get employeeId from controller to pass the employeeId to dao for deleting trainer details
+     * @param {@link String} employeeId
+     * @param {@link Logger} logger 
+     * @return {@link void} returns nothing
      */ 
-     void deleteSingleTraineeData(String uuidIsKey);
+    void deleteTraineeData(String employeeId, Logger logger) throws SQLException;
+
+    public void createAssociation( List<String> trainerId, List<String> traineeId) throws SQLException;
+
+    List<Trainer> associateTrainer(String employeeId) throws SQLException;
+
+    List<Trainee> associateTrainee(String employeeId) throws SQLException;
+
+    public int getLastTrainerId() throws SQLException;
+
+    public int getLastTraineeId() throws SQLException;
+
 }
