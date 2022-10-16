@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" and dir="Itr">
+<head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/CreateEmployee.js"></script>
+</head>
+
+<body>
+<h1 style="background-color:powderblue;">Add Employee</h1>
+<form action="#">
+    Employee Name : <input type="text" id="employeeName"><br>
+    <br>
+    Date Of Birth : <input type="date" id="employeeDateOfBirth"><br>
+    <br>
+    Phone Number: <input type="text" id="employeeMobileNumber"><br>
+    <br>
+    Email ID : <input type="text" id="employeeMail"><br>
+    <br>
+    Designation : <input type="text" id="employeeDesignation"><br>
+    <br>
+    Aadhaar Card Number : <input type="text" id="aadhaarCardNumber"><br>
+    <br>
+    Pan Card Number : <input type="date" id="panCardNumber"><br>
+    <br>
+    Address : <input type="text" id="currentAddress"><br>
+    <br>
+    <input type="button" value="Add" id="submit">
+</form>
+<div class="container">
+    <div class="col-lg-10 col-md-8 col-sm-6 container justify-content-center card">
+        <h3 class="text-center">Employee info</h3>
+        <div class="card-body">
+            <form action="employee_portal/trainer_get" method="get">
+                <div class="form-group">
+                    <label>Employee Id</label><br>
+                    <input type="number" name="id" field="*{id}" class="form-control"/>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-success">Search</button>
+                <button type="submit" class="btn btn-info">Reset</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="col-lg-10 col-md-8 col-sm-6 container justify-content-center card">
+        <div class="card-body">
+            <form action="employee_portal/trainers" method="get">
+                <button type="submit" class="btn btn-success">EmployeeList</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

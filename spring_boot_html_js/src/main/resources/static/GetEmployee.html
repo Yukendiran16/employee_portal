@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" and dir="Itr">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="js/GetEmployee.js"></script>
+
+</head>
+
+<body>
+<div class="jumbotron">
+    <h1>EMPLOYEE MANAGEMENT</h1>
+</div>
+<form>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" placeHolder="Enter your ID" id="employee">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-info" id="submit">Search</button>
+        </div>
+        <div>
+            <button type="button" class="btn btn-info" data-toggle='modal' data-target='#add'>
+                Add employee
+            </button>
+        </div>
+
+    </div>
+</form>
+
+<br>
+<div class="">
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Phone Number</th>
+            <th>emailId</th>
+            <th>Address</th>
+            <th>View</th>
+            <th>Delete</th>
+            <th>Update</th>
+        </tr>
+        </thead>
+        <tbody id="displayArea"></tbody>
+    </table>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Details of an Employee</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <h5>Employee Name:</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 id="employee_name"></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="add" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Details of an Employee</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <h5>Employee Name:</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><input type="text" id="emp_name"></h5>
+                        </div>
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <h5>Role:</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><input type="text" id="emp_role"></h5>
+                        </div>
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <h5>Date of Birth:</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><input type="date" id="emp_dob"></h5>
+                        </div>
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <h5>Phone Number:</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><input type="text" id="emp_phone"></h5>
+                        </div>
+
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <h5>Email ID:</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><input type="text" id="emp_email"></h5>
+                        </div>
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <h5>Aadhaar Card Number</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><input type="text" id="emp_acn"></h5>
+                        </div>
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <h5>Pan Card Number</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><input type="text" id="emp_pcn"></h5>
+                        </div>
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <h5>Address</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><input type="text" id="emp_address"></h5>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addEmployee">Save changes</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
