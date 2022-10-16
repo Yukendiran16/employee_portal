@@ -66,8 +66,7 @@ public class TraineeMapper {
         }
     }
 
-    public TraineeDto traineeToTraineeDto(Trainee trainee) {
-        return modelMapper.map(trainee,TraineeDto.class);
+    public TraineeRequestDto traineeToTraineeRequestDto(Trainee trainee) {
+        return modelMapper.map(trainee, TraineeRequestDto.class);
     }
-
 }

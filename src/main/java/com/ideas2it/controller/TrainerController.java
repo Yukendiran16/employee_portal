@@ -1,7 +1,5 @@
 package com.ideas2it.controller;
 
-import com.google.gson.Gson;
-import com.ideas2it.Dto.TrainerAssociationDto;
 import com.ideas2it.Dto.TrainerRequestDto;
 import com.ideas2it.Dto.TrainerResponseDto;
 import com.ideas2it.exception.EmployeeNotFoundException;
@@ -11,17 +9,9 @@ import com.ideas2it.service.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -53,56 +43,63 @@ public class TrainerController {
 
     private static final Logger logger = LoggerFactory.getLogger(TrainerController.class);
 
-    @PostMapping(path = "/trainer",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TrainerResponseDto> addTrainer(@RequestBody @Valid TrainerRequestDto trainerDto)
+    @GetMapping(path = "/")
+    public String login() {
+        return "index.html";
+    }
+    @PostMapping("/trainer")
+    public String addTrainer(@Valid @ModelAttribute("trainerDto") TrainerRequestDto trainerDto, Model model)
             throws SQLIntegrityConstraintViolationException {
         logger.info("trainer object send to database");
-        employeeService.findExistingTrainer(trainerDto.getEmployeeMail(), trainerDto.getAadhaarCardNumber(),
-                trainerDto.getEmployeeMobileNumber(), trainerDto.getPanCardNumber());
-        return new ResponseEntity<>(employeeService.addTrainer(trainerDto), HttpStatus.CREATED);
+        model.addAttribute("trainerResponseDto",employeeService.addTrainer(trainerDto));
+        return "view.html";
     }
 
-    @GetMapping(path = "/trainers",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<TrainerResponseDto>> getTrainers() {
+    @GetMapping(path = "/trainers")
+    public ModelAndView getTrainers(ModelAndView model) {
         logger.info("requested URL is correct. This URL is returns all trainer details");
+        Trainer trainer = new Trainer();
         List<Trainer> trainers = employeeService.getTrainersData();
         if (null == trainers) throw new EmployeeNotFoundException("empty list ");
         logger.info("details successfully shown");
         List<TrainerResponseDto> trainerList = new ArrayList<>();
-        trainers.forEach(trainer -> {
-            TrainerResponseDto trainerResponseDto = trainerMapper.trainerToTrainerResponseDto(trainer);
+        trainers.forEach(trainer1 -> {
+            TrainerResponseDto trainerResponseDto = trainerMapper.trainerToTrainerResponseDto(trainer1);
             trainerList.add(trainerResponseDto);
         });
-        return new ResponseEntity<>(trainerList, HttpStatus.OK);
+        model.addObject("trainers",trainerList);
+        model.setViewName("view.html");
+        return model;
     }
 
-    @GetMapping(path = "/trainer/{id}",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TrainerResponseDto> displayTrainer(@PathVariable("id") int trainerId) {
+    @GetMapping(path = "/trainer_get")
+    public ModelAndView displayTrainer(@RequestParam("id") int trainerId, ModelAndView model) {
         logger.info("requested URL is correct. This URL is returns all trainer details");
         Trainer trainer = employeeService.searchTrainerData(trainerId);
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active ");
-        TrainerResponseDto trainerResponseDto = trainerMapper.trainerToTrainerResponseDto(trainer);
         logger.info("searching successful");
-        return new ResponseEntity<>(trainerResponseDto, HttpStatus.OK);
+        List<TrainerResponseDto> trainerResponseDtos = new ArrayList<>();
+        trainerResponseDtos.add(trainerMapper.trainerToTrainerResponseDto(trainer));
+        System.out.println(model.addObject("trainers",trainerResponseDtos));
+        model.setViewName("view.html");
+        return model;
     }
 
-    @GetMapping(path = "/trainerDetails/{id}",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TrainerRequestDto> ShowFullTrainerDetails(@PathVariable("id") int trainerId) {
+    @GetMapping(path = "/trainer_details/{id}")
+    public ModelAndView ShowFullTrainerDetails(@PathVariable("id") int trainerId, ModelAndView model) {
         logger.info("requested URL is correct. This URL is returns all trainer details");
         Trainer trainer = employeeService.searchTrainerData(trainerId);
         if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
-        TrainerRequestDto trainerDto = trainerMapper.trainerToTrainerRequestDto(trainer);
+        List<TrainerRequestDto> trainerDto = new ArrayList<>();
+        trainerDto.add(trainerMapper.trainerToTrainerRequestDto(trainer));
         logger.info("searching successful");
-        return new ResponseEntity<>(trainerDto, HttpStatus.OK);
+        model.addObject("trainers", trainerDto);
+        model.setViewName("update.html");
+        return model;
     }
 
-    @PutMapping(value = "/trainer",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TrainerResponseDto> updateTrainer(@RequestBody TrainerRequestDto trainerDto) {
+    @PutMapping(value = "/trainer_edit")
+    public ModelAndView updateTrainer(@RequestBody TrainerRequestDto trainerDto, ModelAndView model) {
         logger.info("requested URL is correct. This URl is update the exists employee profile");
         logger.info(String.valueOf(trainerDto.getTrainerId()));
         Trainer trainer = employeeService.searchTrainerData(trainerDto.getTrainerId());
@@ -110,52 +107,19 @@ public class TrainerController {
         trainer = trainerMapper.trainerRequestDtoToTrainer(trainerDto);
         Trainer trainer1 = employeeService.updateTrainerData(trainer);
         TrainerResponseDto trainerResponseDto = trainerMapper.trainerToTrainerResponseDto(trainer1);
-        return new ResponseEntity<>(trainerResponseDto, HttpStatus.OK);
+        model.setViewName("index.html");
+        return model;
     }
 
-    @DeleteMapping(value = "/trainer/{id}",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> deleteTrainer(@PathVariable("id") int trainerId) {
+    @RequestMapping(value = "/trainer_delete/{id}")
+    public ModelAndView deleteTrainer(@PathVariable("id") int trainerId, ModelAndView model) {
         logger.info("requested URL is correct. This URL is returns all trainer details");
         Trainer trainer = employeeService.searchTrainerData(trainerId);
         logger.info("searching successful");
         employeeService.deleteTrainerData(trainer, trainerId);
         logger.info("successfully deleted trainerId : " + trainerId);
-        return new ResponseEntity<>(new Gson().toJson("message : successfully deleted ," + "trainerId : " + trainerId), HttpStatus.OK);
+        model.setViewName("index.html");
+        return model;
     }
 
-    @PutMapping(value = "/assign_trainee",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> assignTrainee(@RequestBody TrainerAssociationDto assign) {
-        logger.info("requested URL is correct. This URl create association between trainer to trainees");
-        logger.info("trainer id searching...in database");
-        Trainer trainer = employeeService.searchTrainerData(assign.getTrainerId());
-        if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active ");
-        logger.info("trainer Id " + assign.getTrainerId() + "present...");
-        logger.info("trainee Id list :" + assign.getTraineesList());
-        try {
-            employeeService.updateTrainerData(
-                    employeeService.updateTraineeListInTrainer(trainer,assign.getTraineesList()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        logger.info("association successful");
-        return new ResponseEntity<>(new Gson().toJson("message : " + " association successful"), HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/un_assign_trainee",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> un_assignTrainee(@RequestBody TrainerAssociationDto un_assign)
-    {
-        logger.info("requested URL is correct. This URl create association between trainer to trainees");
-        logger.info("trainer id searching...in database");
-        Trainer trainer = employeeService.searchTrainerData(un_assign.getTrainerId());
-        if (trainer.getIsActive()) throw new EmployeeNotFoundException("trainer is not active");
-        logger.info("trainer Id " + un_assign.getTrainerId() + "present...");
-        logger.info("trainee Id list :" + un_assign.getTraineesList());
-        employeeService.updateTrainerData(
-                employeeService.deleteTraineeInTrainer(trainer, un_assign.getTraineesList()));
-        logger.info("Un association successful");
-        return new ResponseEntity<>(new Gson().toJson("message : " + " Un association successful"), HttpStatus.OK);
-    }
 }

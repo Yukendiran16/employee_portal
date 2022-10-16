@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<head>
+    <title>Person Information Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<br>
+<div class="container-center">
+    <div class="col-lg-10 col-md-8 col-sm-6 container justify-content-center card">
+        <h3 class="text-center">Employee info</h3>
+        <div class="card-body">
+            <form action="employee_portal/trainer" modelAtribute="trainerDto"
+                  method="post">
+
+                <div class="form-group">
+                    <label>Employee Name</label><br>
+                    <input type="text" name="employeeName" field="*{employeeName}" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Employee DOB</label><br>
+                    <input type="text" name="employeeDateOfBirth" field="*{employeeDateOfBirth}" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Designation</label><br>
+                    <input type="text" name="employeeDesignation" field="*{employeeDesignation}" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Employee Mail</label><br>
+                    <input type="text" name="employeeMail" field="*{employeeMail}" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>MobileNumber</label><br>
+                    <input type="text" name="employeeMobileNumber" field="*{employeeMobileNumber}"
+                           class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Address</label><br>
+                    <input type="text" name="currentAddress" field="*{currentAddress}" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Aadhaar number</label><br>
+                    <input type="text" name="aadhaarCardNumber" field="*{aadhaarCardNumber}" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Pan Number</label><br>
+                    <input type="text" name="panCardNumber" field="*{panCardNumber}" class="form-control"/>
+                </div>
+                <br>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="reset" class="btn btn-info">Reset</button>
+                </div>
+                <input type="hidden" id="trainerdId" field="*{trainerdId}"/>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="col-lg-10 col-md-8 col-sm-6 container justify-content-center card">
+        <div class="card-body">
+            <form action="employee_portal/trainers" method="get">
+                <button type="submit" class="btn btn-success">EmployeeList</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="col-lg-10 col-md-8 col-sm-6 container justify-content-center card">
+        <h3 class="text-center">Employee info</h3>
+        <div class="card-body">
+            <form action="employee_portal/trainer_get" method="get">
+                <div class="form-group">
+                    <label>Employee Id</label><br>
+                    <input type="number" name="id" field="*{id}" class="form-control"/>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-success">Search</button>
+                <button type="submit" class="btn btn-info">Reset</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

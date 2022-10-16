@@ -1,13 +1,12 @@
 package com.ideas2it.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * <h1> Employee </h1>
@@ -28,8 +27,9 @@ import java.time.LocalDate;
 @MappedSuperclass
 public class Employee {
 
+
     @Column(name = "uuid",nullable = false)
-    private String uuid;
+    private String uuid ;
 
     @Column(name = "company_name")
     private final String companyName = "ideas2IT";

@@ -1,7 +1,6 @@
 package com.ideas2it.mapper;
 
 import com.ideas2it.Dto.TraineeDto;
-import com.ideas2it.Dto.TrainerDto;
 import com.ideas2it.Dto.TrainerRequestDto;
 import com.ideas2it.Dto.TrainerResponseDto;
 import com.ideas2it.model.Trainee;

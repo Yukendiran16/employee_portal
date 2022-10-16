@@ -24,9 +24,7 @@ import java.util.List;
  */
 public interface EmployeeService {
 
-    void findExistingTrainer(String mail, String aadhaarNumber, String mobileNumber, String panNumber) throws SQLIntegrityConstraintViolationException;
-    void findExistingTrainee(String mail, String aadhaarNumber, String mobileNumber, String panNumber) throws SQLIntegrityConstraintViolationException;
-    /**
+     /**
      * <h1> addTrainer </h1>
      * <p>
      * method used to get trainer details from controller to pass the details to dao
@@ -122,13 +120,5 @@ public interface EmployeeService {
      */
 
     void deleteTraineeData(Trainee trainee, int traineeId) ;
-
-    Trainer updateTraineeListInTrainer(Trainer trainer, List<Integer> traineesId) ;
-
-    Trainee updateTrainerListInTrainee(Trainee trainee, List<Integer> trainersId) ;
-
-    Trainer deleteTraineeInTrainer(Trainer trainer, List<Integer> traineesId) ;
-
-    Trainee deleteTrainerInTrainee(Trainee trainer, List<Integer> trainersId) ;
 
 }

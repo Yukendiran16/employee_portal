@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>SEARCH</title>
+</head>
+<br>
+<br>
+<div class="text-center">
+    <td>
+        <form action="/" class="btn btn-primary">
+            <button type="submit" class="btn btn-success">Add new</button>
+        </form>
+    </td>
+</div>
+<body>
+<br>
+<div>
+    <table border="10" rules="all">
+        <thead>
+        <tr style="background-color:Tomato;">
+            <th>Trainer Id</th>
+            <th>Employee Name</th>
+            <th>Employee Designation</th>
+            <th>Employee Mail</th>
+            <th>Mobile Number</th>
+            <th>Address</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="trainer : ${trainers}" th:field="${trainer}" style="background-color:DodgerBlue;">
+            <td th:text="${trainer.trainerId}"></td>
+            <td th:text="${trainer.employeeName}"></td>
+            <td th:text="${trainer.employeeDesignation}"></td>
+            <td th:text="${trainer.employeeMail}"></td>
+            <td th:text="${trainer.employeeMobileNumber}"></td>
+            <td th:text="${trainer.currentAddress}"></td>
+            <td>
+                <a th:href="@{trainer_details/{id}(id=${trainer.trainerId})}"
+                    class="btn btn-primary">Update</a>
+            </td>
+            <td>
+                <a th:href="@{trainer_delete/{id}(id=${trainer.trainerId})}"
+                   class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

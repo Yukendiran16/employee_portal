@@ -17,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * A DTO for the {@link Trainer} entity
@@ -31,7 +32,7 @@ public class TrainerRequestDto implements Serializable {
 
     @NotEmpty(message = "UUID is mandatory")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String uuid;
+    private String uuid = String.valueOf(UUID.randomUUID());
     @NotEmpty(message = "Employee name is mandatory")
     @Pattern(regexp = "(([A-Z][a-z]{2,20})(( )([A-Z][a-z]*)))+", message =
             "Name must be in only alphabets and first name, second name required")
@@ -47,7 +48,7 @@ public class TrainerRequestDto implements Serializable {
     @ValidEmail
     private String employeeMail;
     @NotEmpty(message = "mobile number is mandatory")
-    @Pattern(regexp = "[+]91[6-9][0-9]{9}", message = "mobile number must be " +
+    @Pattern(regexp = "([+]91)?[6-9][0-9]{9}", message = "mobile number must be " +
             "contains country code(+91) and starts with 6-9 and contains 10 digit")
     private String employeeMobileNumber;
     @NotEmpty(message = "address is mandatory")

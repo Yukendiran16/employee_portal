@@ -1,0 +1,21 @@
+input {
+  color: blue;
+  font-family: verdana;
+  font-size: 300%;
+}
+label {
+  color: red;
+  font-family: courier;
+  font-size: 160%;
+}
+button {
+   background-color: tomato;
+   border: 2px solid powderblue;
+   margin: 50px;
+}
+body {
+      background-color: powderblue;
+}
+tr {
+   color: blue;
+}
