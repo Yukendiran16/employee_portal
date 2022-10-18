@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+<div>
+    <h1>EMPLOYEE MANAGEMENT</h1>
+</div>
+<form>
+    <div>
+        <input type="text" placeHolder="Enter your ID" id="employee">
+    </div>
+    <div>
+        <button type="button" id="submit">Search</button>
+    </div>
+</form>
+
+<br>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Phone Number</th>
+            <th>emailId</th>
+            <th>Address</th>
+        </tr>
+        </thead>
+        <tbody id="displayArea"></tbody>
+    </table>
+</div>
+</body>
+<script src="GetEmployee.js"></script>
+</html>

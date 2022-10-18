@@ -1,0 +1,51 @@
+body.form-background {
+background-color:lightblue;
+}
+div.form-division {
+background-color:white;
+align: center;
+}
+input[type=text], select {
+
+  padding: 12px 20px;
+
+  border:2px solid red;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+
+  background-color: #4CAF50;
+  color: white;
+  border:2px solid red;
+  padding: 14px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+input[type=date] {
+
+    padding: 12px 20px;
+
+    border:2px solid red;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit]:hover {
+  border-radius: 5px;
+  width: 20%;
+  border:2px solid red;
+  background-color: #45a049;
+  padding: 20px;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
